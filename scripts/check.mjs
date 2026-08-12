@@ -89,7 +89,7 @@ for (const articleFile of articleFiles) {
     if (publication.feishu.status !== "published" || publication.feishu.document_url !== article.distribution.feishu.document_url) {
       throw new Error(`${article.id} Feishu publication state is inconsistent`);
     }
-    if (!publication.feishu.node_token || !publication.feishu.parent_node_token) {
+    if (!publication.feishu.node_token || !publication.feishu.obj_token || !publication.feishu.space_id) {
       throw new Error(`${article.id} Feishu publication identifiers are incomplete`);
     }
   }
