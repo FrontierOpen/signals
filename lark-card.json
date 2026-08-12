@@ -1,0 +1,74 @@
+{
+  "config": {
+    "wide_screen_mode": true,
+    "enable_forward": true
+  },
+  "header": {
+    "template": "blue",
+    "title": {
+      "tag": "plain_text",
+      "content": "Frontier Signals · 2026.08.11"
+    }
+  },
+  "elements": [
+    {
+      "tag": "img",
+      "img_key": "img_v3_0214g_9396f0a4-a4c5-487e-aa43-5d2ad91e5c7g",
+      "mode": "crop_center",
+      "compact_width": false,
+      "alt": {
+        "tag": "plain_text",
+        "content": "Frontier Signals：AI 正在重写四张账"
+      }
+    },
+    {
+      "tag": "div",
+      "text": {
+        "tag": "lark_md",
+        "content": "**AI 正在重写四张账，真正的竞争才刚开始**\n模型降价、算力金融化、头部估值与平台门槛同时变化：AI 的下一轮竞争，已经不只是比谁更聪明。"
+      }
+    },
+    {
+      "tag": "hr"
+    },
+    {
+      "tag": "div",
+      "text": {
+        "tag": "lark_md",
+        "content": "**三个判断**\n1. **当智能的边际成本继续下降，竞争优势会从“拥有模型”转向“拥有高频、稳定、能产生结果的工作流”。**\n2. **我们看到的“更便宜的 AI”，背后是越来越金融化、越来越重资产的基础设施。**\n3. **内容会越来越多，但可信赖的名字、稳定的受众关系和可直接触达的渠道会越来越贵。**"
+      }
+    },
+    {
+      "tag": "note",
+      "elements": [
+        {
+          "tag": "plain_text",
+          "content": "quick · 8 分钟阅读 · 待审核"
+        }
+      ]
+    },
+    {
+      "tag": "action",
+      "actions": [
+        {
+          "tag": "button",
+          "type": "default",
+          "text": {
+            "tag": "plain_text",
+            "content": "飞书全文"
+          },
+          "url": "https://my.feishu.cn/docx/TIBndQFjxooVUsxwVWUcyD1in7c"
+        },
+        {
+          "tag": "button",
+          "type": "primary",
+          "text": {
+            "tag": "plain_text",
+            "content": "查看官网 · 8分钟"
+          },
+          "url": "https://signals.frontierworld.ai/2026/08/11/ai-is-rewriting-four-ledgers/"
+        }
+      ]
+    }
+  ]
+}

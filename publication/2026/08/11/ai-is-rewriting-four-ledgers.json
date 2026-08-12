@@ -17,5 +17,13 @@
     "node_token": "TYdTwtIxwitjiJkNDnBcIM6Anjf",
     "parent_node_token": "W3FswYvDui5XUfkKA0ucM3blnqf",
     "document_url": "https://my.feishu.cn/docx/TIBndQFjxooVUsxwVWUcyD1in7c"
+  },
+  "review_card": {
+    "status": "sent",
+    "identity": "user",
+    "recipient_open_id": "ou_c328408a1eb360af7ea07a28a2b800c8",
+    "message_id": "om_x100b68f0d0a6b504b1623533554f3e0",
+    "idempotency_key": "frontier-signals-review-2026-08-11-ai-ledgers",
+    "sent_at": "2026-08-12T18:24:39+08:00"
   }
 }
