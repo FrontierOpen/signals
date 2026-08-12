@@ -1,0 +1,9 @@
+node_modules/
+.wrangler/
+.env
+.env.*
+!.env.example
+.DS_Store
+work/raw.json
+work/tmp/
+npm-debug.log*

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1020" viewBox="0 0 1200 1020" role="img" aria-labelledby="title desc">
+  <title id="title">AI 产业正在重写的四张账</title>
+  <desc id="desc">模型单价下降，基础设施资本上升，头部估值集中，平台变现门槛上升。生产更便宜不等于竞争更容易。</desc>
+  <rect width="1200" height="1020" fill="#FAFAF7"/>
+  <rect x="48" y="44" width="34" height="34" fill="#155EEF"/>
+  <path d="M61 51h14l-7 24H55z" fill="#FFFFFF"/>
+  <text x="100" y="70" fill="#101114" font-family="Avenir Next, PingFang SC, sans-serif" font-size="18" font-weight="800" letter-spacing="1.2">FRONTIER SIGNALS</text>
+  <text x="48" y="142" fill="#101114" font-family="Avenir Next, PingFang SC, sans-serif" font-size="54" font-weight="800">AI 产业正在重写的四张账</text>
+  <text x="48" y="184" fill="#5D626D" font-family="Avenir Next, PingFang SC, sans-serif" font-size="22">同一轮技术扩张，在四个方向上制造了相反的力量。</text>
+
+  <g transform="translate(48 238)">
+    <rect width="536" height="268" fill="#FFFFFF" stroke="#D7D9DE"/>
+    <text x="28" y="42" fill="#155EEF" font-family="Avenir Next, sans-serif" font-size="17" font-weight="800">01 / COST</text>
+    <text x="28" y="96" fill="#101114" font-family="Avenir Next, PingFang SC, sans-serif" font-size="38" font-weight="800">模型单价</text>
+    <text x="434" y="108" fill="#155EEF" font-family="Avenir Next, sans-serif" font-size="82" font-weight="800">↓</text>
+    <line x1="28" y1="142" x2="508" y2="142" stroke="#101114" stroke-width="2"/>
+    <text x="28" y="190" fill="#5D626D" font-family="Avenir Next, PingFang SC, sans-serif" font-size="27">更多小任务开始值得被自动化</text>
+    <text x="28" y="230" fill="#101114" font-family="Avenir Next, PingFang SC, sans-serif" font-size="22" font-weight="700">便宜智能 → 高频工作流</text>
+  </g>
+
+  <g transform="translate(616 238)">
+    <rect width="536" height="268" fill="#101114"/>
+    <text x="28" y="42" fill="#8EB3FF" font-family="Avenir Next, sans-serif" font-size="17" font-weight="800">02 / CAPITAL</text>
+    <text x="28" y="96" fill="#FFFFFF" font-family="Avenir Next, PingFang SC, sans-serif" font-size="38" font-weight="800">基础设施资本</text>
+    <text x="434" y="108" fill="#8EB3FF" font-family="Avenir Next, sans-serif" font-size="82" font-weight="800">↑</text>
+    <line x1="28" y1="142" x2="508" y2="142" stroke="#FFFFFF" stroke-width="2"/>
+    <text x="28" y="190" fill="#C4C8D0" font-family="Avenir Next, PingFang SC, sans-serif" font-size="27">算力成为需要融资的长期资产</text>
+    <text x="28" y="230" fill="#FFFFFF" font-family="Avenir Next, PingFang SC, sans-serif" font-size="22" font-weight="700">电力与芯片 → 期限管理</text>
+  </g>
+
+  <g transform="translate(48 538)">
+    <rect width="536" height="268" fill="#E8EEFF" stroke="#B8C8F2"/>
+    <text x="28" y="42" fill="#155EEF" font-family="Avenir Next, sans-serif" font-size="17" font-weight="800">03 / VALUE</text>
+    <text x="28" y="96" fill="#101114" font-family="Avenir Next, PingFang SC, sans-serif" font-size="38" font-weight="800">头部估值</text>
+    <text x="434" y="108" fill="#155EEF" font-family="Avenir Next, sans-serif" font-size="82" font-weight="800">↑</text>
+    <line x1="28" y1="142" x2="508" y2="142" stroke="#101114" stroke-width="2"/>
+    <text x="28" y="190" fill="#5D626D" font-family="Avenir Next, PingFang SC, sans-serif" font-size="27">模型、入口与生态向少数公司集中</text>
+    <text x="28" y="230" fill="#101114" font-family="Avenir Next, PingFang SC, sans-serif" font-size="22" font-weight="700">技术能力 → 资本溢价</text>
+  </g>
+
+  <g transform="translate(616 538)">
+    <rect width="536" height="268" fill="#155EEF"/>
+    <text x="28" y="42" fill="#DCE7FF" font-family="Avenir Next, sans-serif" font-size="17" font-weight="800">04 / ACCESS</text>
+    <text x="28" y="96" fill="#FFFFFF" font-family="Avenir Next, PingFang SC, sans-serif" font-size="38" font-weight="800">平台门槛</text>
+    <text x="434" y="108" fill="#FFFFFF" font-family="Avenir Next, sans-serif" font-size="82" font-weight="800">↑</text>
+    <line x1="28" y1="142" x2="508" y2="142" stroke="#FFFFFF" stroke-width="2"/>
+    <text x="28" y="190" fill="#DCE7FF" font-family="Avenir Next, PingFang SC, sans-serif" font-size="27">供给爆炸之后，注意力与信任更贵</text>
+    <text x="28" y="230" fill="#FFFFFF" font-family="Avenir Next, PingFang SC, sans-serif" font-size="22" font-weight="700">内容生产 → 分发稀缺</text>
+  </g>
+
+  <line x1="48" y1="862" x2="1152" y2="862" stroke="#101114" stroke-width="2"/>
+  <text x="48" y="930" fill="#101114" font-family="Avenir Next, PingFang SC, sans-serif" font-size="38" font-weight="800">生产更便宜</text>
+  <text x="296" y="930" fill="#155EEF" font-family="Avenir Next, sans-serif" font-size="38" font-weight="800">≠</text>
+  <text x="354" y="930" fill="#101114" font-family="Avenir Next, PingFang SC, sans-serif" font-size="38" font-weight="800">竞争更容易</text>
+  <text x="1152" y="930" text-anchor="end" fill="#5D626D" font-family="Avenir Next, PingFang SC, sans-serif" font-size="20">成本 · 资本 · 估值 · 分发</text>
+</svg>

@@ -1,0 +1,108 @@
+{
+  "date": "2026-08-11",
+  "timezone": "Asia/Shanghai",
+  "generated_at": "2026-08-11T10:18:17+08:00",
+  "canonical_url": "https://signals.frontierworld.ai/2026/08/11/ai-is-rewriting-four-ledgers/",
+  "legacy_issue_url": "https://brief.clairesparlor.com/2026/08/11/",
+  "brand": "FRONTIER WORLD",
+  "headline": "AI 的竞争正在同时重写四张账：模型单价、基础设施融资、公司估值与创作者门槛。",
+  "dek": "10 分钟读完 · 10 条精选",
+  "signals": [
+    {
+      "title": "Claude Sonnet 5 放弃涨价，把低价变成长期策略",
+      "dedupe_key": "anthropic-claude-sonnet-5-pricing-permanent-2026-08",
+      "source": "Techmeme · Anthropic",
+      "source_url": "https://x.com/claudeai/status/2086891169217122586",
+      "summary": "Anthropic 宣布把 Claude Sonnet 5 的首发价长期保留为每百万输入 token 2 美元、输出 token 10 美元，并取消原定 9 月 1 日的涨价。",
+      "why": "模型能力仍在提升，但价格战正在把优势从“谁最聪明”推向“谁能被高频、长期地用起来”。",
+      "published_at": "2026-08-11T07:10:08+08:00"
+    },
+    {
+      "title": "YouTube 把新创作者的变现门槛直接翻倍",
+      "dedupe_key": "youtube-partner-monetization-threshold-doubled-2026",
+      "source": "Techmeme · TechCrunch",
+      "source_url": "https://techcrunch.com/2026/08/10/youtube-now-requires-creators-to-have-twice-as-many-watch-hours-to-start-earning-money/",
+      "summary": "从 2 月 1 日起，新创作者需要过去一年至少 8,000 小时有效观看，或 90 天内达到 2,000 万 Shorts 播放，才能开始获得广告收入。",
+      "why": "平台分成越来越像奖励成熟供给；个人品牌需要更早建立自有受众、产品和商业闭环，而不是只等平台开闸。",
+      "published_at": "2026-08-11T03:20:04+08:00"
+    },
+    {
+      "title": "英伟达把 AI 基础设施融资做成 5000 亿美元联盟",
+      "dedupe_key": "nvidia-ai-infrastructure-500b-financing-alliance-2026",
+      "source": "Techmeme · Financial Times",
+      "source_url": "https://www.ft.com/content/98a8fd17-15b6-4f67-9cb4-825722b11348",
+      "summary": "报道称，英伟达与 Apollo、BlackRock、Blackstone、Brookfield、高盛和 KKR 合作，筹划规模达 5,000 亿美元的 AI 基础设施融资方案。",
+      "why": "算力竞争已从科技公司的资本开支，升级为私募、资管与基础设施资金共同参与的新资产类别。",
+      "published_at": "2026-08-11T02:40:02+08:00"
+    },
+    {
+      "title": "OpenAI 用 70 亿美元员工股回购锚定 8520 亿美元估值",
+      "dedupe_key": "openai-employee-share-buyback-852b-valuation-2026",
+      "source": "Techmeme · Bloomberg",
+      "source_url": "https://www.bloomberg.com/news/articles/2026-08-10/openai-buys-back-7-billion-of-employee-shares-in-tender-offer",
+      "summary": "消息称，OpenAI 从现任和前员工手中回购约 70 亿美元股份，交易估值为 8,520 亿美元，与最近一轮融资持平。",
+      "why": "巨额二级交易既是人才留存工具，也是市场在正式上市前对 AI 龙头流动性和估值的压力测试。",
+      "published_at": "2026-08-11T05:15:01+08:00"
+    }
+  ],
+  "repositories": [
+    {
+      "name": "NanmiCoder/MediaCrawler",
+      "dedupe_key": "github:nanmicoder/mediacrawler",
+      "url": "https://github.com/NanmiCoder/MediaCrawler",
+      "summary": "覆盖小红书、抖音、B 站、微博和知乎等平台的内容与评论采集工具，适合搭建公开舆情、选题和竞品观察的数据入口。",
+      "stars_total": "61,117",
+      "source": "GitHub Trending"
+    },
+    {
+      "name": "paperclipai/paperclip",
+      "dedupe_key": "github:paperclipai/paperclip",
+      "url": "https://github.com/paperclipai/paperclip",
+      "summary": "用于在工作中统一管理多个 Agent 的开源应用，重点不是再造一个 Agent，而是把任务、状态和协作关系组织起来。",
+      "stars_total": "76,550",
+      "source": "GitHub Trending"
+    },
+    {
+      "name": "TauricResearch/TradingAgents",
+      "dedupe_key": "github:tauricresearch/tradingagents",
+      "url": "https://github.com/TauricResearch/TradingAgents",
+      "summary": "让多个 LLM Agent 分别扮演基本面、情绪、技术和风险角色的交易研究框架，可参考如何把投资判断拆成可辩论的流程。",
+      "stars_total": "97,257",
+      "source": "GitHub Trending"
+    },
+    {
+      "name": "semantica-agi/semantica",
+      "dedupe_key": "github:semantica-agi/semantica",
+      "url": "https://github.com/semantica-agi/semantica",
+      "summary": "面向上下文与可问责 AI 系统的图原生基础设施，把信息来源、关系和决策路径显式保存，适合需要审计的 Agent 工作流。",
+      "stars_total": "4,185",
+      "source": "GitHub Trending"
+    }
+  ],
+  "products": [
+    {
+      "name": "SecondBrain Note by GenSpark",
+      "dedupe_key": "producthunt:genspark-secondbrain-note",
+      "url": "https://www.producthunt.com/products/genspark",
+      "icon": "./genspark-secondbrain.png",
+      "icon_source_url": "https://www.genspark.ai/favicon.ico",
+      "summary": "一款磁吸式 AI 录音设备，强调录完之后能继续替用户行动；值得观察硬件如何把会议记录推进到后续任务执行。",
+      "source": "Product Hunt official feed"
+    },
+    {
+      "name": "The new Firecrawl MCP",
+      "dedupe_key": "producthunt:firecrawl-mcp",
+      "url": "https://www.producthunt.com/products/extract-by-firecrawl",
+      "icon": "./firecrawl-mcp.png",
+      "icon_source_url": "https://www.firecrawl.dev/favicon.ico",
+      "summary": "为任意 MCP 客户端提供可直接交给 Agent 的网页上下文，把搜索、抓取和结构化信息统一成一个接入点。",
+      "source": "Product Hunt official feed"
+    }
+  ],
+  "topic": "《当平台提高变现门槛、模型继续降价，个人品牌最值得自建的资产究竟是什么？》",
+  "warnings": [
+    "daily.dev 公共页本轮未解析到有效条目，因此未使用该来源内容，也未用往期条目补位。",
+    "Anthropic、Financial Times 与 Bloomberg 原页本轮受连接或访问限制，相关摘要严格限定在 Techmeme 官方 Feed 引用的标题事实内。",
+    "Product Hunt 官方 Feed 不提供可靠票数，因此不展示排名；图标使用产品官方网站的真实品牌资产并保存为本地文件。"
+  ]
+}

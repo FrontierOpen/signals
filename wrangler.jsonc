@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "frontier-signals",
+  "account_id": "a4f47bbe82fe04890258469abfc78593",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-08",
+  "workers_dev": true,
+  "preview_urls": true,
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./public",
+    "run_worker_first": true,
+    "html_handling": "force-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    {
+      "pattern": "signals.frontierworld.ai",
+      "custom_domain": true
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
