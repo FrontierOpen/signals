@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Passage A app icon</title>
+  <desc id="desc">Light app icon with a blue converging passage toward the upper right.</desc>
+  <rect x="1" y="1" width="254" height="254" rx="43" fill="#FFFFFF" stroke="#D9E0EA" stroke-width="2"/>
+  <path fill="#155EEF" fill-rule="evenodd" d="M48 48h160v160H48V48Zm54 160 50-120h28l-12 120h-66Z"/>
+</svg>

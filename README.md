@@ -21,9 +21,13 @@ public/YYYY/MM/DD/slug/                        published web edition
 
 ```bash
 npm ci
+npm run site:render
+npm run theme
 npm run check
 npm run deploy:dry-run
 ```
+
+`data/published-wechat.json` records the public WeChat editions included in the web archive. `npm run site:render` rebuilds their article pages, home page, date archives, RSS and sitemap from the reviewed local sources. `npm run theme` then applies the shared Frontier World visual system to every HTML page in `public/`. Deployment runs the renderer, theme integration and complete validation suite automatically.
 
 ## Deployment
 

@@ -11,7 +11,7 @@
   "status": "published",
   "mode": "quick",
   "format": "analysis",
-  "title": "AI 正在重写四张账，真正的竞争才刚开始",
+  "title": "AI 正在重写四本账，真正的竞争才刚开始",
   "title_candidates": [
     {
       "type": "factual",
@@ -20,7 +20,7 @@
     },
     {
       "type": "judgment",
-      "text": "AI 正在重写四张账，真正的竞争才刚开始",
+      "text": "AI 正在重写四本账，真正的竞争才刚开始",
       "claim_check": "开篇明确说明四条新闻共同指向成本、资本与分配结构同时变化。"
     },
     {

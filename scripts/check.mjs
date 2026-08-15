@@ -3,6 +3,11 @@ import { join, resolve } from "node:path";
 import worker from "../src/index.js";
 
 const root = resolve(new URL("..", import.meta.url).pathname);
+const publishedWechat = JSON.parse(await readFile(join(root, "data/published-wechat.json"), "utf8"));
+const publishedWechatBySource = new Map(publishedWechat.articles.map((entry) => [
+  resolve(root, entry.source),
+  entry,
+]));
 
 async function files(directory) {
   const entries = await readdir(directory, { withFileTypes: true }).catch((error) => {
@@ -24,6 +29,7 @@ if (!articleFiles.length) throw new Error("No canonical articles found");
 const published = [];
 for (const articleFile of articleFiles) {
   const article = JSON.parse(await readFile(articleFile, "utf8"));
+  const siteEntry = publishedWechatBySource.get(articleFile);
   if (article.series !== "Frontier Signals" || article.publisher !== "Frontier World") {
     throw new Error(`${articleFile} has invalid publication identity`);
   }
@@ -46,8 +52,8 @@ for (const articleFile of articleFiles) {
 
   for (const required of [
     article.canonical_url,
-    article.title,
-    article.excerpt,
+    siteEntry?.title || article.title,
+    siteEntry?.description || article.excerpt,
     "Frontier Signals",
     "application/ld+json",
     "index,follow,max-image-preview:large",
@@ -139,4 +145,4 @@ if (!assetCacheControl.includes("max-age=31536000") || !assetCacheControl.includ
   throw new Error("Fingerprint-stable media must use immutable caching");
 }
 
-console.log(`Frontier Signals check passed for ${published.length} published article(s)`);
+console.log(`Frontier Signals canonical package check passed for ${published.length} article(s); web archive covers ${publishedWechat.articles.length}`);

@@ -7,9 +7,13 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "check": "node scripts/check.mjs",
-    "deploy:dry-run": "WRANGLER_LOG_PATH=.wrangler/wrangler.log wrangler deploy --dry-run --strict",
-    "deploy": "WRANGLER_LOG_PATH=.wrangler/wrangler.log wrangler deploy"
+    "site:render": "node scripts/render-site.mjs",
+    "theme": "node scripts/apply-site-theme.mjs",
+    "check:site": "node scripts/render-site.mjs --check",
+    "check:theme": "node scripts/apply-site-theme.mjs --check",
+    "check": "npm run check:site && npm run check:theme && node scripts/check.mjs",
+    "deploy:dry-run": "npm run site:render && npm run theme && npm run check && WRANGLER_LOG_PATH=.wrangler/wrangler.log wrangler deploy --dry-run --strict",
+    "deploy": "npm run site:render && npm run theme && npm run check && WRANGLER_LOG_PATH=.wrangler/wrangler.log wrangler deploy"
   },
   "devDependencies": {
     "wrangler": "4.119.0"

@@ -1,0 +1,348 @@
+{
+  "schema_version": "1.0",
+  "brand": {
+    "company": "Frontier World",
+    "column": "Frontier Signals",
+    "language": "zh-CN"
+  },
+  "meta": {
+    "id": "2026-08-14-deepseek-harness-developer-preview",
+    "format": "bulletin",
+    "event_at": "2026-08-13T21:02:03+08:00",
+    "updated_at": "2026-08-14T17:35:00+08:00",
+    "authors": [
+      "Frontier Signals 编辑部"
+    ]
+  },
+  "headlines": {
+    "primary": "DeepSeek Harness，把 Agent 的运行层拆成了插件",
+    "cover": "DeepSeek Harness：一切皆插件",
+    "candidates": [
+      "DeepSeek Harness，把 Agent 的运行层拆成了插件",
+      "DeepSeek Harness 开源，Agent 的底盘也能自己组",
+      "DeepSeek Harness 发布，连 Agent Loop 都可以换"
+    ]
+  },
+  "thesis": {
+    "core": "DeepSeek Harness 把模型适配器、工具、会话、沙箱、Agent Loop 和界面全部放进可替换的插件层，并把这套 Agent 运行底盘开放出来。",
+    "boundary": "它尚未进入稳定版，目前没有公开的同模型、同任务 Harness 对照测试，外部插件生态也刚刚开始，后续还会发生破坏兼容性的变化。"
+  },
+  "show_thesis": false,
+  "sections": [
+    {
+      "id": "release",
+      "heading": "DeepSeek 开源了模型外面的那一层",
+      "kind": "facts",
+      "paragraphs": [
+        "8 月 13 日晚，DeepSeek 发布 Harness v0.1 开发者预览版，并以 MIT 协议开放源码。它已经可以在本地启动 Web 界面，也提供无界面的运行方式。",
+        "Harness 可以理解成模型与真实环境之间的运行层。模型负责理解和推理，Harness 负责把文件、终端、搜索、任务状态和权限接进来，再把一次任务持续跑下去。",
+        "这次发布仍处在很早的阶段。npm 当前的最新包是 0.1.0-rc.6，官方仓库直接提醒未来会有破坏兼容性的变化。它已经能用来测试，但还没有进入稳定版的语境。"
+      ],
+      "claim_ids": [
+        "C1",
+        "C2"
+      ],
+      "media_ids": [
+        "M2"
+      ]
+    },
+    {
+      "id": "plugin-architecture",
+      "heading": "模型接口、工具和 Agent Loop 都可以替换",
+      "kind": "analysis",
+      "paragraphs": [
+        "DeepSeek 在官网上写了一条很直白的公式：Agent = Model + Harness。Harness 里的模型适配器、工具、Skills、会话、沙箱、存储、Agent Loop、调度和 UI，全部由插件提供。",
+        "底下的 Cordis 内核只处理插件加载、卸载和依赖关系。具体能力留在插件里，开发者可以通过配置替换某一层，不必改动整个框架的核心代码。",
+        "它也没有把模型锁在 DeepSeek 上。官方配置文档同时支持 DeepSeek、Anthropic、OpenAI 和自定义兼容接口。Web 与 Headless 两种运行面共用同一套底层插件，区别主要在交互方式。",
+        "会话记录采用仅追加的事件日志。模型看到的内容、工具调用和结果、子 Agent 调度、上下文注入都会留在同一条轨迹里，恢复、分叉、检索和回放也从这份记录出发。",
+        "产品端已经准备了标准、PTC、极简和创造四种模式。它们分别对应完整工具组合、用代码编排多步工具、最小双工具环境，以及在运行中组合新 Agent 预设。"
+      ],
+      "claim_ids": [
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "C10"
+      ],
+      "media_ids": [
+        "M3"
+      ]
+    },
+    {
+      "id": "boundary",
+      "heading": "架构已经打开，平台还要再等等",
+      "kind": "outlook",
+      "paragraphs": [
+        "这次，DeepSeek 把 Agent 的运行底盘也交给了开发者。对已经在组合模型、工具和权限的人来说，Harness 提供了一套更容易拆开检查的结构。",
+        "插件化本身不会自动提高任务成功率。当前公开材料没有给出同一个模型、同一批任务在不同 Harness 上的对照成绩，配置层变灵活以后，版本兼容、依赖治理和插件供应链也会跟着变复杂。",
+        "接下来三个月，两个信号会决定它能走多远：外部开发者是否真的维护一批持续可用的插件，以及独立测试能否证明这套底盘在长任务里带来更稳定的结果。两者都出现，Harness 才会从一套漂亮架构长成平台。"
+      ],
+      "claim_ids": [
+        "C8",
+        "C9",
+        "C11"
+      ],
+      "media_ids": []
+    }
+  ],
+  "public_source_ids": [
+    "S1",
+    "S2",
+    "S3",
+    "S6"
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "kind": "primary",
+      "title": "DeepSeek Harness 开发者预览版：一切皆插件",
+      "publisher": "DeepSeek",
+      "url": "https://www.deepseek.com/harness/",
+      "published_at": "2026-08-13",
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S2",
+      "kind": "primary",
+      "title": "deepseek-ai/deepseek-harness",
+      "publisher": "DeepSeek AI / GitHub",
+      "url": "https://github.com/deepseek-ai/deepseek-harness",
+      "published_at": "2026-08-13",
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S3",
+      "kind": "primary",
+      "title": "DeepSeek Harness Architecture",
+      "publisher": "DeepSeek AI",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.zh.md",
+      "published_at": null,
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S4",
+      "kind": "primary",
+      "title": "Configure models",
+      "publisher": "DeepSeek AI",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md",
+      "published_at": null,
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S5",
+      "kind": "primary",
+      "title": "@deepseek-ai/dsh npm package metadata",
+      "publisher": "npm",
+      "url": "https://www.npmjs.com/package/@deepseek-ai/dsh",
+      "published_at": "2026-08-13",
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S6",
+      "kind": "secondary",
+      "title": "对标 Claude Cowork：DeepSeek Harness 公测，同步开放插件生态",
+      "publisher": "IT之家",
+      "url": "https://www.ithome.com/0/989/446.htm",
+      "published_at": "2026-08-13",
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S7",
+      "kind": "primary",
+      "title": "DeepSeek Harness v0.1 Developer Preview announcement",
+      "publisher": "DeepSeek",
+      "url": "https://x.com/deepseek_ai/status/2087887408440164663",
+      "published_at": "2026-08-13",
+      "accessed_at": "2026-08-14"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C1",
+      "kind": "fact",
+      "statement": "DeepSeek 于 2026 年 8 月 13 日晚发布 Harness v0.1 开发者预览版，公开产品页与 GitHub 源码，并采用 MIT 许可证。",
+      "section_id": "release",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S6",
+        "S7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C2",
+      "kind": "fact",
+      "statement": "截至 2026 年 8 月 14 日 17:00，Harness 可本地启动 Web 与 Headless 运行面，npm latest 为 0.1.0-rc.6；官方明确提示会有破坏兼容性的变化。",
+      "section_id": "release",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C3",
+      "kind": "quote",
+      "statement": "DeepSeek 将 Harness 与模型的关系概括为 Agent = Model + Harness。",
+      "section_id": "plugin-architecture",
+      "source_ids": [
+        "S1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C4",
+      "kind": "fact",
+      "statement": "模型适配器、工具、Skills、会话、沙箱、存储、Agent Loop、调度和 UI 均由 Cordis 插件提供，Cordis 内核负责加载、卸载与依赖关系。",
+      "section_id": "plugin-architecture",
+      "source_ids": [
+        "S1",
+        "S3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C5",
+      "kind": "fact",
+      "statement": "Harness 支持 DeepSeek、Anthropic、OpenAI 和自定义兼容模型提供方，配置在下一次请求生效。",
+      "section_id": "plugin-architecture",
+      "source_ids": [
+        "S4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C6",
+      "kind": "fact",
+      "statement": "Web 与 Headless profile 共享基础插件层，分别提供浏览器交互与一次性无服务进程运行方式。",
+      "section_id": "plugin-architecture",
+      "source_ids": [
+        "S2",
+        "S3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C7",
+      "kind": "fact",
+      "statement": "会话使用仅追加事件日志，模型可见内容、工具调用、子 Agent 调度和上下文注入均进入同一事件流，并支持恢复、分叉、检索与回放。",
+      "section_id": "plugin-architecture",
+      "source_ids": [
+        "S1",
+        "S3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C8",
+      "kind": "analysis",
+      "statement": "Harness 把 Agent 运行层作为可独立检查和组合的开源产品交给了开发者。",
+      "section_id": "boundary",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C9",
+      "kind": "forecast",
+      "statement": "持续维护的外部插件与同模型、同任务的独立对照测试，将决定 Harness 能否从架构项目发展成平台。",
+      "section_id": "boundary",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S6"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C10",
+      "kind": "fact",
+      "statement": "DeepSeek Harness 提供标准、PTC、极简和创造四种官方运行模式，分别对应完整工具组合、用代码编排多步工具、仅含两个工具的最小环境和新预设组合。",
+      "section_id": "plugin-architecture",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C11",
+      "kind": "analysis",
+      "statement": "插件层提高可替换性，也把版本兼容、依赖治理和插件供应链带进同一套运行框架。",
+      "section_id": "boundary",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "confidence": "medium"
+    }
+  ],
+  "media": [
+    {
+      "id": "M1",
+      "kind": "image",
+      "role": "cover",
+      "path": "wechat-cover.png",
+      "purpose": "在封面直接识别 DeepSeek Harness 报道主体",
+      "alt": "Frontier Signals 封面写有 DeepSeek Harness 一切皆插件并配 DeepSeek 标志",
+      "caption": "DeepSeek Harness 报道封面主体",
+      "credit": "DeepSeek",
+      "source_url": "https://raw.githubusercontent.com/deepseek-ai/deepseek-harness/master/website/public/wordmark.svg",
+      "rights": "official",
+      "crop_note": "900×383 确定性排版；DeepSeek 标志保持原比例和原色",
+      "generated": false,
+      "section_id": null
+    },
+    {
+      "id": "M2",
+      "kind": "screenshot",
+      "role": "inline",
+      "path": "images/harness-official-mobile-lead.png",
+      "purpose": "证明产品名称、开发者预览状态与一切皆插件的官方定位",
+      "alt": "DeepSeek Harness 官网移动端首屏显示开发者预览版和一切皆插件",
+      "caption": "DeepSeek Harness 官方发布页首屏",
+      "credit": "DeepSeek",
+      "source_url": "https://www.deepseek.com/harness/",
+      "rights": "official",
+      "crop_note": "按移动端首屏裁切，保留品牌、产品名、预览状态和官方标题",
+      "generated": false,
+      "section_id": "release"
+    },
+    {
+      "id": "M3",
+      "kind": "screenshot",
+      "role": "inline",
+      "path": "images/deepseek-harness-profiles.png",
+      "purpose": "展示标准、PTC、极简和创造四种官方运行模式",
+      "alt": "DeepSeek Harness 模式选择器列出标准、PTC、极简和创造四种模式",
+      "caption": "DeepSeek Harness 的四种预设运行模式",
+      "credit": "DeepSeek / IT之家",
+      "source_url": "https://www.ithome.com/0/989/446.htm",
+      "rights": "fair_use_reviewed",
+      "crop_note": "保留产品标志、模式名称与说明，不移除原始界面信息",
+      "generated": false,
+      "section_id": "plugin-architecture"
+    }
+  ],
+  "publication": {
+    "state": "local_draft",
+    "checks": {
+      "facts": "passed",
+      "media_rights": "passed",
+      "editorial": "passed"
+    },
+    "remote_id": null,
+    "published_at": null,
+    "url": null,
+    "sent_at": null,
+    "error": null
+  }
+}

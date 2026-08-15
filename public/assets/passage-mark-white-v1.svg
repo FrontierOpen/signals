@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Passage A — White</title>
+  <desc id="desc">A white monolith with a converging passage toward the upper right.</desc>
+  <path fill="#FFFFFF" fill-rule="evenodd" d="M14 14h68v68H14V14Zm23 68 21-51h12l-5 51H37Z"/>
+</svg>

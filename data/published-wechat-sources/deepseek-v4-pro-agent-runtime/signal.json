@@ -1,0 +1,410 @@
+{
+  "schema_version": "1.0",
+  "brand": {
+    "company": "Frontier World",
+    "column": "Frontier Signals",
+    "language": "zh-CN"
+  },
+  "meta": {
+    "id": "2026-08-13-deepseek-v4-pro-agent-runtime",
+    "format": "report",
+    "event_at": "2026-08-13T19:16:42+08:00",
+    "updated_at": "2026-08-13",
+    "authors": [
+      "Frontier Signals 编辑部"
+    ]
+  },
+  "headlines": {
+    "primary": "DeepSeek V4 Pro 正式上线：Agent 能力、Codex 接入、价格与限制一次看懂",
+    "cover": "DeepSeek V4 Pro：一次看懂",
+    "candidates": [
+      "DeepSeek V4 Pro 正式上线：Agent 能力、Codex 接入、价格与限制一次看懂",
+      "DeepSeek V4 Pro 全面拆解：跑分、接口、价格和真实限制",
+      "DeepSeek V4 Pro 值得试吗？从 Agent 跑分看到价格与运行边界"
+    ]
+  },
+  "brief_30s": [
+    "DeepSeek V4 Pro 正式版已经同步上线 App、网页和 API，并原生支持 Responses API 与 Codex 配置。",
+    "官方公布十项 Agent 成绩，也开放 low、high、max 三档思考强度；这些成绩尚未由 Frontier World 独立复现。",
+    "我们的判断是，模型与工具入口已经足够开始试用，长任务的状态保存、失败恢复和人工确认仍要由应用负责。"
+  ],
+  "thesis": {
+    "core": "DeepSeek 已经把 V4 Pro 推到 Agent 工作流入口，团队现在可以开始试用；能否稳定交付，取决于应用怎样保存状态、处理失败和控制不可逆动作。",
+    "boundary": "本文核验了官方更新、接口文档和基准定义，尚未独立运行 V4 Pro，也不能把发布方自报分数写成生产可靠性。"
+  },
+  "sections": [
+    {
+      "id": "release-and-entry",
+      "heading": "一次更新补齐了模型和入口",
+      "kind": "facts",
+      "paragraphs": [
+        "8 月 13 日，DeepSeek V4 Pro 正式版同步上线 App、网页和 API。已经接入 DeepSeek 的团队不用换模型名，deepseek-v4-pro 会指向新的 0813 版本。",
+        "这次更新把十项 Agent 成绩、Responses API、Codex 接入、三档思考强度和新价格一起放了出来。消息很多，方向却很集中。DeepSeek 正在把 V4 Pro 从聊天模型推向能够连续调用工具的工作模型。",
+        "我们对照了更新日志和几页接口文档。V4 Pro 已经有了进入 Agent 工作流的模型能力和调用入口，长期任务需要的状态保存、后台执行与失败恢复还要由应用完成。团队现在可以开始试用，距离稳定交付仍隔着一段运行时工程。",
+        "DeepSeek 公布的十项成绩里，Terminal-Bench 2.1 为 87.9，NL2Repo 为 61.5，Toolathlon-Verified 为 74.1。HLE 使用工具后的成绩从 42.7 上升到 60.0。这些数字来自 DeepSeek，Frontier World 没有重新运行。",
+        "接口侧的变化更直接。DeepSeek 原生支持 Responses API 格式，并提供 Codex 配置文档。Responses API 可以调用 function、服务端 web search 和 apply_patch，也提供语义化的流式事件。",
+        "V4 Pro 与 V4 Flash 增加 low、high、max 三档思考强度，默认开启思考并使用 high。当前服务页还列出 100 万 token 上下文、最高 38.4 万 token 输出和 500 并发。更新日志没有说这些服务属性都在 8 月 13 日首次出现。"
+      ],
+      "claim_ids": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "media_ids": [
+        "M3"
+      ]
+    },
+    {
+      "id": "benchmark-work",
+      "heading": "三项基准测的是三种工作",
+      "kind": "analysis",
+      "paragraphs": [
+        "Terminal-Bench 2.1 把 Agent 放进容器和终端，任务来自软件工程、机器学习、安全和数据处理。模型要执行命令，结果由可验证规则检查。87.9 分说明 V4 Pro 已经能处理相当一部分终端任务。",
+        "NL2Repo 从一份自然语言需求和空目录开始，要求 Agent 生成一个完整仓库。模型要先拆需求，再创建文件，还要让不同模块能够一起运行。61.5 分提供了长程编码能力的一个参照。",
+        "Toolathlon-Verified 使用六百多种真实软件工具，任务需要多轮调用才能完成。74.1 分对应的是工具选择和连续执行。三项放在一起，V4 Pro 在环境操作、仓库生成和多工具协作上都给出了可用信号。",
+        "榜单仍然没有回答生产中的几个问题。DeepSeek 没有公开逐题轨迹、重复运行分布、延迟和人工接管次数。DSBench-FullStack 与 DSBench-Hard 还是内部测试集。单次高分可以推动试用，采购和上线要等自己的重复测试。",
+        "评测配置也会改变结果。Agent 使用什么工具说明，允许多少次调用，失败后能否重试，都会落进最后的分数。团队复测时要固定模型版本、思考强度、工具权限和验收脚本。"
+      ],
+      "claim_ids": [
+        "C7",
+        "C8"
+      ],
+      "media_ids": [
+        "M2"
+      ]
+    },
+    {
+      "id": "runtime-state-boundary",
+      "heading": "长任务的状态留在应用里",
+      "kind": "impact",
+      "paragraphs": [
+        "Responses API 文档把责任边界写得很清楚。previous_response_id 与 conversation 暂不支持，store 会固定成 false。background 和 context_management 也不支持。应用不能把一段长任务交给服务端，再只靠响应 ID 续上。",
+        "图片和文件输入目前不可用。file_search、code_interpreter、computer_use 与 MCP 等内置工具会被忽略。custom 工具只支持 apply_patch。团队需要根据这些限制安排工具，并给文件和命令设置权限。",
+        "文档也没有提供自动截断。输入超出上下文窗口会返回 400 错误。应用需要提前计算长度，决定保留哪些历史、工具结果和文件片段。上下文整理做得不好，100 万 token 也会被无关内容占满。",
+        "一次请求能带很多上下文，任务仍不会自动拥有持久记忆。应用要保存消息、工具结果和中间文件。任务中断以后，系统还要知道哪些动作已经完成，哪些结果可以复用。",
+        "恢复需要检查点和调用日志。代码修改可以放在分支里，测试通过后再合并。发布、付款和不可逆的数据操作继续保留人工确认。模型中途停下时，这些记录决定团队要重跑十分钟，还是重做几个小时。"
+      ],
+      "claim_ids": [
+        "C9",
+        "C10",
+        "C11",
+        "C12"
+      ],
+      "media_ids": [
+        "M4"
+      ]
+    },
+    {
+      "id": "price-and-first-test",
+      "heading": "价格开始影响任务调度",
+      "kind": "outlook",
+      "paragraphs": [
+        "截至 2026 年 8 月 13 日，V4 Pro 每百万 token 的缓存命中输入、缓存未命中输入和输出价格分别为 0.025 元、3 元和 6 元。DeepSeek 将在 8 月 17 日零点启用峰谷价格，届时空闲时段对应 0.15 元、4.5 元和 13.5 元，高峰为 0.30 元、9 元和 27 元。",
+        "“空闲半价”的比较对象是 8 月 17 日后的新高峰价。按 8 月 13 日现价计算，三项空闲价分别变为 6 倍、1.5 倍和 2.25 倍。可延后的任务仍能避开更高的高峰价，团队的预算基线却要重算。",
+        "思考强度也会影响这笔账。low 是否能完成简单任务，high 能否减少返工，max 多花的时间有没有换来更高通过率，都要用同一套任务比较。只看每百万 token 单价，很容易漏掉失败重跑和人工接管的费用。",
+        "第一轮测试不用很大。挑一件平时会花半小时、有自动验收、失败后能重跑的任务，固定代码版本与工具权限，连续执行三次。保留完整日志，再看成功率、总耗时和人工介入发生在哪里。",
+        "V4 Pro 已经给了团队一个充分的试用理由。能否进入稳定工作流，要看同一任务能不能重复交付，失败以后能不能恢复，费用能不能预测。"
+      ],
+      "claim_ids": [
+        "C13",
+        "C14",
+        "C15"
+      ],
+      "media_ids": []
+    }
+  ],
+  "public_source_ids": ["S1", "S3", "S4", "S6"],
+  "sources": [
+    {
+      "id": "S1",
+      "kind": "primary",
+      "title": "更新日志",
+      "publisher": "DeepSeek API Docs",
+      "url": "https://api-docs.deepseek.com/zh-cn/updates/",
+      "published_at": "2026-08-13",
+      "accessed_at": "2026-08-13"
+    },
+    {
+      "id": "S2",
+      "kind": "primary",
+      "title": "首次调用 API",
+      "publisher": "DeepSeek API Docs",
+      "url": "https://api-docs.deepseek.com/zh-cn/",
+      "published_at": null,
+      "accessed_at": "2026-08-13"
+    },
+    {
+      "id": "S3",
+      "kind": "primary",
+      "title": "使用 Responses API",
+      "publisher": "DeepSeek API Docs",
+      "url": "https://api-docs.deepseek.com/zh-cn/guides/responses_api",
+      "published_at": null,
+      "accessed_at": "2026-08-13"
+    },
+    {
+      "id": "S4",
+      "kind": "primary",
+      "title": "接入 Codex",
+      "publisher": "DeepSeek API Docs",
+      "url": "https://api-docs.deepseek.com/zh-cn/quick_start/agent_integrations/codex",
+      "published_at": null,
+      "accessed_at": "2026-08-13"
+    },
+    {
+      "id": "S5",
+      "kind": "primary",
+      "title": "思考模式",
+      "publisher": "DeepSeek API Docs",
+      "url": "https://api-docs.deepseek.com/zh-cn/guides/thinking_mode",
+      "published_at": null,
+      "accessed_at": "2026-08-13"
+    },
+    {
+      "id": "S6",
+      "kind": "primary",
+      "title": "模型与价格",
+      "publisher": "DeepSeek API Docs",
+      "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+      "published_at": null,
+      "accessed_at": "2026-08-13"
+    },
+    {
+      "id": "S7",
+      "kind": "research",
+      "title": "Terminal-Bench 2.1",
+      "publisher": "Harbor Framework",
+      "url": "https://github.com/harbor-framework/terminal-bench-2-1",
+      "published_at": null,
+      "accessed_at": "2026-08-13"
+    },
+    {
+      "id": "S8",
+      "kind": "research",
+      "title": "NL2Repo-Bench",
+      "publisher": "arXiv",
+      "url": "https://arxiv.org/abs/2512.12730",
+      "published_at": "2025-12-14",
+      "accessed_at": "2026-08-13"
+    },
+    {
+      "id": "S9",
+      "kind": "research",
+      "title": "The Tool Decathlon",
+      "publisher": "HKUST NLP",
+      "url": "https://github.com/hkust-nlp/Toolathlon",
+      "published_at": "2026-06-30",
+      "accessed_at": "2026-08-13"
+    },
+    {
+      "id": "S10",
+      "kind": "research",
+      "title": "DeepSeek V4 百万 token 上下文技术报告",
+      "publisher": "DeepSeek-AI on arXiv",
+      "url": "https://arxiv.org/abs/2606.19348",
+      "published_at": "2026-04-26",
+      "accessed_at": "2026-08-13"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C1",
+      "kind": "fact",
+      "statement": "DeepSeek V4 Pro 正式版在 App、网页和 API 同步上线，API 模型名保持 deepseek-v4-pro。",
+      "section_id": "release-and-entry",
+      "source_ids": ["S1", "S2"],
+      "confidence": "high"
+    },
+    {
+      "id": "C2",
+      "kind": "fact",
+      "statement": "DeepSeek 公布了十项 Agent 成绩，其中 Terminal-Bench 2.1 为 87.9，NL2Repo 为 61.5，Toolathlon-Verified 为 74.1。",
+      "section_id": "release-and-entry",
+      "source_ids": ["S1"],
+      "confidence": "medium"
+    },
+    {
+      "id": "C3",
+      "kind": "fact",
+      "statement": "DeepSeek 原生支持 Responses API 格式并提供 Codex 配置文档。",
+      "section_id": "release-and-entry",
+      "source_ids": ["S1", "S3", "S4"],
+      "confidence": "high"
+    },
+    {
+      "id": "C4",
+      "kind": "fact",
+      "statement": "Responses API 支持 function、服务端 web search、apply_patch 和语义化流式事件。",
+      "section_id": "release-and-entry",
+      "source_ids": ["S3"],
+      "confidence": "high"
+    },
+    {
+      "id": "C5",
+      "kind": "fact",
+      "statement": "V4 Pro 与 V4 Flash 支持 low、high、max 三档思考强度，思考默认开启并使用 high。",
+      "section_id": "release-and-entry",
+      "source_ids": ["S1", "S5"],
+      "confidence": "high"
+    },
+    {
+      "id": "C6",
+      "kind": "analysis",
+      "statement": "当前服务属性和预览版技术材料不能证明 0813 正式版的全部架构与训练细节。",
+      "section_id": "release-and-entry",
+      "source_ids": ["S1", "S6", "S10"],
+      "confidence": "medium"
+    },
+    {
+      "id": "C7",
+      "kind": "fact",
+      "statement": "Terminal-Bench 2.1、NL2Repo-Bench 与 Toolathlon 分别覆盖终端环境、从需求生成仓库和长序列工具调用。",
+      "section_id": "benchmark-work",
+      "source_ids": ["S7", "S8", "S9"],
+      "confidence": "high"
+    },
+    {
+      "id": "C8",
+      "kind": "analysis",
+      "statement": "发布方自报的单次基准分数不足以证明同一任务的重复成功率与生产可靠性。",
+      "section_id": "benchmark-work",
+      "source_ids": ["S1", "S7", "S8", "S9"],
+      "confidence": "medium"
+    },
+    {
+      "id": "C9",
+      "kind": "fact",
+      "statement": "Responses API 当前不支持 previous_response_id、conversation、store、background 和 context_management。",
+      "section_id": "runtime-state-boundary",
+      "source_ids": ["S3"],
+      "confidence": "high"
+    },
+    {
+      "id": "C10",
+      "kind": "fact",
+      "statement": "Responses API 当前不支持图片和文件输入，多种内置工具会被忽略，custom 工具只支持 apply_patch。",
+      "section_id": "runtime-state-boundary",
+      "source_ids": ["S3"],
+      "confidence": "high"
+    },
+    {
+      "id": "C11",
+      "kind": "fact",
+      "statement": "Responses API 不提供自动截断，输入超出上下文窗口会返回 400 错误。",
+      "section_id": "runtime-state-boundary",
+      "source_ids": ["S3"],
+      "confidence": "high"
+    },
+    {
+      "id": "C12",
+      "kind": "analysis",
+      "statement": "长任务的消息、工具结果、检查点和失败恢复仍需要由应用保存和管理。",
+      "section_id": "runtime-state-boundary",
+      "source_ids": ["S3", "S4"],
+      "confidence": "high"
+    },
+    {
+      "id": "C13",
+      "kind": "fact",
+      "statement": "截至 2026 年 8 月 13 日，V4 Pro 每百万 token 现价为缓存命中输入 0.025 元、未命中输入 3 元、输出 6 元；8 月 17 日后的空闲价为 0.15 元、4.5 元和 13.5 元，高峰价为 0.30 元、9 元和 27 元。",
+      "section_id": "price-and-first-test",
+      "source_ids": ["S6"],
+      "confidence": "high"
+    },
+    {
+      "id": "C14",
+      "kind": "analysis",
+      "statement": "8 月 17 日后的空闲价只相对新高峰价减半；与 8 月 13 日现价相比，缓存命中输入、未命中输入和输出价格分别变为 6 倍、1.5 倍和 2.25 倍。",
+      "section_id": "price-and-first-test",
+      "source_ids": ["S6"],
+      "confidence": "medium"
+    },
+    {
+      "id": "C15",
+      "kind": "analysis",
+      "statement": "团队应先用可自动验收、失败可重跑的任务测试重复成功率，再扩大 V4 Pro 的任务范围。",
+      "section_id": "price-and-first-test",
+      "source_ids": ["S1", "S3", "S7", "S8", "S9"],
+      "confidence": "medium"
+    }
+  ],
+  "media": [
+    {
+      "id": "M1",
+      "kind": "image",
+      "role": "cover",
+      "path": "wechat-cover-imagegen-v1.png",
+      "purpose": "用原创概念结构呈现 V4 Pro 从模型能力进入 Codex 与工具链、经过成本闸门并止于应用状态边界，标题与品牌标志由确定性排版完成",
+      "alt": "Frontier Signals 封面，左侧标题为 DeepSeek V4 Pro 一次看懂，右侧蓝黑通道从模型核心穿过闸门进入状态边界",
+      "caption": "Frontier Signals 公众号封面，概念主体由 AI 生成，文字与品牌标志由脚本排版",
+      "credit": "Frontier World / AI-generated concept",
+      "source_url": "https://frontierworld.ai/",
+      "rights": "owned",
+      "crop_note": "900×383，AI 概念主体位于右侧安全区，标题与品牌标志位于左侧安全区",
+      "generated": true,
+      "section_id": null
+    },
+    {
+      "id": "M2",
+      "kind": "screenshot",
+      "role": "inline",
+      "path": "images/source/official-update.png",
+      "purpose": "直接展示 DeepSeek 官方更新页中的正式上线状态与 Agent 成绩",
+      "alt": "DeepSeek 官方更新页截图，显示 V4 Pro 正式上线和 Agent 基准成绩",
+      "caption": "DeepSeek 官方更新页。图中成绩均为发布方自报，Frontier World 尚未独立复现，可点开查看原图",
+      "credit": "DeepSeek API Docs",
+      "source_url": "https://api-docs.deepseek.com/zh-cn/updates/",
+      "rights": "official",
+      "crop_note": "保留日期、上线状态、基准名称与原始分数，不重排内容",
+      "generated": false,
+      "section_id": "benchmark-work"
+    },
+    {
+      "id": "M3",
+      "kind": "screenshot",
+      "role": "inline",
+      "path": "images/source/thinking-effort.png",
+      "purpose": "直接展示 DeepSeek 官方文档中的思考强度控制字段",
+      "alt": "DeepSeek 思考模式官方文档截图，显示 OpenAI、Anthropic 与 Responses API 的思考强度字段",
+      "caption": "DeepSeek 官方思考模式文档。low、high、max 为三档配置，high 是默认档，可点开查看原图",
+      "credit": "DeepSeek API Docs",
+      "source_url": "https://api-docs.deepseek.com/zh-cn/guides/thinking_mode",
+      "rights": "official",
+      "crop_note": "保留表头、三种接口字段与默认值上下文，不重排内容",
+      "generated": false,
+      "section_id": "release-and-entry"
+    },
+    {
+      "id": "M4",
+      "kind": "screenshot",
+      "role": "inline",
+      "path": "images/source/responses-state-boundary.png",
+      "purpose": "直接展示 DeepSeek 官方 Responses API 文档中的服务端状态边界",
+      "alt": "DeepSeek Responses API 官方文档截图，显示续接、会话、保存、后台与截断能力限制",
+      "caption": "DeepSeek 官方 Responses API 文档。服务端不保存续接状态，应用仍需管理检查点和恢复，可点开查看原图",
+      "credit": "DeepSeek API Docs",
+      "source_url": "https://api-docs.deepseek.com/zh-cn/guides/responses_api",
+      "rights": "official",
+      "crop_note": "保留字段名、限制说明与必要表格上下文，不重排内容",
+      "generated": false,
+      "section_id": "runtime-state-boundary"
+    }
+  ],
+  "discussion_question": "你愿意先把哪一件有验收脚本、失败还能重跑的任务交给 V4 Pro？",
+  "publication": {
+    "state": "local_draft",
+    "checks": {
+      "facts": "passed",
+      "media_rights": "passed",
+      "editorial": "passed"
+    },
+    "remote_id": null,
+    "published_at": null,
+    "url": null,
+    "sent_at": null,
+    "error": null
+  }
+}

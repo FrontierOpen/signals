@@ -1,14 +1,16 @@
-# AI 正在重写四张账，真正的竞争才刚开始
+# AI 正在重写四本账，真正的竞争才刚开始
 
 > 模型越来越便宜，资本越来越重，估值越来越高，创作者的门槛却越来越陡。看似分散的四条新闻，其实指向同一个变化。
 
-**Frontier Signals · 2026.08.11 · 8 分钟**
+**Frontier Signals · 2026.08.12 · 8 分钟**
+
+[微信公众号原文](https://mp.weixin.qq.com/s/fq7hXEUR2_y3G7RCMuThXg)
+
+![Frontier Signals：AI 正在重写四本账，真正的竞争才刚开始](./og.png)
 
 今天的 AI 新闻很像四本互不相干的账簿：Anthropic 在算模型调用的单价，英伟达在算基础设施需要多少资本，OpenAI 在算一家 AI 公司究竟值多少钱，YouTube 则在重新计算创作者要付出多少注意力，才有资格开始赚钱。
 
 把它们叠在一起看，会出现一个比“谁又发布了新模型”更重要的信号：AI 产业正在从能力竞赛，进入成本结构、资本结构和分配结构同时重写的阶段。技术仍然重要，但决定下一轮胜负的，越来越不是单点能力，而是谁能把更便宜的智能、更昂贵的基础设施和更稀缺的分发入口组织成一门可持续的生意。
-
-开篇来源：[1] [2] [3] [4] [5] [6]
 
 ## 01 · 模型降价，不只是价格战
 
@@ -20,8 +22,6 @@ Anthropic 宣布，Claude Sonnet 5 将长期保留每百万输入 token 2 美元
 
 > 当智能的边际成本继续下降，竞争优势会从“拥有模型”转向“拥有高频、稳定、能产生结果的工作流”。
 
-本节来源：[1]
-
 ## 02 · 算力越来越像一种金融资产
 
 另一边，AI 的物理成本正在变得前所未有地重。Financial Times 报道称，英伟达正与 Apollo、BlackRock、Blackstone、Brookfield、高盛和 KKR 等机构筹划规模达 5,000 亿美元的 AI 基础设施融资方案。
@@ -32,11 +32,9 @@ AI 因此出现了一个鲜明的双重结构：上层的软件智能越来越�
 
 ![模型单价下降、基础设施资本上升、头部估值集中、平台门槛上升的四张账说明图](./four-ledgers.png)
 
-*四股相反的力量共同塑造下一轮 AI 竞争。 · 来源：Frontier World*
+*四股相反的力量共同塑造下一轮 AI 竞争。*
 
 > 我们看到的“更便宜的 AI”，背后是越来越金融化、越来越重资产的基础设施。
-
-本节来源：[2] [3]
 
 ## 03 · 估值和分发，正在向头部集中
 
@@ -48,8 +46,6 @@ Bloomberg 报道称，OpenAI 以约 70 亿美元回购现任和前员工股份�
 
 > 内容会越来越多，但可信赖的名字、稳定的受众关系和可直接触达的渠道会越来越贵。
 
-本节来源：[4] [5] [6]
-
 ## 04 · 个人和小团队，应该重算哪三笔账
 
 对个人品牌、内容创业者和小团队来说，这一轮变化不意味着必须去训练模型，也不意味着要追逐每一个新工具。更现实的做法，是把自己的业务重新拆成三张账。
@@ -57,8 +53,6 @@ Bloomberg 报道称，OpenAI 以约 70 亿美元回购现任和前员工股份�
 - 自动化账：哪些高频、重复但过去成本过高的任务，现在已经值得交给 Agent 常驻执行？
 - 渠道账：除了平台推荐，你是否拥有可以反复触达的订阅、社群、网站、邮件或产品用户？
 - 信任账：当内容供给无限增加，别人为什么仍然愿意相信你的判断，并为你的筛选、方法或服务付费？
-
-本节来源：[1] [6]
 
 ## 写在最后
 
@@ -68,15 +62,14 @@ AI 的下一阶段，表面上会继续表现为更强的模型、更大的融�
 
 > 当模型变得像水电一样便宜，你真正应该自建的资产，究竟是更多内容，还是一套别人无法轻易复制的信任与分发系统？
 
-结尾来源：[1] [3] [5] [6]
+## 延伸阅读
 
-## 参考资料
-
-1. [Anthropic · Claude Sonnet 5 pricing announcement](https://x.com/claudeai/status/2086891169217122586)
-2. [Financial Times · Nvidia AI infrastructure financing plan](https://www.ft.com/content/98a8fd17-15b6-4f67-9cb4-825722b11348)
-3. [Apollo Global Management · NVIDIA partners with Apollo and five asset managers on AI infrastructure financing platforms](https://www.apollo.com/insights-news/pressreleases/2026/08/nvidia-partners-with-apollo)
-4. [Bloomberg · OpenAI employee share buyback](https://www.bloomberg.com/news/articles/2026-08-10/openai-buys-back-7-billion-of-employee-shares-in-tender-offer)
-5. [CNBC · OpenAI wraps \$7 billion share sale ahead of potential IPO](https://www.cnbc.com/2026/08/10/openai-wraps-7-billion-share-sale-ahead-of-potential-ipo-.html)
-6. [TechCrunch · YouTube raises monetization thresholds](https://techcrunch.com/2026/08/10/youtube-now-requires-creators-to-have-twice-as-many-watch-hours-to-start-earning-money/)
+- [微信公众号原文](https://mp.weixin.qq.com/s/fq7hXEUR2_y3G7RCMuThXg) · Frontier World
+- [Claude Sonnet 5 pricing announcement](https://x.com/claudeai/status/2086891169217122586) · Anthropic
+- [Nvidia AI infrastructure financing plan](https://www.ft.com/content/98a8fd17-15b6-4f67-9cb4-825722b11348) · Financial Times
+- [NVIDIA partners with Apollo and five asset managers on AI infrastructure financing platforms](https://www.apollo.com/insights-news/pressreleases/2026/08/nvidia-partners-with-apollo) · Apollo Global Management
+- [OpenAI employee share buyback](https://www.bloomberg.com/news/articles/2026-08-10/openai-buys-back-7-billion-of-employee-shares-in-tender-offer) · Bloomberg
+- [OpenAI wraps $7 billion share sale ahead of potential IPO](https://www.cnbc.com/2026/08/10/openai-wraps-7-billion-share-sale-ahead-of-potential-ipo-.html) · CNBC
+- [YouTube raises monetization thresholds](https://techcrunch.com/2026/08/10/youtube-now-requires-creators-to-have-twice-as-many-watch-hours-to-start-earning-money/) · TechCrunch
 
 — Frontier World

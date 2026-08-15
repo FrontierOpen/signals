@@ -1,0 +1,391 @@
+{
+  "schema_version": "1.0",
+  "brand": {
+    "company": "Frontier World",
+    "column": "Frontier Signals",
+    "language": "zh-CN"
+  },
+  "meta": {
+    "id": "2026-08-14-gemini-3-7-flash-three-week-cycle",
+    "format": "bulletin",
+    "event_at": "2026-08-14T01:00:00+08:00",
+    "updated_at": "2026-08-14",
+    "authors": [
+      "Frontier Signals 编辑部"
+    ]
+  },
+  "wechat": {
+    "author": "Frontier World",
+    "digest": "Gemini 3.7 Flash 的代码评测明显提升，促销期价格与上一代相同；横向比较已有亮点，但仍未全面领先。",
+    "content_source_url": "",
+    "comments": {
+      "enabled": true,
+      "fans_only": false
+    }
+  },
+  "headlines": {
+    "primary": "Gemini 3.7 Flash 代码能力更强，年底前半价",
+    "cover": "Gemini 3.7 Flash 发布了",
+    "candidates": [
+      "Gemini 3.7 Flash 代码能力更强，年底前半价",
+      "Gemini 3.7 Flash 发布，距 3.6 只有三周",
+      "Gemini 3.7 Flash 发布，代码成绩明显提高"
+    ]
+  },
+  "thesis": {
+    "core": "Gemini 3.7 Flash 在距 3.6 Flash 约三周后发布。Google 汇总的横向评测里，它在 FrontierCode 和 AutomationBench 领先 Claude Sonnet 5 与 GPT-5.6 Terra，在 DeepSWE 和 GDPVal-AA v2 仍有落后项目。Flash 已经进入高价模型所在的能力区间，但没有全面领先。",
+    "boundary": "但这些基准成绩由 Google 公布，目前还没有独立复现；促销价格也只持续到 2026 年底。"
+  },
+  "show_thesis": false,
+  "sections": [
+    {
+      "id": "release-and-access",
+      "heading": "Gemini 3.7 Flash 已进入 API 和聊天端",
+      "kind": "facts",
+      "paragraphs": [
+        "8 月 14 日凌晨，Google 发布 Gemini 3.7 Flash，API 同步进入稳定版，可以用于生产环境。",
+        "距离 3.6 Flash 发布约三周，3.7 Flash 已经进入 Gemini API、AI Studio、Antigravity 和 Gemini Enterprise。Spark 也已接入，不过目前只向部分地区的 Pro 和 Ultra 用户开放。",
+        "截至 8 月 14 日下午，Gemini 聊天端的模型选择器中也已经可以使用 3.7 Flash。产品可能仍在分批开放，具体覆盖的地区与账号范围暂未公布。",
+        "3.7 Flash 的输入上限为 1,048,576 tokens，单次输出上限为 65,536 tokens。输入可以同时包含文字和图片，输出目前只支持文字。"
+      ],
+      "claim_ids": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5"
+      ],
+      "media_ids": []
+    },
+    {
+      "id": "benchmark-gains",
+      "heading": "代码评测的提升最明显",
+      "kind": "analysis",
+      "paragraphs": [
+        "Google 公布的 FrontierCode 成绩中，3.7 Flash 得到 43.6%，比 3.6 Flash 的 34.4% 高出 9.2 个百分点。这项评测会把模型放进接近真实项目的代码仓库，让它直接修改代码，再检查补丁能否通过验证。",
+        "另一项 Agent 编程评测 DeepSWE 也出现了明显提升，3.7 Flash 得到 65.3%，3.6 Flash 为 48.6%。",
+        "Google 公布的两项成绩都明显高于上一代，代码与 Agent 任务也是这次更新最明确的强项。"
+      ],
+      "claim_ids": [
+        "C8"
+      ],
+      "media_ids": [
+        "M3"
+      ]
+    },
+    {
+      "id": "competitor-position",
+      "heading": "和 Sonnet 5、Terra 放在一起看",
+      "show_heading": false,
+      "kind": "analysis",
+      "paragraphs": [
+        "与价格更高的 Claude Sonnet 5 和 GPT-5.6 Terra 相比，3.7 Flash 在 FrontierCode 1.1 中得到 43.6%，略高于 Sonnet 5 的 42.7% 和 Terra 的 41.3%。到了 DeepSWE，Terra 以 69.6% 领先，3.7 Flash 的 65.3% 排在其后，高于 Sonnet 5 的 53.8%。",
+        "企业工作流评测 AutomationBench 中，3.7 Flash 得到 30.4%，高于 Terra 的 23.6% 和 Sonnet 5 的 10.7%。综合知识工作评测 GDPVal-AA v2 则是另一番结果，3.7 Flash 的 1525 分低于 Sonnet 5 的 1598 分和 Terra 的 1578 分。",
+        "综合这四项成绩，Flash 已经能够和高价模型正面比较，不过优势并不全面。它在代码和自动化评测中表现突出，长周期编程尚未追上 Terra，综合知识工作也仍然落后。"
+      ],
+      "claim_ids": [
+        "C9",
+        "C14",
+        "C11"
+      ],
+      "media_ids": [
+        "M4"
+      ]
+    },
+    {
+      "id": "price-window",
+      "heading": "半价优惠只到今年年底",
+      "kind": "impact",
+      "paragraphs": [
+        "2026 年 12 月 31 日前，Gemini 3.7 Flash 每百万输入 tokens 收费 0.75 美元，输出收费 3.75 美元。2027 年 1 月 1 日起，两项价格都会翻倍，分别变为 1.50 美元和 7.50 美元。",
+        "这里的“半价”是与常规价格相比。3.6 Flash 目前也在促销，因此两代模型的现价相同，3.7 Flash 并没有在 3.6 Flash 的现价上再便宜一半。",
+        "促销期内，3.7 Flash 的输入与输出价格低于 Sonnet 5 的 2 美元和 10 美元、Terra 的 2 美元和 12 美元，也低于 Muse Spark 1.2 的 1.25 美元和 4.25 美元。",
+        "对需要代码或 Agent 能力、同时看重成本的团队来说，性能提升而价格不变的组合很有吸引力，但这项价格优势只持续到今年年底。"
+      ],
+      "claim_ids": [
+        "C6",
+        "C7",
+        "C13"
+      ],
+      "media_ids": []
+    }
+  ],
+  "public_source_ids": [
+    "S1",
+    "S3",
+    "S4",
+    "S7"
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "kind": "primary",
+      "title": "Introducing Gemini 3.7 Flash",
+      "publisher": "Google",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-3-7-flash/",
+      "published_at": "2026-08-13",
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S2",
+      "kind": "primary",
+      "title": "Gemini 3.7 Flash Model Card",
+      "publisher": "Google DeepMind",
+      "url": "https://deepmind.google/models/model-cards/gemini-3-7-flash/",
+      "published_at": "2026-08-13",
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S3",
+      "kind": "primary",
+      "title": "Gemini 3.7 Flash Model Specification",
+      "publisher": "Google AI for Developers",
+      "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.7-flash",
+      "published_at": null,
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S4",
+      "kind": "primary",
+      "title": "Gemini Developer API Pricing",
+      "publisher": "Google AI for Developers",
+      "url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "published_at": null,
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S5",
+      "kind": "research",
+      "title": "DeepSWE Leaderboard",
+      "publisher": "DataCurve",
+      "url": "https://deepswe.datacurve.ai/",
+      "published_at": null,
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S6",
+      "kind": "secondary",
+      "title": "Google announces Gemini 3.7 Flash just three weeks after previous release",
+      "publisher": "Ars Technica",
+      "url": "https://arstechnica.com/ai/2026/08/google-announces-gemini-3-7-flash-just-three-weeks-after-previous-release/",
+      "published_at": "2026-08-13",
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S7",
+      "kind": "research",
+      "title": "Gemini 3.7 Flash Model Evaluation",
+      "publisher": "Google DeepMind",
+      "url": "https://storage.googleapis.com/deepmind-media/gemini/gemini_3-7_flash_model_evaluation.pdf",
+      "published_at": "2026-08-13",
+      "accessed_at": "2026-08-14"
+    },
+    {
+      "id": "S8",
+      "kind": "primary",
+      "title": "Gemini Chat Model Selector",
+      "publisher": "Google Gemini",
+      "url": "https://gemini.google.com/",
+      "published_at": null,
+      "accessed_at": "2026-08-14"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C1",
+      "kind": "fact",
+      "statement": "Google 于 2026 年 8 月 13 日 17:00 UTC 发布 Gemini 3.7 Flash，对应上海时间 8 月 14 日凌晨，官方模型页将其标为 Stable 和 GA。",
+      "section_id": "release-and-access",
+      "source_ids": [
+        "S1",
+        "S3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C2",
+      "kind": "fact",
+      "statement": "Gemini 3.7 Flash 距离上一代 Flash 更新约三周。",
+      "section_id": "release-and-access",
+      "source_ids": [
+        "S1",
+        "S6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C3",
+      "kind": "quote",
+      "statement": "Google 表示 Gemini 3.7 Flash 已进入 Gemini API、AI Studio、Antigravity、Enterprise 和 Spark。",
+      "section_id": "release-and-access",
+      "source_ids": [
+        "S1",
+        "S3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C4",
+      "kind": "fact",
+      "statement": "截至 2026 年 8 月 14 日 15:51（Asia/Shanghai），Gemini 聊天端已有账号可以在模型选择器中使用 3.7 Flash；公开信息暂未说明是否覆盖所有地区与账号。Spark 仍只面向支持地区的 Pro 和 Ultra 用户。",
+      "section_id": "release-and-access",
+      "source_ids": [
+        "S1",
+        "S8"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C5",
+      "kind": "fact",
+      "statement": "官方规格显示 Gemini 3.7 Flash 的输入上限为 1,048,576 tokens，输出上限为 65,536 tokens，支持多模态输入并输出文本。",
+      "section_id": "release-and-access",
+      "source_ids": [
+        "S3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C6",
+      "kind": "fact",
+      "statement": "截至 2026 年 12 月 31 日，Gemini 3.7 Flash 每百万输入和输出 tokens 的促销价分别为 0.75 美元和 3.75 美元；2027 年 1 月 1 日起变为 1.50 美元和 7.50 美元。",
+      "section_id": "price-window",
+      "source_ids": [
+        "S4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C7",
+      "kind": "analysis",
+      "statement": "3.7 Flash 与 3.6 Flash 当前享受相同促销价，因此“半价”是相对常规价格的促销口径，不是 3.7 相对 3.6 当前价格便宜一半。",
+      "section_id": "price-window",
+      "source_ids": [
+        "S4",
+        "S6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C8",
+      "kind": "quote",
+      "statement": "Google 和 DeepMind 披露 3.7 Flash 的 FrontierCode 成绩为 43.6%，3.6 为 34.4%；模型卡中的 DeepSWE 成绩为 65.3% 对 48.6%。",
+      "section_id": "benchmark-gains",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S7"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C9",
+      "kind": "quote",
+      "statement": "Google 汇总的评测表中，3.7 Flash 的 FrontierCode 为 43.6%，高于 Claude Sonnet 5 的 42.7% 和 GPT-5.6 Terra 的 41.3%；DeepSWE 为 65.3%，低于 Terra 的 69.6%，高于 Sonnet 5 的 53.8%。",
+      "section_id": "competitor-position",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S5",
+        "S7"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C11",
+      "kind": "analysis",
+      "statement": "Google 汇总的四项横向成绩显示，3.7 Flash 在代码与自动化评测里已经能与高价模型并排，长周期编程由 GPT-5.6 Terra 领先，综合知识工作仍落后于 Claude Sonnet 5 和 Terra；部分项目来自公开榜单，部分由 Google 自测。",
+      "section_id": "competitor-position",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S5",
+        "S7"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C14",
+      "kind": "quote",
+      "statement": "Google 汇总的评测表中，3.7 Flash 的 AutomationBench 为 30.4%，高于 Claude Sonnet 5 的 10.7% 和 GPT-5.6 Terra 的 23.6%；GDPVal-AA v2 为 1525，低于 Sonnet 5 的 1598 和 Terra 的 1578。",
+      "section_id": "competitor-position",
+      "source_ids": [
+        "S1",
+        "S5",
+        "S7"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C13",
+      "kind": "quote",
+      "statement": "Google 的对比表列出促销期 3.7 Flash 每百万输入和输出 tokens 为 0.75 美元和 3.75 美元，低于 Claude Sonnet 5 的 2 美元和 10 美元、GPT-5.6 Terra 的 2 美元和 12 美元，以及 Muse Spark 1.2 的 1.25 美元和 4.25 美元。",
+      "section_id": "price-window",
+      "source_ids": [
+        "S4",
+        "S7"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "media": [
+    {
+      "id": "M1",
+      "kind": "image",
+      "role": "cover",
+      "path": "wechat-cover.png",
+      "purpose": "以 Frontier Signals 确定性品牌排版、官方 Gemini 彩色标志和 Frontier World 母品牌文字呈现报道主体",
+      "alt": "Frontier Signals 封面，左侧标题为 Gemini 3.7 Flash 发布了，右侧是 Gemini 彩色星形标志，右下角为 Frontier World",
+      "caption": "Gemini 3.7 Flash 报道封面，使用官方 Gemini 彩色标志",
+      "credit": "Frontier World layout / Google Gemini mark",
+      "source_url": "https://gemini.google/images/spark_4c.png",
+      "rights": "fair_use_reviewed",
+      "crop_note": "900×383，标题位于左侧安全区，官方 Gemini 标志按原比例置于右侧，右下角保留 Frontier World，不加日期",
+      "generated": false,
+      "section_id": null
+    },
+    {
+      "id": "M3",
+      "kind": "image",
+      "role": "inline",
+      "path": "images/source/frontiercode-chart-1000.webp",
+      "purpose": "横向展示 Gemini 3.7 Flash 与 3.6 Flash、Claude Sonnet 5、GPT-5.6 Terra 的 FrontierCode 成绩",
+      "alt": "FrontierCode 图表，Gemini 3.7 Flash 43.6%，Claude Sonnet 5 42.7%，GPT-5.6 Terra 41.3%，Gemini 3.6 Flash 34.4%",
+      "caption": "Google 披露的 FrontierCode 横向评测结果",
+      "credit": "Google DeepMind",
+      "source_url": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-3-7-flash__evals__frontie.width-1000.format-webp.webp",
+      "rights": "official",
+      "crop_note": "使用 Google 官方 1000×562 桌面版原图，保留模型名称、百分比、基准名称和方法说明，不重排图表",
+      "generated": false,
+      "section_id": "benchmark-gains"
+    },
+    {
+      "id": "M4",
+      "kind": "image",
+      "role": "inline",
+      "path": "images/source/deepswe-chart-1000.webp",
+      "purpose": "横向展示 Gemini 3.7 Flash 与 3.6 Flash、Claude Sonnet 5、GPT-5.6 Terra、Muse Spark 1.2 的 DeepSWE 成绩",
+      "alt": "DeepSWE 图表，GPT-5.6 Terra 69.6%，Gemini 3.7 Flash 65.3%，Muse Spark 1.2 54.9%，Claude Sonnet 5 53.8%，Gemini 3.6 Flash 48.6%",
+      "caption": "Google 披露的 DeepSWE 横向评测结果",
+      "credit": "Google DeepMind",
+      "source_url": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-3-7-flash__evals__deepswe.width-1000.format-webp.webp",
+      "rights": "official",
+      "crop_note": "使用 Google 官方 1000×562 桌面版原图，保留模型名称、百分比、基准名称和方法说明，不重排图表",
+      "generated": false,
+      "section_id": "competitor-position"
+    }
+  ],
+  "publication": {
+    "state": "local_draft",
+    "checks": {
+      "facts": "passed",
+      "media_rights": "passed",
+      "editorial": "passed"
+    },
+    "remote_id": null,
+    "published_at": null,
+    "url": null,
+    "sent_at": null,
+    "error": null
+  }
+}
