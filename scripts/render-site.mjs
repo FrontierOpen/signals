@@ -349,7 +349,8 @@ function renderArticleHtml(article) {
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v5.css">
+  <link rel="stylesheet" href="/assets/frontier-theme-v6.css">
+  <script src="/assets/site-header-v1.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
   <meta property="og:description" content="${escapeHtml(article.description)}">
@@ -367,10 +368,7 @@ function renderArticleHtml(article) {
 </head>
 <body class="article-site">
   <a class="skip-link" href="#article-body">跳到正文</a>
-  <header class="site-header">
-    <a class="brand" href="/" aria-label="Frontier Signals 首页"><span class="mark" aria-hidden="true"></span><span class="brand-copy"><strong>Frontier Signals</strong><small>by Frontier World</small></span></a>
-    <a class="archive-link" href="/">全部文章 ↗</a>
-  </header>
+  ${siteHeader(false, true)}
   <main>
     <article class="article-page">
       <header class="article-head${titleClass}">
@@ -450,7 +448,8 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   <link rel="canonical" href="${canonicalUrl}">
   <link rel="alternate" type="application/rss+xml" href="${siteOrigin}/rss.xml">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v5.css">
+  <link rel="stylesheet" href="/assets/frontier-theme-v6.css">
+  <script src="/assets/site-header-v1.js" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
@@ -465,9 +464,12 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   <meta name="twitter:image" content="${imageUrl}">`;
 }
 
-function siteHeader(home = false) {
+function siteHeader(home = false, sticky = false) {
   const first = home ? '<a href="#latest">最新观察</a><a href="#archive">文章档案</a>' : '<a href="/">首页</a><a href="/2026/">2026</a>';
-  return `<header class="top"><a class="brand" href="/" aria-label="Frontier Signals 首页"><span class="mark" aria-hidden="true"></span><span class="brand-copy"><strong>Frontier Signals</strong><small>by Frontier World</small></span></a><nav class="top-nav" aria-label="主导航">${first}<a href="https://frontierworld.ai/" rel="noopener noreferrer">Frontier World <span aria-hidden="true">↗</span></a></nav></header>`;
+  const links = `${first}<a href="https://frontierworld.ai/" rel="noopener noreferrer">Frontier World <span aria-hidden="true">↗</span></a>`;
+  const headerClass = sticky ? "site-header" : "top";
+  const transparentAttribute = home ? ' data-transparent-at-top="true"' : "";
+  return `<header class="${headerClass}" data-site-header${transparentAttribute}><a class="brand" href="/" aria-label="Frontier Signals 首页"><span class="mark" aria-hidden="true"></span><span class="brand-copy"><strong>Frontier Signals</strong><small>by Frontier World</small></span></a><nav class="top-nav" aria-label="主导航">${links}</nav><button class="menu-button" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="site-mobile-navigation" data-menu-button><span class="menu-icon" aria-hidden="true"></span></button><nav class="mobile-nav" id="site-mobile-navigation" aria-label="移动端主导航" data-mobile-navigation hidden>${links}</nav></header>`;
 }
 
 const siteFooter = '<footer class="site-footer"><div class="site-footer-inner"><div><strong>Frontier Signals</strong><span>Frontier World · 前沿之境</span></div><div><a href="https://frontierworld.ai/">把前沿，变成实践 ↗</a></div></div></footer>';
