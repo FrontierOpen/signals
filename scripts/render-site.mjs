@@ -290,13 +290,17 @@ function sectionHtml(section, sourceIndex) {
 }
 
 function sourceListHtml(article) {
-  const items = [
-    `<li id="source-1"><span>01</span><a href="${escapeHtml(article.wechat_url)}" rel="noopener noreferrer">Frontier World · 微信公众号原文</a></li>`,
-    ...article.sources.map((source, index) => {
+  const items = [];
+  let sourceNumber = 1;
+  if (article.wechat_url) {
+    items.push(`<li id="source-${sourceNumber}"><span>${String(sourceNumber).padStart(2, "0")}</span><a href="${escapeHtml(article.wechat_url)}" rel="noopener noreferrer">Frontier World · 微信公众号原文</a></li>`);
+    sourceNumber += 1;
+  }
+  items.push(...article.sources.map((source, index) => {
       const publisher = source.publisher ? `${source.publisher} · ` : "";
-      return `<li id="source-${index + 2}"><span>${String(index + 2).padStart(2, "0")}</span><a href="${escapeHtml(source.url)}" rel="noopener noreferrer">${escapeHtml(publisher + source.title)}</a></li>`;
-    }),
-  ];
+      const indexNumber = sourceNumber + index;
+      return `<li id="source-${indexNumber}"><span>${String(indexNumber).padStart(2, "0")}</span><a href="${escapeHtml(source.url)}" rel="noopener noreferrer">${escapeHtml(publisher + source.title)}</a></li>`;
+    }));
   return `<section class="sources"><h2>延伸阅读</h2><ol>${items.join("")}</ol></section>`;
 }
 
@@ -312,7 +316,8 @@ function titleHtml(article) {
 }
 
 function renderArticleHtml(article) {
-  const sourceIndex = new Map(article.sources.map((source, index) => [source.id, index + 2]));
+  const sourceIndexOffset = article.wechat_url ? 2 : 1;
+  const sourceIndex = new Map(article.sources.map((source, index) => [source.id, index + sourceIndexOffset]));
   const titleClass = Array.from(article.title.replace(/\s+/gu, "")).length > 40
     ? " article-head--long-title"
     : "";
@@ -332,7 +337,7 @@ function renderArticleHtml(article) {
     datePublished: article.published_at,
     dateModified: article.updatedAt,
     mainEntityOfPage: article.canonicalUrl,
-    sameAs: article.wechat_url,
+    ...(article.wechat_url ? { sameAs: article.wechat_url } : {}),
     image: [imageUrl],
     author: { "@type": "Organization", name: "Frontier World" },
     publisher: { "@type": "Organization", name: "Frontier World", url: "https://frontierworld.ai/" },
@@ -375,7 +380,7 @@ function renderArticleHtml(article) {
         <div class="kicker">FRONTIER SIGNALS · ${article.displayDate}</div>
         <h1>${titleHtml(article)}</h1>
         <p class="subtitle">${escapeHtml(article.description)}</p>
-        <div class="meta" aria-label="文章信息"><span>${formatLabel(article.format)}</span><span>${article.readingMinutes} 分钟阅读</span><span>Frontier World</span><a href="${escapeHtml(article.wechat_url)}" rel="noopener noreferrer">公众号原文 ↗</a></div>
+        <div class="meta" aria-label="文章信息"><span>${formatLabel(article.format)}</span><span>${article.readingMinutes} 分钟阅读</span><span>Frontier World</span>${article.wechat_url ? `<a href="${escapeHtml(article.wechat_url)}" rel="noopener noreferrer">公众号原文 ↗</a>` : ""}</div>
       </header>
       <figure class="article-hero"><img src="./${escapeHtml(article.hero.file)}" alt="${escapeHtml(article.hero.alt)}" width="${article.hero.width}" height="${article.hero.height}" fetchpriority="high" decoding="async"></figure>
       <div class="article-body" id="article-body" tabindex="-1">${intro}${sections}${conclusion}${sourceListHtml(article)}</div>
@@ -399,11 +404,10 @@ function renderArticleMarkdown(article) {
     "",
     `**Frontier Signals · ${article.displayDate} · ${article.readingMinutes} 分钟**`,
     "",
-    `[微信公众号原文](${article.wechat_url})`,
-    "",
     `![${article.hero.alt}](./${article.hero.file})`,
     "",
   ];
+  if (article.wechat_url) lines.splice(6, 0, `[微信公众号原文](${article.wechat_url})`, "");
   for (const paragraph of article.intro) lines.push(paragraph, "");
   article.sections.forEach((section, index) => {
     lines.push(`## ${String(index + 1).padStart(2, "0")} · ${section.heading}`, "");
@@ -427,7 +431,8 @@ function renderArticleMarkdown(article) {
     for (const paragraph of article.conclusion.paragraphs) lines.push(paragraph, "");
     if (article.conclusion.callout) lines.push(`> ${article.conclusion.callout}`, "");
   }
-  lines.push("## 延伸阅读", "", `- [微信公众号原文](${article.wechat_url}) · Frontier World`);
+  lines.push("## 延伸阅读", "");
+  if (article.wechat_url) lines.push(`- [微信公众号原文](${article.wechat_url}) · Frontier World`);
   for (const source of article.sources) lines.push(`- [${source.title}](${source.url})${source.publisher ? ` · ${source.publisher}` : ""}`);
   lines.push("", "— Frontier World", "");
   return lines.join("\n");

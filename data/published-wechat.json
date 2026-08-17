@@ -120,6 +120,38 @@
       "hero_file": "og.png",
       "hero_width": 900,
       "hero_height": 383
+    },
+    {
+      "id": "2026-08-15-claude-text-watermark",
+      "source_type": "signal",
+      "source": "data/published-wechat-sources/claude-text-watermark/signal.json",
+      "asset_root": "media/published-wechat/claude-text-watermark",
+      "published_at": "2026-08-15T22:24:00+08:00",
+      "path_date": "2026-08-15",
+      "slug": "claude-text-watermark",
+      "title": "Claude 要给文字加水印了，AI 写作还能藏住吗？",
+      "description": "Anthropic 将给未来 Claude 模型生成的文本加入水印。它通过许多次合理选词留下统计规律，只能说明 Claude 可能参与，不能确认作者身份。",
+      "wechat_url": null,
+      "hero_source": "media/published-wechat/claude-text-watermark/wechat-cover.png",
+      "hero_file": "og.png",
+      "hero_width": 900,
+      "hero_height": 383
+    },
+    {
+      "id": "2026-08-16-anthropic-multiagent-coordination",
+      "source_type": "signal",
+      "source": "data/published-wechat-sources/anthropic-multiagent-coordination/signal.json",
+      "asset_root": "media/published-wechat/anthropic-multiagent-coordination",
+      "published_at": "2026-08-16T19:49:00+08:00",
+      "path_date": "2026-08-16",
+      "slug": "anthropic-multiagent-coordination",
+      "title": "Claude Agent 组成团队后，开始串通和互相攻击",
+      "description": "Anthropic 的多 Agent 压力测试出现价格串通、资源拥堵和相互破坏。单个模型变强，不会自动补齐群体协作所需的权限、仲裁与验证。",
+      "wechat_url": null,
+      "hero_source": "media/published-wechat/anthropic-multiagent-coordination/wechat-cover.png",
+      "hero_file": "og.png",
+      "hero_width": 900,
+      "hero_height": 383
     }
   ]
 }

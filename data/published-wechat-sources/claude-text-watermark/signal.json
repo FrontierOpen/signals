@@ -1,0 +1,369 @@
+{
+  "schema_version": "1.0",
+  "brand": {
+    "company": "Frontier World",
+    "column": "Frontier Signals",
+    "language": "zh-CN"
+  },
+  "meta": {
+    "id": "2026-08-15-claude-text-watermark",
+    "format": "bulletin",
+    "event_at": "2026-08-15T03:16:00+08:00",
+    "updated_at": "2026-08-15T21:57:10+08:00",
+    "authors": [
+      "Frontier Signals 编辑部"
+    ]
+  },
+  "wechat": {
+    "author": "Frontier World",
+    "digest": "Anthropic 将给未来 Claude 模型生成的文本加入水印。它通过许多次合理选词留下统计规律，只能说明 Claude 可能参与，不能确认作者身份。",
+    "content_source_url": "",
+    "comments": {
+      "enabled": true,
+      "fans_only": false
+    }
+  },
+  "headlines": {
+    "primary": "Claude 文本水印要来了，只能说明它可能参与过",
+    "cover": "Claude 文本水印要来了",
+    "candidates": [
+      "Claude 文本水印要来了，只能说明它可能参与过",
+      "Claude 怎样把水印藏进每一次选词",
+      "Claude 文本水印能证明什么"
+    ]
+  },
+  "thesis": {
+    "core": "Claude 文本水印通过许多次带密钥的选词留下统计规律。它能给较长、未经大幅改写的文本提供一条供应商来源线索，不能证明作者身份，也不能识别所有 AI 内容。",
+    "boundary": "Anthropic 尚未公布首个带水印的模型、旧模型逐型号覆盖时间、检测 API 日期、最低可靠文本长度，以及按语言和改写幅度拆分的误报率与漏报率。"
+  },
+  "show_thesis": false,
+  "sections": [
+    {
+      "id": "rollout",
+      "heading": "未来 Claude 会带上水印",
+      "kind": "facts",
+      "paragraphs": [
+        "北京时间 8 月 15 日凌晨，Anthropic 宣布，未来 Claude 模型生成的文字会带上水印。它只提供一条 Claude 参与线索。离作者鉴定还很远。"
+      ],
+      "claim_ids": [
+        "C1",
+        "C10"
+      ],
+      "media_ids": [
+        "M2"
+      ],
+      "media_placements": [
+        {
+          "media_id": "M2",
+          "after_paragraph": 1
+        }
+      ]
+    },
+    {
+      "id": "mechanism",
+      "heading": "水印藏在一连串选词里",
+      "kind": "analysis",
+      "paragraphs": [
+        "先看一句没写完的话。“今天天气很冷，天色也很……”后面，“阴沉”和“灰蒙蒙”都说得通，“甜滋滋”就不合适。Claude 会先排除不合理的词。几个候选都不伤意思时，水印才用密钥和前文改变这次随机选择的依据。",
+        "选词仍然随机，也不会固定偏爱“阴沉”。Claude 依旧只考虑原本合理的词，密钥改变的是候选之间的随机数来源。许多次选择连在一起，才会形成可供检测的统计规律。",
+        "一次选词什么也证明不了。检测器用同一把密钥检查整段词序列，看这些选择与水印规律有多一致。文字里没有隐藏字符，也不增加 token，普通复制粘贴不会自动清掉水印。",
+        "Anthropic 称内部测试没有发现内容、创造力或可读性受影响，Google DeepMind 在接近 2000 万次 Gemini 回答的线上实验中也没有测出显著质量差异。水印不包含用户、组织或聊天身份。Anthropic 还称它对速度的影响可以忽略，使用价格不变。"
+      ],
+      "claim_ids": [
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "media_ids": []
+    },
+    {
+      "id": "cases",
+      "heading": "校对、代码和翻译会怎样",
+      "kind": "impact",
+      "paragraphs": [
+        "水印只落在 Claude 实际选择的词上。人写好一段文字，Claude 只改语法和标点，大部分词仍由人决定，几处改动可能少到检测不出来。",
+        "代码也类似。写到“2 + 2 =”时，下一项只能是 4，水印不能为了留下信号改掉正确答案。代码注释和某些命名仍有多个合理选项。代码中的水印通常更少，主要出现在这些有选择空间的位置。",
+        "翻译的情况不同，整段文字都由 Claude 重新选择，因此会带水印。能否稳定检出仍取决于文本长度。短文本可供判断的选择少，段落越长，统计证据通常越多。"
+      ],
+      "claim_ids": [
+        "C8"
+      ],
+      "media_ids": [
+        "M3"
+      ],
+      "media_placements": [
+        {
+          "media_id": "M3",
+          "after_paragraph": 3
+        }
+      ]
+    },
+    {
+      "id": "limits",
+      "heading": "水印到底能说明什么",
+      "kind": "impact",
+      "paragraphs": [
+        "即使检测结果与水印规律吻合，它也分不清 Claude 从头写了一篇文章，还是只做过一次大幅编辑。水印不能确认作者身份、作品归属或法律责任，也不能证明一段没有水印的文字就来自人类。",
+        "改写会削弱信号。Anthropic 承认，轻度编辑可能仍保留水印，逐字重写可以清除。ICML 2024 的独立研究还在不知道密钥的情况下移除了三种既有文本水印，但没有测试 Anthropic 尚未公开的实现。"
+      ],
+      "claim_ids": [
+        "C7",
+        "C9"
+      ],
+      "media_ids": []
+    },
+    {
+      "id": "availability",
+      "heading": "检测工具还没有开放",
+      "kind": "outlook",
+      "paragraphs": [
+        "现在没有官方入口可查。Anthropic 只说会“很快”开放 API，没有公布日期、权限、最低可靠长度、误报率或漏报率。8 月 2 日前发布的旧模型也要在未来几个月逐步补上水印。",
+        "这次改动来自欧盟 AI 法案的透明度要求。约 190 家机构签署了相关实践准则。Anthropic 计划上线时全球应用，因为目前还无法稳定地只为特定地区加水印。API 上线后，按长度、语言和改写程度公布的误报率与漏报率，会决定这道水印的实际用途。"
+      ],
+      "claim_ids": [
+        "C2",
+        "C3",
+        "C11",
+        "C12"
+      ],
+      "media_ids": []
+    }
+  ],
+  "public_source_ids": [
+    "S1",
+    "S2",
+    "S3",
+    "S4"
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "kind": "primary",
+      "title": "Anthropic 解释 Claude 文本水印",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/news/claude-text-watermark",
+      "published_at": "2026-08-14T19:16:00Z",
+      "accessed_at": "2026-08-15"
+    },
+    {
+      "id": "S2",
+      "kind": "primary",
+      "title": "SynthID-Text 论文",
+      "publisher": "Nature",
+      "url": "https://www.nature.com/articles/s41586-024-08025-4",
+      "published_at": "2024-10-23",
+      "accessed_at": "2026-08-15"
+    },
+    {
+      "id": "S3",
+      "kind": "primary",
+      "title": "欧盟 AI 生成内容透明度准则",
+      "publisher": "European Commission",
+      "url": "https://digital-strategy.ec.europa.eu/en/news/strong-backing-code-practice-transparency-ai-generated-content",
+      "published_at": "2026-08-12",
+      "accessed_at": "2026-08-15"
+    },
+    {
+      "id": "S4",
+      "kind": "secondary",
+      "title": "文本水印的强度上限研究",
+      "publisher": "ICML 2024",
+      "url": "https://proceedings.mlr.press/v235/zhang24o.html",
+      "published_at": "2024-07-08",
+      "accessed_at": "2026-08-15"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C1",
+      "kind": "fact",
+      "statement": "Anthropic 宣布未来 Claude 模型会生成带水印的文本。",
+      "section_id": "rollout",
+      "source_ids": [
+        "S1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C2",
+      "kind": "fact",
+      "statement": "Anthropic 的水印检测 API 截至 2026 年 8 月 15 日尚未开放，发布日期、权限和可靠文本长度均未披露。",
+      "section_id": "availability",
+      "source_ids": [
+        "S1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C3",
+      "kind": "fact",
+      "statement": "Anthropic 为遵守欧盟 AI 法案实施水印，并计划在上线时全球应用；约 190 家机构签署了相关透明度实践准则。",
+      "section_id": "availability",
+      "source_ids": [
+        "S1",
+        "S3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C4",
+      "kind": "fact",
+      "statement": "Anthropic 表示 Claude 将采用一个版本的 SynthID-Text。公开方法会用密钥与前文改变合理候选之间的随机选择，并在长文本中形成可统计检测的规律；Claude 的具体抽样参数与阈值尚未披露。该方法不添加隐藏字符或额外 token。",
+      "section_id": "mechanism",
+      "source_ids": [
+        "S1",
+        "S2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C5",
+      "kind": "fact",
+      "statement": "水印不携带用户、组织或聊天身份，检测需要持有相应密钥。",
+      "section_id": "mechanism",
+      "source_ids": [
+        "S1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C6",
+      "kind": "quote",
+      "statement": "Anthropic 称内部测试未见内容、创造力或可读性变化，且速度影响可忽略、价格不变；Google DeepMind 在接近 2000 万次 Gemini 回答的线上实验中没有测出显著质量差异。",
+      "section_id": "mechanism",
+      "source_ids": [
+        "S1",
+        "S2"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C7",
+      "kind": "fact",
+      "statement": "检测结果只能提示 Claude 可能在文本生成或编辑过程中参与，不能确认作者身份、区分完整生成与大幅编辑、识别其他模型或改变作品归属和法律责任；没有检出水印也不能证明文字来自人类。",
+      "section_id": "limits",
+      "source_ids": [
+        "S1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C8",
+      "kind": "fact",
+      "statement": "水印只落在 Claude 实际选择的词上；短文本、事实答案、轻度校对和代码通常信号更弱，文本越长通常越容易检测，Claude 生成的翻译会携带水印。",
+      "section_id": "cases",
+      "source_ids": [
+        "S1",
+        "S2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "id": "C9",
+      "kind": "quote",
+      "statement": "ICML 2024 的独立研究在不知道密钥的条件下移除了三种既有文本水印，并报告文本质量只有小幅下降。",
+      "section_id": "limits",
+      "source_ids": [
+        "S4"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C10",
+      "kind": "analysis",
+      "statement": "在检测性能得到验证后，Claude 水印有望成为较长、未经大幅改写文本的一条供应商来源线索；它不足以单独承担作者鉴定。",
+      "section_id": "rollout",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S4"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C11",
+      "kind": "forecast",
+      "statement": "检测 API 的访问范围，以及按长度、语言和改写程度拆分的误报率与漏报率，将共同决定水印适合用于哪些场景。",
+      "section_id": "availability",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "C12",
+      "kind": "fact",
+      "statement": "2026 年 8 月 2 日前发布的旧 Claude 模型不会同时切换，Anthropic 计划在未来数月逐步加入水印。",
+      "section_id": "availability",
+      "source_ids": [
+        "S1"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "media": [
+    {
+      "id": "M1",
+      "kind": "image",
+      "role": "cover",
+      "path": "wechat-cover.png",
+      "purpose": "用 Frontier Signals 品牌排版和 Claude 官方标志直接呈现报道主体",
+      "alt": "Frontier Signals 封面，左侧标题为 Claude 文本水印要来了，右侧为珊瑚橙 Claude 标志，右下角为 Frontier World",
+      "caption": "Claude 文本水印报道封面",
+      "show_caption": false,
+      "credit": "Claude logo via Simple Icons / Frontier World layout",
+      "source_url": "https://cdn.simpleicons.org/claude/DA7756",
+      "rights": "fair_use_reviewed",
+      "crop_note": "900×383，标题位于左侧安全区，Claude 标志按原比例置于右侧并保留官方珊瑚橙，不加日期、中文栏目翻译或装饰图形",
+      "generated": false,
+      "section_id": null
+    },
+    {
+      "id": "M2",
+      "kind": "screenshot",
+      "role": "inline",
+      "path": "images/source/anthropic-watermark-evidence-mobile.png",
+      "purpose": "展示 Anthropic 官方公告标题、发布日期和 future Claude models 的原始表述",
+      "alt": "Anthropic 2026 年 8 月 14 日公告移动端截图，标题为 How Claude’s text watermark works，首段写明未来 Claude 模型将生成带水印文本",
+      "caption": "公告使用的是“未来 Claude 模型”，当前所有 Claude 输出并未同时切换",
+      "show_caption": true,
+      "credit": "Anthropic",
+      "source_url": "https://www.anthropic.com/news/claude-text-watermark",
+      "rights": "fair_use_reviewed",
+      "crop_note": "375 CSS px、2× DPR 官方页面首屏截图，标题、日期、主视觉和首段完整居中，左右留白均衡，没有文字贴边或漏截",
+      "generated": false,
+      "section_id": "rollout"
+    },
+    {
+      "id": "M3",
+      "kind": "chart",
+      "role": "inline",
+      "path": "images/source/synthid-text-detectability.png",
+      "purpose": "展示 SynthID-Text 在论文测试中随文本 token 数增加而提高检测率",
+      "alt": "SynthID-Text 检测率随文本 token 数从 50 增加到 400 而上升的曲线，误报率固定为 1%",
+      "caption": "论文测试使用 Gemma 7B-IT、temperature 0.7 和 ELI5 prompts，纵轴是在误报率固定为 1% 时的真阳性率",
+      "show_caption": true,
+      "credit": "Dathathri et al., Nature (2024), Fig. 3a, CC BY 4.0",
+      "source_url": "https://www.nature.com/articles/s41586-024-08025-4",
+      "rights": "licensed",
+      "crop_note": "从论文 Fig. 3 裁出 panel a，完整保留坐标、图例、数据与置信区间，四周增加白色安全边距，使核心图表居中且不贴边",
+      "generated": false,
+      "section_id": "cases"
+    }
+  ],
+  "publication": {
+    "state": "local_draft",
+    "checks": {
+      "facts": "passed",
+      "media_rights": "passed",
+      "editorial": "passed"
+    },
+    "remote_id": null,
+    "published_at": null,
+    "url": null,
+    "sent_at": null,
+    "error": null
+  }
+}
