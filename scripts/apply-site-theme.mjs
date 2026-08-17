@@ -4,19 +4,19 @@ import { join, relative, resolve } from "node:path";
 const root = resolve(new URL("..", import.meta.url).pathname);
 const publicDirectory = join(root, "public");
 const checkOnly = process.argv.includes("--check");
-const themeHref = "/assets/frontier-theme-v11.css";
-const headerScriptSrc = "/assets/site-header-v2.js";
+const themeHref = "/assets/frontier-theme-v13.css";
+const headerScriptSrc = "/assets/site-header-v3.js";
 const versionedThemeHrefPattern = /\/assets\/frontier-theme-v\d+\.css/giu;
 const versionedThemeLinkPattern = /<link\b[^>]*\bhref=(["'])\/assets\/frontier-theme-v\d+\.css\1[^>]*>/giu;
 const versionedHeaderScriptSrcPattern = /\/assets\/site-header-v\d+\.js/giu;
 const versionedHeaderScriptTagPattern = /[ \t]*<script\b[^>]*\bsrc=(["'])\/assets\/site-header-v\d+\.js\1[^>]*><\/script>/giu;
 
 await Promise.all([
-  access(join(publicDirectory, "assets/frontier-theme-v11.css")),
+  access(join(publicDirectory, "assets/frontier-theme-v13.css")),
   access(join(publicDirectory, "assets/frontier-passage-v1.jpg")),
   access(join(publicDirectory, "assets/passage-mark-white-v1.svg")),
   access(join(publicDirectory, "assets/favicon-v1.svg")),
-  access(join(publicDirectory, "assets/site-header-v2.js")),
+  access(join(publicDirectory, "assets/site-header-v3.js")),
 ]);
 
 async function htmlFiles(directory) {

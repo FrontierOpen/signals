@@ -349,8 +349,8 @@ function renderArticleHtml(article) {
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v11.css">
-  <script src="/assets/site-header-v2.js" defer></script>
+  <link rel="stylesheet" href="/assets/frontier-theme-v13.css">
+  <script src="/assets/site-header-v3.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
   <meta property="og:description" content="${escapeHtml(article.description)}">
@@ -448,8 +448,8 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   <link rel="canonical" href="${canonicalUrl}">
   <link rel="alternate" type="application/rss+xml" href="${siteOrigin}/rss.xml">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v11.css">
-  <script src="/assets/site-header-v2.js" defer></script>
+  <link rel="stylesheet" href="/assets/frontier-theme-v13.css">
+  <script src="/assets/site-header-v3.js" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
@@ -469,7 +469,7 @@ function siteHeader(home = false, sticky = false) {
   const links = `${first}<a href="https://frontierworld.ai/" rel="noopener noreferrer">Frontier World <span aria-hidden="true">↗</span></a>`;
   const headerClass = sticky ? "site-header" : "top";
   const transparentAttribute = home ? ' data-transparent-at-top="true"' : "";
-  return `<header class="${headerClass}" data-site-header${transparentAttribute}><a class="brand" href="/" aria-label="Frontier Signals 首页"><span class="mark" aria-hidden="true"></span><span class="brand-copy"><strong>Frontier Signals</strong><small>by Frontier World</small></span></a><nav class="top-nav" aria-label="主导航">${links}</nav><button class="menu-button" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="site-mobile-navigation" data-menu-button><span class="menu-icon" aria-hidden="true"></span></button><nav class="mobile-nav" id="site-mobile-navigation" aria-label="移动端主导航" data-mobile-navigation hidden>${links}</nav></header>`;
+  return `<header class="${headerClass}" data-site-header${transparentAttribute}><div class="site-header-bar"><a class="brand" href="/" aria-label="Frontier Signals 首页"><span class="mark" aria-hidden="true"></span><span class="brand-copy"><strong>Frontier Signals</strong><small>by Frontier World</small></span></a><nav class="top-nav" aria-label="主导航">${links}</nav><button class="menu-button" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="site-mobile-navigation" data-menu-button><span class="menu-icon" aria-hidden="true"></span></button></div><nav class="mobile-nav" id="site-mobile-navigation" aria-label="移动端主导航" data-mobile-navigation hidden>${links}</nav></header>`;
 }
 
 const siteFooter = '<footer class="site-footer"><div class="site-footer-inner"><div><strong>Frontier Signals</strong><span>Frontier World · 前沿之境</span></div><div><a href="https://frontierworld.ai/">把前沿，变成实践 ↗</a></div></div></footer>';
