@@ -4,13 +4,13 @@ import { join, relative, resolve } from "node:path";
 const root = resolve(new URL("..", import.meta.url).pathname);
 const publicDirectory = join(root, "public");
 const checkOnly = process.argv.includes("--check");
-const themeHref = "/assets/frontier-theme-v6.css";
+const themeHref = "/assets/frontier-theme-v7.css";
 const headerScriptSrc = "/assets/site-header-v1.js";
 const versionedThemeHrefPattern = /\/assets\/frontier-theme-v\d+\.css/giu;
 const versionedThemeLinkPattern = /<link\b[^>]*\bhref=(["'])\/assets\/frontier-theme-v\d+\.css\1[^>]*>/giu;
 
 await Promise.all([
-  access(join(publicDirectory, "assets/frontier-theme-v6.css")),
+  access(join(publicDirectory, "assets/frontier-theme-v7.css")),
   access(join(publicDirectory, "assets/frontier-passage-v1.jpg")),
   access(join(publicDirectory, "assets/passage-mark-white-v1.svg")),
   access(join(publicDirectory, "assets/favicon-v1.svg")),
