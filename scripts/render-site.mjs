@@ -349,8 +349,8 @@ function renderArticleHtml(article) {
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v7.css">
-  <script src="/assets/site-header-v1.js" defer></script>
+  <link rel="stylesheet" href="/assets/frontier-theme-v8.css">
+  <script src="/assets/site-header-v2.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
   <meta property="og:description" content="${escapeHtml(article.description)}">
@@ -448,8 +448,8 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   <link rel="canonical" href="${canonicalUrl}">
   <link rel="alternate" type="application/rss+xml" href="${siteOrigin}/rss.xml">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v7.css">
-  <script src="/assets/site-header-v1.js" defer></script>
+  <link rel="stylesheet" href="/assets/frontier-theme-v8.css">
+  <script src="/assets/site-header-v2.js" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
