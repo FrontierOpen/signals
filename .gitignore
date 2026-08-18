@@ -1,5 +1,9 @@
 node_modules/
 .wrangler/
+dist/
+**/.frontier-build/
+**/wechat-draft-receipt.json
+.frontier-desk/
 .env
 .env.*
 !.env.example

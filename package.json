@@ -7,13 +7,23 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "article:prepare": "node scripts/prepare-article.mjs",
+    "article:review": "node scripts/release-article.mjs review",
+    "article:publish-manual": "node scripts/release-article.mjs publish-manual-site",
+    "article:retry": "node scripts/release-article.mjs retry-site",
+    "article:reconcile": "node scripts/release-article.mjs reconcile-site",
+    "article:record-wechat": "node scripts/release-article.mjs record-wechat",
     "site:render": "node scripts/render-site.mjs",
     "theme": "node scripts/apply-site-theme.mjs",
     "check:site": "node scripts/render-site.mjs --check",
     "check:theme": "node scripts/apply-site-theme.mjs --check",
-    "check": "npm run check:site && npm run check:theme && node scripts/check.mjs",
-    "deploy:dry-run": "npm run site:render && npm run theme && npm run check && WRANGLER_LOG_PATH=.wrangler/wrangler.log wrangler deploy --dry-run --strict",
-    "deploy": "npm run site:render && npm run theme && npm run check && WRANGLER_LOG_PATH=.wrangler/wrangler.log wrangler deploy"
+    "test": "node --test scripts/*.test.mjs",
+    "check": "npm run test && npm run check:site && npm run check:theme && node scripts/check.mjs",
+    "deploy:dry-run": "npm run site:render && npm run theme && npm run check && WRANGLER_LOG_PATH=.wrangler/wrangler.log wrangler deploy --dry-run --strict"
+  },
+  "dependencies": {
+    "marked": "18.0.9",
+    "yaml": "2.8.1"
   },
   "devDependencies": {
     "wrangler": "4.119.0"

@@ -1,6 +1,7 @@
 import { access, readFile, readdir } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import worker from "../src/index.js";
+import { articlePackage, loadMarkdownArticle, releaseApprovalErrors } from "./lib/markdown-article.mjs";
 
 const root = resolve(new URL("..", import.meta.url).pathname);
 const publishedWechat = JSON.parse(await readFile(join(root, "data/published-wechat.json"), "utf8"));
@@ -36,7 +37,7 @@ for (const articleFile of articleFiles) {
   if (article.status !== "published") continue;
   published.push(article);
   const [year, month, day] = article.date.split("-");
-  const webDirectory = join(root, "public", year, month, day, article.slug);
+  const webDirectory = join(root, "dist", year, month, day, article.slug);
   const wechatDirectory = join(root, "drafts/wechat", year, month, day, article.slug);
   const publicationPath = join(root, "publication", year, month, day, `${article.slug}.json`);
   const [html, markdown, wechatHtml, wechatMarkdown, publication] = await Promise.all([
@@ -46,7 +47,6 @@ for (const articleFile of articleFiles) {
     readFile(join(wechatDirectory, "wechat.md"), "utf8"),
     readFile(publicationPath, "utf8").then(JSON.parse),
     access(join(webDirectory, "og.png")),
-    access(join(webDirectory, "wechat-cover.jpg")),
     access(join(wechatDirectory, "wechat-cover.jpg")),
   ]);
 
@@ -101,18 +101,57 @@ for (const articleFile of articleFiles) {
   }
 }
 
+async function releaseFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true }).catch((error) => {
+    if (error.code === "ENOENT") return [];
+    throw error;
+  });
+  const found = [];
+  for (const entry of entries) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) found.push(...await releaseFiles(path));
+    else if (entry.isFile() && entry.name === "release.json") found.push(path);
+  }
+  return found;
+}
+
+const markdownPublished = [];
+for (const releasePath of (await releaseFiles(join(root, "data/articles"))).sort()) {
+  const release = JSON.parse(await readFile(releasePath, "utf8"));
+  if (release.schema_version !== 2 || !["deploying", "live", "metadata_update_pending"].includes(release.site?.status)) continue;
+  if (!["review_confirmed", "published_manual"].includes(release.wechat?.status)) {
+    throw new Error(`${release.article_id} web release lacks post-draft WeChat review`);
+  }
+  const articlePath = join(dirname(releasePath), release.canonical?.path || "article.md");
+  const article = await loadMarkdownArticle(articlePath, {
+    wechatUrl: release.wechat?.public?.url || null,
+  });
+  const bundle = await articlePackage(article);
+  const approvalErrors = releaseApprovalErrors(release, article, bundle, { requireSiteBundle: true });
+  if (approvalErrors.length) throw new Error(`${article.id} release approval failed: ${approvalErrors.join("; ")}`);
+  const [year, month, day] = article.date.split("-");
+  const webDirectory = join(root, "dist", year, month, day, article.slug);
+  const html = await readFile(join(webDirectory, "index.html"), "utf8");
+  for (const required of [article.title, article.description, article.canonicalUrl, article.sourceHash]) {
+    if (!html.includes(required)) throw new Error(`${article.id} web edition is missing: ${required}`);
+  }
+  for (const path of new Set([article.hero, ...article.bodyImages.keys()])) await access(join(webDirectory, path));
+  markdownPublished.push(article);
+}
+
 if (!published.length) throw new Error("No published articles found");
 
 const [archive, rss, sitemap, robots, notFound] = await Promise.all([
-  readFile(join(root, "public/index.html"), "utf8"),
-  readFile(join(root, "public/rss.xml"), "utf8"),
-  readFile(join(root, "public/sitemap.xml"), "utf8"),
-  readFile(join(root, "public/robots.txt"), "utf8"),
-  readFile(join(root, "public/404.html"), "utf8"),
+  readFile(join(root, "dist/index.html"), "utf8"),
+  readFile(join(root, "dist/rss.xml"), "utf8"),
+  readFile(join(root, "dist/sitemap.xml"), "utf8"),
+  readFile(join(root, "dist/robots.txt"), "utf8"),
+  readFile(join(root, "dist/404.html"), "utf8"),
 ]);
-for (const article of published) {
-  const path = new URL(article.canonical_url).pathname;
-  if (!archive.includes(path) || !rss.includes(article.canonical_url) || !sitemap.includes(article.canonical_url)) {
+for (const article of [...published, ...markdownPublished]) {
+  const canonicalUrl = article.canonical_url || article.canonicalUrl;
+  const path = new URL(canonicalUrl).pathname;
+  if (!archive.includes(path) || !rss.includes(canonicalUrl) || !sitemap.includes(canonicalUrl)) {
     throw new Error(`${article.id} is missing from archive, RSS, or sitemap`);
   }
 }
@@ -140,9 +179,13 @@ for (const path of ["/", "/rss.xml", "/sitemap.xml", "/robots.txt"]) {
     throw new Error(`${path} must use a short revalidating cache policy`);
   }
 }
-const assetCacheControl = (await fetchWorker("/2026/08/11/ai-is-rewriting-four-ledgers/og.png")).headers.get("Cache-Control") || "";
-if (!assetCacheControl.includes("max-age=31536000") || !assetCacheControl.includes("immutable")) {
-  throw new Error("Fingerprint-stable media must use immutable caching");
+const articleMediaCache = (await fetchWorker("/2026/08/11/ai-is-rewriting-four-ledgers/og.png")).headers.get("Cache-Control") || "";
+if (!articleMediaCache.includes("max-age=3600") || !articleMediaCache.includes("must-revalidate") || articleMediaCache.includes("immutable")) {
+  throw new Error("Mutable article media must use a short revalidating cache policy");
+}
+const versionedAssetCache = (await fetchWorker("/assets/frontier-theme-v16.css")).headers.get("Cache-Control") || "";
+if (!versionedAssetCache.includes("max-age=31536000") || !versionedAssetCache.includes("immutable")) {
+  throw new Error("Versioned site assets must remain immutable");
 }
 
-console.log(`Frontier Signals canonical package check passed for ${published.length} article(s); web archive covers ${publishedWechat.articles.length}`);
+console.log(`Frontier Signals package check passed for ${published.length} legacy canonical and ${markdownPublished.length} Markdown article(s); web archive covers ${publishedWechat.articles.length + markdownPublished.length}`);

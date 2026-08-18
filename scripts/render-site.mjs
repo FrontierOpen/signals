@@ -1,12 +1,34 @@
-import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
+import { unlinkSync } from "node:fs";
+import { copyFile, mkdir, open, readFile, readdir, rm, unlink, writeFile } from "node:fs/promises";
 import { dirname, extname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  articlePackage,
+  loadMarkdownArticle,
+  releaseApprovalErrors,
+  renderWebArticleHtml,
+} from "./lib/markdown-article.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const publicDirectory = join(root, "public");
+const sourcePublicDirectory = join(root, "public");
+const publicDirectory = join(root, "dist");
 const checkOnly = process.argv.includes("--check");
 const siteOrigin = "https://signals.frontierworld.ai";
 const manifestPath = join(root, "data/published-wechat.json");
+const buildLockPath = join(root, ".wrangler", "frontier-signals-render.lock");
+await mkdir(dirname(buildLockPath), { recursive: true });
+let buildLock;
+try {
+  buildLock = await open(buildLockPath, "wx");
+  await buildLock.writeFile(`${JSON.stringify({ pid: process.pid, check_only: checkOnly, started_at: new Date().toISOString() })}\n`);
+} catch (error) {
+  if (error.code === "EEXIST") throw new Error(`Another site render/check is running; inspect ${buildLockPath}`);
+  throw error;
+}
+const cleanupBuildLock = () => {
+  try { unlinkSync(buildLockPath); } catch {}
+};
+process.once("exit", cleanupBuildLock);
 
 const escapeHtml = (value = "") => String(value)
   .replaceAll("&", "&amp;")
@@ -251,6 +273,77 @@ async function normalizeArticle(entry, manifestIndex) {
   };
 }
 
+async function releaseFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true }).catch((error) => {
+    if (error.code === "ENOENT") return [];
+    throw error;
+  });
+  const found = [];
+  for (const entry of entries) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) found.push(...await releaseFiles(path));
+    else if (entry.isFile() && entry.name === "release.json") found.push(path);
+  }
+  return found;
+}
+
+async function normalizeMarkdownRelease(releasePath, manifestIndex) {
+  const release = await readJson(releasePath);
+  if (release.schema_version !== 2) return null;
+  if (!["deploying", "live", "metadata_update_pending"].includes(release.site?.status)) return null;
+  if (!["review_confirmed", "published_manual"].includes(release.wechat?.status)) {
+    throw new Error(`${relative(root, releasePath)} cannot publish web before WeChat draft review`);
+  }
+  const sourcePath = join(dirname(releasePath), release.canonical?.path || "article.md");
+  const article = await loadMarkdownArticle(sourcePath, {
+    wechatUrl: release.wechat?.public?.url || null,
+  });
+  if (release.canonical?.source_hash !== article.sourceHash) {
+    throw new Error(`${relative(root, sourcePath)} changed after release approval`);
+  }
+  const bundle = await articlePackage(article);
+  const approvalErrors = releaseApprovalErrors(release, article, bundle, {
+    requireSiteBundle: checkOnly || release.site?.status !== "deploying",
+  });
+  if (approvalErrors.length) {
+    throw new Error(`${relative(root, releasePath)} is not approved: ${approvalErrors.join("; ")}`);
+  }
+  const details = pathDetails({ path_date: article.pathDate, slug: article.slug });
+  const hero = {
+    file: article.hero,
+    sourcePath: article.heroMedia.sourcePath,
+    outputPath: join(details.outputDirectory, article.hero),
+    width: article.heroMedia.width,
+    height: article.heroMedia.height,
+    alt: article.heroMedia.alt,
+  };
+  const markdownMedia = [...article.bodyImages.keys()].map((path) => {
+    const media = article.mediaByPath.get(path);
+    return {
+      sourcePath: media.sourcePath,
+      outputPath: join(details.outputDirectory, path),
+    };
+  });
+  return {
+    ...details,
+    id: article.id,
+    title: article.title,
+    description: article.description,
+    format: article.format,
+    published_at: article.publishedAt,
+    publishedDate: article.publishedAt.slice(0, 10),
+    displayDate: displayDate(article.date),
+    readingMinutes: article.readingMinutes,
+    updatedAt: article.updatedAt,
+    wechat_url: article.wechatUrl,
+    hero,
+    markdownArticle: article,
+    markdownMedia,
+    sourceType: "markdown",
+    manifestIndex,
+  };
+}
+
 function citationHtml(sourceIds, sourceIndex, label = "本节来源") {
   const links = [...new Set(sourceIds)]
     .map((id) => sourceIndex.get(id))
@@ -349,7 +442,7 @@ function renderArticleHtml(article) {
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v5.css">
+  <link rel="stylesheet" href="/assets/frontier-theme-v16.css">
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
   <meta property="og:description" content="${escapeHtml(article.description)}">
@@ -450,7 +543,7 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   <link rel="canonical" href="${canonicalUrl}">
   <link rel="alternate" type="application/rss+xml" href="${siteOrigin}/rss.xml">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v5.css">
+  <link rel="stylesheet" href="/assets/frontier-theme-v16.css">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
@@ -531,8 +624,19 @@ if (manifest.schema_version !== 1 || !Array.isArray(manifest.articles)) {
   throw new Error("data/published-wechat.json has an unsupported schema");
 }
 
-const articles = (await Promise.all(manifest.articles.map(normalizeArticle)))
+const legacyArticles = await Promise.all(manifest.articles.map(normalizeArticle));
+const markdownArticles = (await Promise.all(
+  (await releaseFiles(join(root, "data", "articles"))).sort().map((path, index) => (
+    normalizeMarkdownRelease(path, legacyArticles.length + index)
+  )),
+)).filter(Boolean);
+const articles = [...legacyArticles, ...markdownArticles]
   .sort((a, b) => new Date(b.published_at) - new Date(a.published_at) || a.manifestIndex - b.manifestIndex);
+const articleIds = new Set();
+for (const article of articles) {
+  if (articleIds.has(article.id)) throw new Error(`Duplicate published article ID: ${article.id}`);
+  articleIds.add(article.id);
+}
 const yearGroups = new Map();
 const monthGroups = new Map();
 for (const article of articles) {
@@ -545,11 +649,20 @@ for (const article of articles) {
 const expectedText = new Map();
 const expectedAssets = new Map();
 for (const article of articles) {
-  expectedText.set(join(article.outputDirectory, "index.html"), renderArticleHtml(article));
-  expectedText.set(join(article.outputDirectory, "article.md"), renderArticleMarkdown(article));
+  expectedText.set(
+    join(article.outputDirectory, "index.html"),
+    article.sourceType === "markdown" ? renderWebArticleHtml(article.markdownArticle) : renderArticleHtml(article),
+  );
+  if (article.sourceType !== "markdown") {
+    expectedText.set(join(article.outputDirectory, "article.md"), renderArticleMarkdown(article));
+  }
   expectedAssets.set(article.hero.outputPath, article.hero.sourcePath);
-  for (const media of article.sections.flatMap((section) => section.media)) {
-    expectedAssets.set(join(article.outputDirectory, media.outputPath), media.sourcePath);
+  if (article.sourceType === "markdown") {
+    for (const media of article.markdownMedia) expectedAssets.set(media.outputPath, media.sourcePath);
+  } else {
+    for (const media of article.sections.flatMap((section) => section.media)) {
+      expectedAssets.set(join(article.outputDirectory, media.outputPath), media.sourcePath);
+    }
   }
 }
 expectedText.set(join(publicDirectory, "index.html"), renderHome(articles));
@@ -577,6 +690,37 @@ for (const [monthKey, monthArticles] of monthGroups) {
 expectedText.set(join(publicDirectory, "rss.xml"), renderRss(articles));
 expectedText.set(join(publicDirectory, "sitemap.xml"), renderSitemap(articles, yearGroups, monthGroups));
 
+async function sourceFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const found = [];
+  for (const entry of entries) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) found.push(...await sourceFiles(path));
+    else if (entry.isFile()) found.push(path);
+  }
+  return found;
+}
+
+for (const name of [
+  "favicon-v1.svg",
+  "frontier-passage-v1.jpg",
+  "frontier-theme-v16.css",
+  "passage-mark-white-v1.svg",
+]) {
+  expectedAssets.set(
+    join(publicDirectory, "assets", name),
+    join(sourcePublicDirectory, "assets", name),
+  );
+}
+for (const name of ["404.html", "robots.txt", "_headers"]) {
+  expectedAssets.set(join(publicDirectory, name), join(sourcePublicDirectory, name));
+}
+
+if (!checkOnly) {
+  await rm(publicDirectory, { recursive: true, force: true });
+  await mkdir(publicDirectory, { recursive: true });
+}
+
 const stale = [];
 for (const [path, content] of expectedText) {
   const current = await readFile(path, "utf8").catch(() => null);
@@ -600,6 +744,22 @@ for (const [outputPath, sourcePath] of expectedAssets) {
   }
 }
 
+async function outputFiles(directory) {
+  return sourceFiles(directory).catch((error) => {
+    if (error.code === "ENOENT") return [];
+    throw error;
+  });
+}
+
+if (checkOnly) {
+  const expected = new Set([...expectedText.keys(), ...expectedAssets.keys()].map((path) => resolve(path)));
+  const unexpected = (await outputFiles(publicDirectory))
+    .map((path) => resolve(path))
+    .filter((path) => !expected.has(path))
+    .map((path) => relative(root, path));
+  if (unexpected.length) stale.push(...unexpected.map((path) => `unexpected:${path}`));
+}
+
 if (checkOnly && stale.length) {
   throw new Error(`Published site output is stale: ${stale.join(", ")}`);
 }
@@ -607,3 +767,6 @@ if (checkOnly && stale.length) {
 console.log(checkOnly
   ? `Frontier Signals site output passed for ${articles.length} published article(s)`
   : `Rendered ${articles.length} published article(s); updated ${stale.length} file(s)`);
+await buildLock.close();
+await unlink(buildLockPath).catch(() => {});
+process.removeListener("exit", cleanupBuildLock);

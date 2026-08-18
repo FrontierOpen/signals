@@ -6,35 +6,57 @@ The repository keeps research evidence, canonical article data, media, channel-s
 
 ## Publication model
 
-`article.json` is the canonical source. Web, WeChat Official Account, Feishu, covers, RSS, and sitemap are rendered from the same reviewed revision using the `frontier-signals` Codex Skill.
+New articles use `article.md` as the only public content source. Its YAML frontmatter contains rendering metadata and the evidence/media ledger; its Markdown body contains the one reviewed article text and image order. WeChat HTML, the website edition, RSS and sitemap are derived from that exact revision. `release.json` stores channel state and hashes only.
+
+Historical `article.json` and `signal.json` files remain readable so existing URLs do not need a forced migration.
 
 ```text
-data/research/YYYY/MM/DD/research.json          verified research dossier
-data/articles/YYYY/MM/DD/slug/article.json     canonical article history
-media/YYYY/MM/DD/slug/                         local source and editorial media
-drafts/wechat/YYYY/MM/DD/slug/                 WeChat draft artifacts
-publication/YYYY/MM/DD/slug.json               per-channel state and remote IDs
-public/YYYY/MM/DD/slug/                        published web edition
+data/articles/YYYY/MM/DD/slug/article.md        canonical article
+data/articles/YYYY/MM/DD/slug/source-notes.md   internal evidence notes
+data/articles/YYYY/MM/DD/slug/images/           article-local media
+data/articles/YYYY/MM/DD/slug/release.json      per-channel state and hashes
+data/articles/YYYY/MM/DD/slug/.frontier-build/  derived local previews (ignored)
+dist/                                           clean deploy bundle (ignored)
 ```
 
 ## Local checks
 
 ```bash
 npm ci
+npm run article:prepare -- /absolute/path/to/article.md
 npm run site:render
 npm run theme
 npm run check
 npm run deploy:dry-run
 ```
 
-`data/published-wechat.json` records the public WeChat editions included in the web archive. `npm run site:render` rebuilds their article pages, home page, date archives, RSS and sitemap from the reviewed local sources. `npm run theme` then applies the shared Frontier World visual system to every HTML page in `public/`. Deployment runs the renderer, theme integration and complete validation suite automatically.
+## WeChat composer
+
+The optional local composer is maintained in the standalone `frontier-composer` repository. It imports `article.md` or a complete article folder, previews the WeChat-safe inline layout, resolves local images, and copies rich text to the clipboard without uploading the draft.
+
+```bash
+cd ../frontier-composer
+npm ci
+npm run dev
+```
+
+Open `http://127.0.0.1:8900`. Frontier Composer does not modify `article.md` or overwrite the deterministic `.frontier-build/wechat.html` used by the official draft adapter.
+
+For new Markdown articles, the website renderer only includes a release whose WeChat draft was remotely verified and then explicitly confirmed by the owner. A public WeChat URL is optional because the website goes live before the owner manually publishes the WeChat article. `data/published-wechat.json` remains a legacy archive index.
+
+`npm run site:render` rebuilds article pages, home, date archives, RSS and sitemap into a fresh `dist/`; it never deploys the long-lived `public/` working directory. This prevents unapproved or stale preview pages from leaking into production.
 
 ## Deployment
 
-The Cloudflare Worker publishes the static archive at [signals.frontierworld.ai](https://signals.frontierworld.ai). Production deployment is explicit:
+The Cloudflare Worker publishes the static archive at [signals.frontierworld.ai](https://signals.frontierworld.ai). For a new article, first save and verify the WeChat draft. After the owner opens that draft and confirms it is correct, run:
 
 ```bash
-npm run deploy
+npm run article:review -- /absolute/path/to/article.md
+npm run article:review -- /absolute/path/to/article.md --confirm
 ```
+
+The first command is a dry-run. The confirmed command binds the review to the current draft ID and hashes, builds a clean site bundle, runs all checks, deploys Cloudflare, and verifies the article, home page, RSS and sitemap. WeChat public publishing remains a manual action in the WeChat draft editor.
+
+Automatic deployment requires the renderer, Worker, Wrangler configuration, theme CSS and dependency lock to be committed and clean. Article content and release-state files may remain the intended working changes; unrelated infrastructure changes must be reviewed separately.
 
 The legacy site at `brief.clairesparlor.com` remains separate during migration so historical links can be preserved.

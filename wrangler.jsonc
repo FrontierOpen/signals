@@ -8,7 +8,7 @@
   "preview_urls": true,
   "assets": {
     "binding": "ASSETS",
-    "directory": "./public",
+    "directory": "./dist",
     "run_worker_first": true,
     "html_handling": "force-trailing-slash",
     "not_found_handling": "404-page"

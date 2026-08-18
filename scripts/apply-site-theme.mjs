@@ -2,14 +2,14 @@ import { access, readFile, readdir, writeFile } from "node:fs/promises";
 import { join, relative, resolve } from "node:path";
 
 const root = resolve(new URL("..", import.meta.url).pathname);
-const publicDirectory = join(root, "public");
+const publicDirectory = join(root, "dist");
 const checkOnly = process.argv.includes("--check");
-const themeHref = "/assets/frontier-theme-v5.css";
+const themeHref = "/assets/frontier-theme-v16.css";
 const versionedThemeHrefPattern = /\/assets\/frontier-theme-v\d+\.css/giu;
 const versionedThemeLinkPattern = /<link\b[^>]*\bhref=(["'])\/assets\/frontier-theme-v\d+\.css\1[^>]*>/giu;
 
 await Promise.all([
-  access(join(publicDirectory, "assets/frontier-theme-v5.css")),
+  access(join(publicDirectory, "assets/frontier-theme-v16.css")),
   access(join(publicDirectory, "assets/frontier-passage-v1.jpg")),
   access(join(publicDirectory, "assets/passage-mark-white-v1.svg")),
   access(join(publicDirectory, "assets/favicon-v1.svg")),
