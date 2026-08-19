@@ -8,6 +8,7 @@ import {
   releaseApprovalErrors,
   renderWebArticleHtml,
 } from "./lib/markdown-article.mjs";
+import { renderSiteHeader } from "./lib/site-shell.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const sourcePublicDirectory = join(root, "public");
@@ -466,7 +467,7 @@ function renderArticleHtml(article) {
 </head>
 <body class="article-site">
   <a class="skip-link" href="#article-body">跳到正文</a>
-  ${siteHeader(false, true)}
+  ${renderSiteHeader({ sticky: true })}
   <main>
     <article class="article-page">
       <header class="article-head${titleClass}">
@@ -562,14 +563,6 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   <meta name="twitter:image" content="${imageUrl}">`;
 }
 
-function siteHeader(home = false, sticky = false) {
-  const first = home ? '<a href="#latest">最新观察</a><a href="#archive">文章档案</a>' : '<a href="/">首页</a><a href="/2026/">2026</a>';
-  const links = `${first}<a href="https://frontierworld.ai/" rel="noopener noreferrer">Frontier World <span aria-hidden="true">↗</span></a>`;
-  const headerClass = sticky ? "site-header" : "top";
-  const transparentAttribute = home ? ' data-transparent-at-top="true"' : "";
-  return `<header class="${headerClass}" data-site-header${transparentAttribute}><div class="site-header-bar"><a class="brand" href="/" aria-label="Frontier Signals 首页"><span class="mark" aria-hidden="true"></span><span class="brand-copy"><strong>Frontier Signals</strong><small>by Frontier World</small></span></a><nav class="top-nav" aria-label="主导航">${links}</nav><button class="menu-button" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="site-mobile-navigation" data-menu-button><span class="menu-icon" aria-hidden="true"></span></button></div><nav class="mobile-nav" id="site-mobile-navigation" aria-label="移动端主导航" data-mobile-navigation hidden>${links}</nav></header>`;
-}
-
 const siteFooter = '<footer class="site-footer"><div class="site-footer-inner"><div><strong>Frontier Signals</strong><span>Frontier World · 前沿之境</span></div><div><a href="https://frontierworld.ai/">把前沿，变成实践 ↗</a></div></div></footer>';
 
 function renderHome(articles) {
@@ -582,7 +575,7 @@ function renderHome(articles) {
 </head>
 <body class="home-page">
   <a class="skip-link" href="#main-content">跳到内容</a>
-  ${siteHeader(true)}
+  ${renderSiteHeader({ home: true })}
   <main class="page" id="main-content" tabindex="-1">
     <section class="intro" aria-labelledby="signals-title"><div class="intro-copy"><div class="eyebrow"><span class="status-dot" aria-hidden="true"></span>Signals from the frontier</div><h1 id="signals-title"><span>Frontier</span><span>Signals</span></h1></div><div class="intro-note"><p>看见变化，<br>说清下一步。</p><span>从 AI 与科技新闻中提炼值得被理解的变化，以可靠来源支撑判断。</span><a class="intro-link" href="#latest">阅读最新观察 <span aria-hidden="true">↓</span></a></div></section>
     <section class="latest-section" id="latest" aria-labelledby="latest-title"><div class="section-heading"><h2 id="latest-title">最新观察</h2><span>01 / LATEST SIGNAL</span></div><a class="latest" href="${latest.urlPath}"><img src="${latest.urlPath}${latest.hero.file}" alt="${escapeHtml(latest.hero.alt)}" width="${latest.hero.width}" height="${latest.hero.height}"><div class="latest-copy"><div class="label">${latest.displayDate} · ${formatLabel(latest.format)}</div><h2>${escapeHtml(latest.title)}</h2><p>${escapeHtml(latest.description)}</p><footer><span>${latest.readingMinutes} 分钟阅读</span><span>阅读全文 ↗</span></footer></div></a></section>
@@ -603,7 +596,7 @@ function renderArchive({ articles, periodHtml, eyebrow, canonicalPath, title, de
 </head>
 <body class="archive-site">
   <a class="skip-link" href="#main-content">跳到内容</a>
-  ${siteHeader(false)}
+  ${renderSiteHeader()}
   <main class="page" id="main-content" tabindex="-1"><section class="intro" aria-labelledby="archive-period"><div><div class="eyebrow"><span class="status-dot" aria-hidden="true"></span>${eyebrow}</div><h1 id="archive-period">${periodHtml}</h1></div><p>${articles.length} 篇 AI 与科技观点文章。</p></section><section aria-labelledby="archive-title"><div class="archive-head"><h2 id="archive-title">文章档案</h2><span>${articles.length} SIGNALS</span></div>${articles.map(issueHtml).join("")}</section></main>
   ${siteFooter}
 </body>

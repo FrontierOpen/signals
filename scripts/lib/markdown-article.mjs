@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { dirname, join, posix, resolve } from "node:path";
 import { marked } from "marked";
 import { parse as parseYaml } from "yaml";
+import { renderSiteHeader } from "./site-shell.mjs";
 
 export const ARTICLE_SCHEMA = "frontier-signals/article@2";
 export const SITE_ORIGIN = "https://signals.frontierworld.ai";
@@ -687,7 +688,7 @@ export function renderWebArticleHtml(article) {
 </head>
 <body class="article-site">
   <a class="skip-link" href="#article-body">跳到正文</a>
-  <header class="site-header"><a class="brand" href="/" aria-label="Frontier Signals 首页"><span class="mark" aria-hidden="true"></span><span class="brand-copy"><strong>Frontier Signals</strong><small>by Frontier World</small></span></a><a class="archive-link" href="/">全部文章 ↗</a></header>
+  ${renderSiteHeader({ sticky: true })}
   <main><article class="article-page"><header class="article-head${titleClass}"><div class="kicker">FRONTIER SIGNALS · ${article.displayDate}</div><h1>${titleHtml(article)}</h1><p class="subtitle">${escapeHtml(article.description)}</p><div class="meta" aria-label="文章信息"><span>${article.format.toUpperCase()}</span><span>${article.readingMinutes} 分钟阅读</span><span>Frontier World</span>${wechatMeta}</div></header><figure class="article-hero"><img src="./${escapeHtml(article.hero)}" alt="${escapeHtml(hero.alt)}" width="${hero.width}" height="${hero.height}" fetchpriority="high" decoding="async"></figure><div class="article-body" id="article-body" tabindex="-1">${intro ? `<section class="lede">${intro}</section>` : ""}${sections}</div></article></main>
   <footer class="site-footer"><div class="site-footer-inner"><div><strong>Frontier Signals</strong><span>Frontier World · 前沿之境</span></div><div><a href="https://frontierworld.ai/">把前沿，变成实践 ↗</a></div></div></footer>
 </body>
