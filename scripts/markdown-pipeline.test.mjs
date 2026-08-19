@@ -173,13 +173,20 @@ test("one Markdown source renders deterministic WeChat and website editions", as
   assert.match(renderWechatHtml(article), /<section style="margin:0 0 20px;padding:0;"><img/u);
   assert.match(renderWebArticleHtml(article), /name="frontier-source-hash"/u);
   assert.match(renderWebArticleHtml(article), /src="\/assets\/site-header-v3\.js" defer/u);
-  assert.match(renderWebArticleHtml(article), /<header class="site-header" data-site-header>/u);
+  assert.match(renderWebArticleHtml(article), /<header class="site-header" data-site-header data-transparent-at-top="true">/u);
   assert.match(renderWebArticleHtml(article), /<div class="site-header-bar">/u);
   assert.match(renderWebArticleHtml(article), /<nav class="top-nav" aria-label="主导航">/u);
   assert.match(renderWebArticleHtml(article), /data-menu-button/u);
   assert.match(renderWebArticleHtml(article), /id="site-mobile-navigation"[^>]*data-mobile-navigation hidden/u);
   assert.doesNotMatch(renderWebArticleHtml(article), /archive-link/u);
   assert.ok(renderWebArticleHtml(article).includes(renderSiteHeader({ sticky: true })));
+  for (const header of [
+    renderSiteHeader({ home: true }),
+    renderSiteHeader({ sticky: true }),
+    renderSiteHeader(),
+  ]) {
+    assert.match(header, /data-transparent-at-top="true"/u);
+  }
   assert.match(first.wechatHtml, /images\/chart\.png/u);
   assert.match(first.webHtml, /images\/chart\.png/u);
   assert.deepEqual(first.wechatMedia, ["images/chart.png"]);

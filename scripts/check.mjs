@@ -10,7 +10,7 @@ const publishedWechatBySource = new Map(publishedWechat.articles.map((entry) => 
   entry,
 ]));
 
-function assertSiteHeaderContract(html, label, { home = false } = {}) {
+function assertSiteHeaderContract(html, label, { home = false, sticky = false } = {}) {
   const requiredOnce = [
     'data-site-header',
     'class="site-header-bar"',
@@ -26,9 +26,12 @@ function assertSiteHeaderContract(html, label, { home = false } = {}) {
   if (html.includes('class="archive-link"')) {
     throw new Error(`${label} still contains the retired article-only header`);
   }
+  const expectedHeader = `<header class="${sticky ? "site-header" : "top"}" data-site-header data-transparent-at-top="true">`;
+  if (!html.includes(expectedHeader)) {
+    throw new Error(`${label} header is missing: ${expectedHeader}`);
+  }
   if (home) {
     for (const fragment of [
-      '<header class="top" data-site-header data-transparent-at-top="true">',
       'href="#latest"',
       'href="#archive"',
     ]) {
@@ -37,11 +40,10 @@ function assertSiteHeaderContract(html, label, { home = false } = {}) {
     return;
   }
   for (const fragment of [
-    '<header class="site-header" data-site-header>',
     'href="/"',
     'href="/2026/"',
   ]) {
-    if (!html.includes(fragment)) throw new Error(`${label} article header is missing: ${fragment}`);
+    if (!html.includes(fragment)) throw new Error(`${label} site header is missing: ${fragment}`);
   }
 }
 
@@ -84,7 +86,7 @@ for (const articleFile of articleFiles) {
     access(join(webDirectory, "og.png")),
     access(join(wechatDirectory, "wechat-cover.jpg")),
   ]);
-  assertSiteHeaderContract(html, article.id);
+  assertSiteHeaderContract(html, article.id, { sticky: true });
 
   for (const required of [
     article.canonical_url,
@@ -168,7 +170,7 @@ for (const releasePath of (await releaseFiles(join(root, "data/articles"))).sort
   const [year, month, day] = article.date.split("-");
   const webDirectory = join(root, "dist", year, month, day, article.slug);
   const html = await readFile(join(webDirectory, "index.html"), "utf8");
-  assertSiteHeaderContract(html, article.id);
+  assertSiteHeaderContract(html, article.id, { sticky: true });
   for (const required of [article.title, article.description, article.canonicalUrl, article.sourceHash]) {
     if (!html.includes(required)) throw new Error(`${article.id} web edition is missing: ${required}`);
   }
@@ -186,6 +188,15 @@ const [archive, rss, sitemap, robots, notFound] = await Promise.all([
   readFile(join(root, "dist/404.html"), "utf8"),
 ]);
 assertSiteHeaderContract(archive, "homepage", { home: true });
+const archivePaths = new Set();
+for (const article of [...published, ...markdownPublished]) {
+  const [, year, month] = new URL(article.canonical_url || article.canonicalUrl).pathname.split("/");
+  archivePaths.add(join(root, "dist", year, "index.html"));
+  archivePaths.add(join(root, "dist", year, month, "index.html"));
+}
+for (const archivePath of archivePaths) {
+  assertSiteHeaderContract(await readFile(archivePath, "utf8"), archivePath);
+}
 for (const article of [...published, ...markdownPublished]) {
   const canonicalUrl = article.canonical_url || article.canonicalUrl;
   const path = new URL(canonicalUrl).pathname;
