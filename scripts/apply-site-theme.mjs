@@ -5,14 +5,18 @@ const root = resolve(new URL("..", import.meta.url).pathname);
 const publicDirectory = join(root, "dist");
 const checkOnly = process.argv.includes("--check");
 const themeHref = "/assets/frontier-theme-v16.css";
+const headerScriptSrc = "/assets/site-header-v3.js";
 const versionedThemeHrefPattern = /\/assets\/frontier-theme-v\d+\.css/giu;
 const versionedThemeLinkPattern = /<link\b[^>]*\bhref=(["'])\/assets\/frontier-theme-v\d+\.css\1[^>]*>/giu;
+const versionedHeaderScriptSrcPattern = /\/assets\/site-header-v\d+\.js/giu;
+const versionedHeaderScriptTagPattern = /[ \t]*<script\b[^>]*\bsrc=(["'])\/assets\/site-header-v\d+\.js\1[^>]*><\/script>/giu;
 
 await Promise.all([
   access(join(publicDirectory, "assets/frontier-theme-v16.css")),
   access(join(publicDirectory, "assets/frontier-passage-v1.jpg")),
   access(join(publicDirectory, "assets/passage-mark-white-v1.svg")),
   access(join(publicDirectory, "assets/favicon-v1.svg")),
+  access(join(publicDirectory, "assets/site-header-v3.js")),
 ]);
 
 async function htmlFiles(directory) {
@@ -42,10 +46,16 @@ function addBodyClass(html, className) {
 
 function addHeadAssets(html) {
   let themeLinkSeen = false;
-  const migratedHtml = html.replace(versionedThemeLinkPattern, (link) => {
+  const themeMigratedHtml = html.replace(versionedThemeLinkPattern, (link) => {
     if (themeLinkSeen) return "";
     themeLinkSeen = true;
     return link.replace(versionedThemeHrefPattern, themeHref);
+  });
+  let headerScriptSeen = false;
+  const migratedHtml = themeMigratedHtml.replace(versionedHeaderScriptTagPattern, (script) => {
+    if (headerScriptSeen) return "";
+    headerScriptSeen = true;
+    return script.replace(versionedHeaderScriptSrcPattern, headerScriptSrc);
   });
   const additions = [];
 
@@ -57,6 +67,9 @@ function addHeadAssets(html) {
   }
   if (!themeLinkSeen) {
     additions.push(`  <link rel="stylesheet" href="${themeHref}">`);
+  }
+  if (!headerScriptSeen) {
+    additions.push(`  <script src="${headerScriptSrc}" defer></script>`);
   }
 
   if (!additions.length) return migratedHtml;

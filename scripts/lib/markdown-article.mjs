@@ -669,6 +669,7 @@ export function renderWebArticleHtml(article) {
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/frontier-theme-v16.css">
+  <script src="/assets/site-header-v3.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
   <meta property="og:description" content="${escapeHtml(article.description)}">

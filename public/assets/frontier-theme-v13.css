@@ -1,4 +1,4 @@
-/* Frontier Signals shared theme v16 */
+/* Frontier Signals shared theme v13 */
 :root {
   --page: #050608;
   --surface: #0b0d10;
@@ -145,9 +145,7 @@ button:focus-visible {
   transition:
     max-width 400ms cubic-bezier(0.4, 0, 0.2, 1),
     padding-right 400ms cubic-bezier(0.4, 0, 0.2, 1),
-    padding-left 400ms cubic-bezier(0.4, 0, 0.2, 1),
-    -webkit-backdrop-filter 400ms ease-in-out,
-    backdrop-filter 400ms ease-in-out;
+    padding-left 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .site-header-bar::before {
@@ -157,9 +155,9 @@ button:focus-visible {
   z-index: -1;
   pointer-events: none;
   visibility: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: inherit;
-  background: rgba(8, 10, 14, 0.92);
+  background: rgba(30, 32, 38, 0.94);
   opacity: 0;
   transition: opacity 400ms ease-in-out, visibility 0s 400ms;
 }
@@ -179,19 +177,10 @@ button:focus-visible {
 }
 
 @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .site-header-bar {
-    -webkit-backdrop-filter: blur(0) saturate(100%);
-    backdrop-filter: blur(0) saturate(100%);
-  }
-
   .site-header-bar::before {
-    background: rgba(8, 10, 14, 0.64);
-  }
-
-  [data-site-header].is-scrolled .site-header-bar,
-  [data-site-header].is-menu-open .site-header-bar {
-    -webkit-backdrop-filter: blur(18px) saturate(125%);
-    backdrop-filter: blur(18px) saturate(125%);
+    background: rgba(255, 255, 255, 0.25);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
   }
 }
 
@@ -241,7 +230,7 @@ button:focus-visible {
 }
 
 .brand-copy small {
-  color: rgba(247, 249, 252, 0.88);
+  color: rgba(255, 255, 255, 0.5);
   font-size: 0.75rem;
   font-weight: 500;
   white-space: nowrap;
@@ -251,7 +240,7 @@ button:focus-visible {
   display: flex;
   align-items: center;
   gap: 1.75rem;
-  color: rgba(247, 249, 252, 0.88);
+  color: var(--text-soft);
   font-size: 0.8125rem;
 }
 
@@ -263,7 +252,7 @@ button:focus-visible {
   gap: 0.35rem;
   padding: 0 0.25rem;
   border-radius: 5px;
-  color: rgba(247, 249, 252, 0.88) !important;
+  color: var(--text-soft) !important;
   font-size: 0.8125rem !important;
   font-weight: 550 !important;
   letter-spacing: 0 !important;
@@ -293,20 +282,16 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 0;
-  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
   color: var(--text);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.06);
   cursor: pointer;
   transition: background-color 180ms ease, transform 120ms ease;
 }
 
 .menu-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.menu-button[aria-expanded="true"] {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.11);
 }
 
 .menu-button:active {
@@ -857,59 +842,6 @@ button:focus-visible {
   text-wrap: pretty;
 }
 
-.article-section > ul,
-.article-section > ol {
-  margin: 2rem 0 2.5rem !important;
-  padding-left: 1.4rem !important;
-  color: rgba(236, 241, 248, 0.82) !important;
-  font-size: 1.02rem !important;
-  line-height: 1.82 !important;
-}
-
-.article-section > ul li,
-.article-section > ol li {
-  margin: 0.75rem 0 !important;
-  padding-left: 0.35rem !important;
-}
-
-.article-section a {
-  color: var(--accent-soft) !important;
-  text-decoration: underline !important;
-  text-decoration-color: rgba(118, 167, 255, 0.48) !important;
-  text-underline-offset: 0.2em;
-}
-
-.article-section code {
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  color: var(--accent-soft);
-  background: transparent;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: 0.9em;
-  font-weight: 600;
-  letter-spacing: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.article-section pre {
-  margin: 2.25rem 0 !important;
-  padding: 1.25rem !important;
-  overflow-x: auto;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface) !important;
-  line-height: 1.65;
-}
-
-.article-section pre code {
-  padding: 0;
-  border: 0;
-  color: var(--text);
-  background: transparent;
-}
-
 .article-section blockquote,
 .conclusion blockquote {
   width: 100% !important;
@@ -1255,7 +1187,7 @@ button:focus-visible {
 
   @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
     .mobile-nav:not([hidden]) {
-      background: rgba(8, 10, 14, 0.86);
+      background: rgba(255, 255, 255, 0.08);
       -webkit-backdrop-filter: blur(24px);
       backdrop-filter: blur(24px);
     }
@@ -1504,11 +1436,6 @@ button:focus-visible {
     backdrop-filter: none;
   }
 
-  .site-header-bar {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-
   .site-header-bar::before {
     background: var(--page);
     -webkit-backdrop-filter: none;
@@ -1532,11 +1459,6 @@ button:focus-visible {
     backdrop-filter: none;
   }
 
-  .site-header-bar {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-
   .site-header-bar::before {
     border-color: rgba(255, 255, 255, 0.55);
     background: var(--page);
@@ -1553,11 +1475,6 @@ button:focus-visible {
     background: Canvas !important;
     border: 1px solid CanvasText;
     box-shadow: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-
-  .site-header-bar {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }

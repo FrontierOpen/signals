@@ -1,4 +1,4 @@
-/* Frontier Signals shared theme v16 */
+/* Frontier Signals shared theme v15 */
 :root {
   --page: #050608;
   --surface: #0b0d10;
@@ -855,59 +855,6 @@ button:focus-visible {
   line-height: 1.92 !important;
   letter-spacing: 0 !important;
   text-wrap: pretty;
-}
-
-.article-section > ul,
-.article-section > ol {
-  margin: 2rem 0 2.5rem !important;
-  padding-left: 1.4rem !important;
-  color: rgba(236, 241, 248, 0.82) !important;
-  font-size: 1.02rem !important;
-  line-height: 1.82 !important;
-}
-
-.article-section > ul li,
-.article-section > ol li {
-  margin: 0.75rem 0 !important;
-  padding-left: 0.35rem !important;
-}
-
-.article-section a {
-  color: var(--accent-soft) !important;
-  text-decoration: underline !important;
-  text-decoration-color: rgba(118, 167, 255, 0.48) !important;
-  text-underline-offset: 0.2em;
-}
-
-.article-section code {
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  color: var(--accent-soft);
-  background: transparent;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: 0.9em;
-  font-weight: 600;
-  letter-spacing: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.article-section pre {
-  margin: 2.25rem 0 !important;
-  padding: 1.25rem !important;
-  overflow-x: auto;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface) !important;
-  line-height: 1.65;
-}
-
-.article-section pre code {
-  padding: 0;
-  border: 0;
-  color: var(--text);
-  background: transparent;
 }
 
 .article-section blockquote,

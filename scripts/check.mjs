@@ -183,9 +183,11 @@ const articleMediaCache = (await fetchWorker("/2026/08/11/ai-is-rewriting-four-l
 if (!articleMediaCache.includes("max-age=3600") || !articleMediaCache.includes("must-revalidate") || articleMediaCache.includes("immutable")) {
   throw new Error("Mutable article media must use a short revalidating cache policy");
 }
-const versionedAssetCache = (await fetchWorker("/assets/frontier-theme-v16.css")).headers.get("Cache-Control") || "";
-if (!versionedAssetCache.includes("max-age=31536000") || !versionedAssetCache.includes("immutable")) {
-  throw new Error("Versioned site assets must remain immutable");
+for (const path of ["/assets/frontier-theme-v16.css", "/assets/site-header-v3.js"]) {
+  const versionedAssetCache = (await fetchWorker(path)).headers.get("Cache-Control") || "";
+  if (!versionedAssetCache.includes("max-age=31536000") || !versionedAssetCache.includes("immutable")) {
+    throw new Error(`${path} must remain immutable`);
+  }
 }
 
 console.log(`Frontier Signals package check passed for ${published.length} legacy canonical and ${markdownPublished.length} Markdown article(s); web archive covers ${publishedWechat.articles.length + markdownPublished.length}`);
