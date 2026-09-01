@@ -449,8 +449,8 @@ function renderArticleHtml(article) {
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v17.css">
-  <script src="/assets/site-header-v4.js" defer></script>
+  <link rel="stylesheet" href="/assets/frontier-theme-v18.css">
+  <script src="/assets/site-header-v5.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
   <meta property="og:description" content="${escapeHtml(article.description)}">
@@ -549,8 +549,8 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   <link rel="canonical" href="${canonicalUrl}">
   <link rel="alternate" type="application/rss+xml" href="${siteOrigin}/rss.xml">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v17.css">
-  <script src="/assets/site-header-v4.js" defer></script>
+  <link rel="stylesheet" href="/assets/frontier-theme-v18.css">
+  <script src="/assets/site-header-v5.js" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
@@ -708,9 +708,11 @@ for (const name of [
   "frontier-passage-v1.jpg",
   "frontier-theme-v16.css",
   "frontier-theme-v17.css",
+  "frontier-theme-v18.css",
   "passage-mark-white-v1.svg",
   "site-header-v3.js",
   "site-header-v4.js",
+  "site-header-v5.js",
 ]) {
   expectedAssets.set(
     join(publicDirectory, "assets", name),

@@ -13,9 +13,11 @@
     "article:retry": "node scripts/release-article.mjs retry-site",
     "article:reconcile": "node scripts/release-article.mjs reconcile-site",
     "article:record-wechat": "node scripts/release-article.mjs record-wechat",
-    "site:render": "node scripts/render-site.mjs",
+    "build:chrome": "vite build --config vite.chrome.config.ts",
+    "typecheck:chrome": "tsc --noEmit -p tsconfig.chrome.json",
+    "site:render": "npm run build:chrome && node scripts/render-site.mjs",
     "theme": "node scripts/apply-site-theme.mjs",
-    "check:site": "node scripts/render-site.mjs --check",
+    "check:site": "npm run typecheck:chrome && npm run build:chrome && node scripts/render-site.mjs --check",
     "check:theme": "node scripts/apply-site-theme.mjs --check",
     "test": "node --test scripts/*.test.mjs",
     "check": "npm run test && npm run check:site && npm run check:theme && node scripts/check.mjs",
@@ -23,9 +25,12 @@
   },
   "dependencies": {
     "marked": "18.0.9",
+    "motion": "^13.1.1",
     "yaml": "2.8.1"
   },
   "devDependencies": {
+    "typescript": "5.9.3",
+    "vite": "8.2.2",
     "wrangler": "4.119.0"
   }
 }

@@ -13,6 +13,7 @@ const publishedWechatBySource = new Map(publishedWechat.articles.map((entry) => 
 function assertSiteHeaderContract(html, label, { home = false, sticky = false } = {}) {
   const requiredOnce = [
     'data-site-header',
+    'data-frontier-chrome="5"',
     'class="site-header-bar"',
     'class="top-nav"',
     'data-theme-control',
@@ -30,7 +31,7 @@ function assertSiteHeaderContract(html, label, { home = false, sticky = false } 
   if (html.includes('class="archive-link"')) {
     throw new Error(`${label} still contains the retired article-only header`);
   }
-  const expectedHeader = `<header class="${sticky ? "site-header" : "top"}" data-site-header data-transparent-at-top="true">`;
+  const expectedHeader = `<header class="${sticky ? "site-header" : "top"}" data-site-header data-frontier-chrome="5" data-transparent-at-top="true">`;
   if (!html.includes(expectedHeader)) {
     throw new Error(`${label} header is missing: ${expectedHeader}`);
   }
@@ -239,8 +240,10 @@ if (!articleMediaCache.includes("max-age=3600") || !articleMediaCache.includes("
 for (const path of [
   "/assets/frontier-theme-v16.css",
   "/assets/frontier-theme-v17.css",
+  "/assets/frontier-theme-v18.css",
   "/assets/site-header-v3.js",
   "/assets/site-header-v4.js",
+  "/assets/site-header-v5.js",
 ]) {
   const versionedAssetCache = (await fetchWorker(path)).headers.get("Cache-Control") || "";
   if (!versionedAssetCache.includes("max-age=31536000") || !versionedAssetCache.includes("immutable")) {

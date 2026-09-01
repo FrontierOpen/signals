@@ -670,8 +670,8 @@ export function renderWebArticleHtml(article) {
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v17.css">
-  <script src="/assets/site-header-v4.js" defer></script>
+  <link rel="stylesheet" href="/assets/frontier-theme-v18.css">
+  <script src="/assets/site-header-v5.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
   <meta property="og:description" content="${escapeHtml(article.description)}">

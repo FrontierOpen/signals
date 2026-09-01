@@ -172,10 +172,10 @@ test("one Markdown source renders deterministic WeChat and website editions", as
   assert.doesNotMatch(renderWechatHtml(article), /<figure\b/u);
   assert.match(renderWechatHtml(article), /<section style="margin:0 0 20px;padding:0;"><img/u);
   assert.match(renderWebArticleHtml(article), /name="frontier-source-hash"/u);
-  assert.match(renderWebArticleHtml(article), /src="\/assets\/site-header-v4\.js" defer/u);
+  assert.match(renderWebArticleHtml(article), /src="\/assets\/site-header-v5\.js" defer/u);
   assert.match(renderWebArticleHtml(article), /data-theme-boot/u);
   assert.match(renderWebArticleHtml(article), /data-theme-control/u);
-  assert.match(renderWebArticleHtml(article), /<header class="site-header" data-site-header data-transparent-at-top="true">/u);
+  assert.match(renderWebArticleHtml(article), /<header class="site-header" data-site-header data-frontier-chrome="5" data-transparent-at-top="true">/u);
   assert.match(renderWebArticleHtml(article), /<div class="site-header-bar">/u);
   assert.match(renderWebArticleHtml(article), /<nav class="top-nav" aria-label="主导航">/u);
   assert.match(renderWebArticleHtml(article), /data-menu-button/u);

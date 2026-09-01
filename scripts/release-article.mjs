@@ -66,12 +66,15 @@ async function assertInfrastructureClean() {
     .filter((value) => typeof value === "string" && value);
   const status = await commandOutput("git", [
     "status", "--porcelain", "--",
-    "package.json", "package-lock.json", "wrangler.jsonc", "src", "scripts",
+    "package.json", "package-lock.json", "wrangler.jsonc", "src", "scripts", "ui",
+    "vite.chrome.config.ts", "tsconfig.chrome.json",
     "public/404.html", "public/robots.txt", "public/_headers",
     "public/assets/favicon-v1.svg", "public/assets/frontier-passage-v1.jpg",
     "public/assets/frontier-theme-v16.css", "public/assets/frontier-theme-v17.css",
+    "public/assets/frontier-theme-v18.css",
     "public/assets/passage-mark-white-v1.svg",
     "public/assets/site-header-v3.js", "public/assets/site-header-v4.js",
+    "public/assets/site-header-v5.js",
     "data/published-wechat.json", ...legacyInputs,
   ]);
   if (status.trim()) {
@@ -124,8 +127,10 @@ async function verifyLive(article) {
     ["https://signals.frontierworld.ai/sitemap.xml", join(distDirectory, "sitemap.xml")],
     ["https://signals.frontierworld.ai/assets/frontier-theme-v16.css", join(distDirectory, "assets", "frontier-theme-v16.css")],
     ["https://signals.frontierworld.ai/assets/frontier-theme-v17.css", join(distDirectory, "assets", "frontier-theme-v17.css")],
+    ["https://signals.frontierworld.ai/assets/frontier-theme-v18.css", join(distDirectory, "assets", "frontier-theme-v18.css")],
     ["https://signals.frontierworld.ai/assets/site-header-v3.js", join(distDirectory, "assets", "site-header-v3.js")],
     ["https://signals.frontierworld.ai/assets/site-header-v4.js", join(distDirectory, "assets", "site-header-v4.js")],
+    ["https://signals.frontierworld.ai/assets/site-header-v5.js", join(distDirectory, "assets", "site-header-v5.js")],
   ];
   for (const path of article.bodyImages.keys()) {
     checks.push([
