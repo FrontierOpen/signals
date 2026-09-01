@@ -8,7 +8,7 @@ import {
   releaseApprovalErrors,
   renderWebArticleHtml,
 } from "./lib/markdown-article.mjs";
-import { renderSiteHeader } from "./lib/site-shell.mjs";
+import { renderSiteHeader, renderThemeBootScript } from "./lib/site-shell.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const sourcePublicDirectory = join(root, "public");
@@ -443,13 +443,14 @@ function renderArticleHtml(article) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050608">
+  ${renderThemeBootScript()}
   <title>${escapeHtml(article.title)} · Frontier Signals</title>
   <meta name="description" content="${escapeHtml(article.description)}">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v16.css">
-  <script src="/assets/site-header-v3.js" defer></script>
+  <link rel="stylesheet" href="/assets/frontier-theme-v17.css">
+  <script src="/assets/site-header-v4.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
   <meta property="og:description" content="${escapeHtml(article.description)}">
@@ -474,13 +475,13 @@ function renderArticleHtml(article) {
         <div class="kicker">FRONTIER SIGNALS · ${article.displayDate}</div>
         <h1>${titleHtml(article)}</h1>
         <p class="subtitle">${escapeHtml(article.description)}</p>
-        <div class="meta" aria-label="文章信息"><span>${formatLabel(article.format)}</span><span>${article.readingMinutes} 分钟阅读</span><span>Frontier World</span>${article.wechat_url ? `<a href="${escapeHtml(article.wechat_url)}" rel="noopener noreferrer">公众号原文 ↗</a>` : ""}</div>
+        <div class="meta" aria-label="文章信息"><span>${formatLabel(article.format)}</span><span>${article.readingMinutes} 分钟阅读</span><span>Frontier World</span>${article.wechat_url ? `<a href="${escapeHtml(article.wechat_url)}" rel="noopener noreferrer">公众号原文</a>` : ""}</div>
       </header>
       <figure class="article-hero"><img src="./${escapeHtml(article.hero.file)}" alt="${escapeHtml(article.hero.alt)}" width="${article.hero.width}" height="${article.hero.height}" fetchpriority="high" decoding="async"></figure>
       <div class="article-body" id="article-body" tabindex="-1">${intro}${sections}${conclusion}${sourceListHtml(article)}</div>
     </article>
   </main>
-  <footer class="site-footer"><div class="site-footer-inner"><div><strong>Frontier Signals</strong><span>Frontier World · 前沿之境</span></div><div><a href="https://frontierworld.ai/">把前沿，变成实践 ↗</a></div></div></footer>
+  <footer class="site-footer"><div class="site-footer-inner"><div><strong>Frontier Signals</strong><span>Frontier World · 前沿之境</span></div><div><a href="https://frontierworld.ai/">把前沿，变成实践</a></div></div></footer>
 </body>
 </html>
 `;
@@ -533,7 +534,7 @@ function renderArticleMarkdown(article) {
 }
 
 function issueHtml(article) {
-  return `<a class="issue" href="${article.urlPath}"><div class="issue-date">${article.displayDate}</div><div><h3>${escapeHtml(article.title)}</h3><p>${escapeHtml(article.description)}</p></div><div class="issue-meta">${formatLabel(article.format)}<br>${article.readingMinutes} min ↗</div></a>`;
+  return `<a class="issue" href="${article.urlPath}"><div class="issue-date">${article.displayDate}</div><div><h3>${escapeHtml(article.title)}</h3><p>${escapeHtml(article.description)}</p></div><div class="issue-meta">${formatLabel(article.format)}<br>${article.readingMinutes} min</div></a>`;
 }
 
 function sharedHead({ title, description, canonicalUrl, imageArticle }) {
@@ -541,14 +542,15 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   return `<meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050608">
+  ${renderThemeBootScript()}
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${canonicalUrl}">
   <link rel="alternate" type="application/rss+xml" href="${siteOrigin}/rss.xml">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v16.css">
-  <script src="/assets/site-header-v3.js" defer></script>
+  <link rel="stylesheet" href="/assets/frontier-theme-v17.css">
+  <script src="/assets/site-header-v4.js" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
@@ -563,7 +565,7 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   <meta name="twitter:image" content="${imageUrl}">`;
 }
 
-const siteFooter = '<footer class="site-footer"><div class="site-footer-inner"><div><strong>Frontier Signals</strong><span>Frontier World · 前沿之境</span></div><div><a href="https://frontierworld.ai/">把前沿，变成实践 ↗</a></div></div></footer>';
+const siteFooter = '<footer class="site-footer"><div class="site-footer-inner"><div><strong>Frontier Signals</strong><span>Frontier World · 前沿之境</span></div><div><a href="https://frontierworld.ai/">把前沿，变成实践</a></div></div></footer>';
 
 function renderHome(articles) {
   const latest = articles[0];
@@ -577,8 +579,8 @@ function renderHome(articles) {
   <a class="skip-link" href="#main-content">跳到内容</a>
   ${renderSiteHeader({ home: true })}
   <main class="page" id="main-content" tabindex="-1">
-    <section class="intro" aria-labelledby="signals-title"><div class="intro-copy"><div class="eyebrow"><span class="status-dot" aria-hidden="true"></span>Signals from the frontier</div><h1 id="signals-title"><span>Frontier</span><span>Signals</span></h1></div><div class="intro-note"><p>看见变化，<br>说清下一步。</p><span>从 AI 与科技新闻中提炼值得被理解的变化，以可靠来源支撑判断。</span><a class="intro-link" href="#latest">阅读最新观察 <span aria-hidden="true">↓</span></a></div></section>
-    <section class="latest-section" id="latest" aria-labelledby="latest-title"><div class="section-heading"><h2 id="latest-title">最新观察</h2><span>01 / LATEST SIGNAL</span></div><a class="latest" href="${latest.urlPath}"><img src="${latest.urlPath}${latest.hero.file}" alt="${escapeHtml(latest.hero.alt)}" width="${latest.hero.width}" height="${latest.hero.height}"><div class="latest-copy"><div class="label">${latest.displayDate} · ${formatLabel(latest.format)}</div><h2>${escapeHtml(latest.title)}</h2><p>${escapeHtml(latest.description)}</p><footer><span>${latest.readingMinutes} 分钟阅读</span><span>阅读全文 ↗</span></footer></div></a></section>
+    <section class="intro" aria-labelledby="signals-title"><div class="intro-copy"><div class="eyebrow"><span class="status-dot" aria-hidden="true"></span>Signals from the frontier</div><h1 id="signals-title"><span>Frontier</span><span>Signals</span></h1></div><div class="intro-note"><p>看见变化，<br>说清下一步。</p><span>从 AI 与科技新闻中提炼值得被理解的变化，以可靠来源支撑判断。</span><a class="intro-link" href="#latest">阅读最新观察</a></div></section>
+    <section class="latest-section" id="latest" aria-labelledby="latest-title"><div class="section-heading"><h2 id="latest-title">最新观察</h2><span>01 / LATEST SIGNAL</span></div><a class="latest" href="${latest.urlPath}"><img src="${latest.urlPath}${latest.hero.file}" alt="${escapeHtml(latest.hero.alt)}" width="${latest.hero.width}" height="${latest.hero.height}"><div class="latest-copy"><div class="label">${latest.displayDate} · ${formatLabel(latest.format)}</div><h2>${escapeHtml(latest.title)}</h2><p>${escapeHtml(latest.description)}</p><footer><span>${latest.readingMinutes} 分钟阅读</span><span>阅读全文</span></footer></div></a></section>
     <section class="archive-section" id="archive" aria-labelledby="archive-title"><div class="archive-head"><h2 id="archive-title">文章档案</h2><span>${articles.length} SIGNALS</span></div>${articles.map(issueHtml).join("")}</section>
   </main>
   ${siteFooter}
@@ -705,8 +707,10 @@ for (const name of [
   "favicon-v1.svg",
   "frontier-passage-v1.jpg",
   "frontier-theme-v16.css",
+  "frontier-theme-v17.css",
   "passage-mark-white-v1.svg",
   "site-header-v3.js",
+  "site-header-v4.js",
 ]) {
   expectedAssets.set(
     join(publicDirectory, "assets", name),

@@ -15,6 +15,7 @@ function assertSiteHeaderContract(html, label, { home = false, sticky = false } 
     'data-site-header',
     'class="site-header-bar"',
     'class="top-nav"',
+    'data-theme-control',
     'data-menu-button',
     'data-mobile-navigation',
   ];
@@ -22,6 +23,9 @@ function assertSiteHeaderContract(html, label, { home = false, sticky = false } 
     if (html.split(fragment).length - 1 !== 1) {
       throw new Error(`${label} must contain exactly one shared header fragment: ${fragment}`);
     }
+  }
+  if (html.split("data-theme-boot").length - 1 !== 1) {
+    throw new Error(`${label} must contain exactly one early theme boot script`);
   }
   if (html.includes('class="archive-link"')) {
     throw new Error(`${label} still contains the retired article-only header`);
@@ -232,7 +236,12 @@ const articleMediaCache = (await fetchWorker("/2026/08/11/ai-is-rewriting-four-l
 if (!articleMediaCache.includes("max-age=3600") || !articleMediaCache.includes("must-revalidate") || articleMediaCache.includes("immutable")) {
   throw new Error("Mutable article media must use a short revalidating cache policy");
 }
-for (const path of ["/assets/frontier-theme-v16.css", "/assets/site-header-v3.js"]) {
+for (const path of [
+  "/assets/frontier-theme-v16.css",
+  "/assets/frontier-theme-v17.css",
+  "/assets/site-header-v3.js",
+  "/assets/site-header-v4.js",
+]) {
   const versionedAssetCache = (await fetchWorker(path)).headers.get("Cache-Control") || "";
   if (!versionedAssetCache.includes("max-age=31536000") || !versionedAssetCache.includes("immutable")) {
     throw new Error(`${path} must remain immutable`);

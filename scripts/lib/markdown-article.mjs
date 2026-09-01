@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { dirname, join, posix, resolve } from "node:path";
 import { marked } from "marked";
 import { parse as parseYaml } from "yaml";
-import { renderSiteHeader } from "./site-shell.mjs";
+import { renderSiteHeader, renderThemeBootScript } from "./site-shell.mjs";
 
 export const ARTICLE_SCHEMA = "frontier-signals/article@2";
 export const SITE_ORIGIN = "https://signals.frontierworld.ai";
@@ -654,7 +654,7 @@ export function renderWebArticleHtml(article) {
   };
   if (article.wechatUrl) structured.sameAs = article.wechatUrl;
   const wechatMeta = article.wechatUrl
-    ? `<a href="${escapeHtml(article.wechatUrl)}" rel="noopener noreferrer">公众号原文 ↗</a>`
+    ? `<a href="${escapeHtml(article.wechatUrl)}" rel="noopener noreferrer">公众号原文</a>`
     : "";
   const titleClass = Array.from(article.title.replace(/\s+/gu, "")).length > 40 ? " article-head--long-title" : "";
   return `<!doctype html>
@@ -663,14 +663,15 @@ export function renderWebArticleHtml(article) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050608">
+  ${renderThemeBootScript()}
   <meta name="frontier-source-hash" content="${article.sourceHash}">
   <title>${escapeHtml(article.title)} · Frontier Signals</title>
   <meta name="description" content="${escapeHtml(article.description)}">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v16.css">
-  <script src="/assets/site-header-v3.js" defer></script>
+  <link rel="stylesheet" href="/assets/frontier-theme-v17.css">
+  <script src="/assets/site-header-v4.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
   <meta property="og:description" content="${escapeHtml(article.description)}">
@@ -690,7 +691,7 @@ export function renderWebArticleHtml(article) {
   <a class="skip-link" href="#article-body">跳到正文</a>
   ${renderSiteHeader({ sticky: true })}
   <main><article class="article-page"><header class="article-head${titleClass}"><div class="kicker">FRONTIER SIGNALS · ${article.displayDate}</div><h1>${titleHtml(article)}</h1><p class="subtitle">${escapeHtml(article.description)}</p><div class="meta" aria-label="文章信息"><span>${article.format.toUpperCase()}</span><span>${article.readingMinutes} 分钟阅读</span><span>Frontier World</span>${wechatMeta}</div></header><figure class="article-hero"><img src="./${escapeHtml(article.hero)}" alt="${escapeHtml(hero.alt)}" width="${hero.width}" height="${hero.height}" fetchpriority="high" decoding="async"></figure><div class="article-body" id="article-body" tabindex="-1">${intro ? `<section class="lede">${intro}</section>` : ""}${sections}</div></article></main>
-  <footer class="site-footer"><div class="site-footer-inner"><div><strong>Frontier Signals</strong><span>Frontier World · 前沿之境</span></div><div><a href="https://frontierworld.ai/">把前沿，变成实践 ↗</a></div></div></footer>
+  <footer class="site-footer"><div class="site-footer-inner"><div><strong>Frontier Signals</strong><span>Frontier World · 前沿之境</span></div><div><a href="https://frontierworld.ai/">把前沿，变成实践</a></div></div></footer>
 </body>
 </html>
 `;

@@ -1,22 +1,23 @@
 import { access, readFile, readdir, writeFile } from "node:fs/promises";
 import { join, relative, resolve } from "node:path";
+import { renderSiteHeader, renderThemeBootScript } from "./lib/site-shell.mjs";
 
 const root = resolve(new URL("..", import.meta.url).pathname);
 const publicDirectory = join(root, "dist");
 const checkOnly = process.argv.includes("--check");
-const themeHref = "/assets/frontier-theme-v16.css";
-const headerScriptSrc = "/assets/site-header-v3.js";
+const themeHref = "/assets/frontier-theme-v17.css";
+const headerScriptSrc = "/assets/site-header-v4.js";
 const versionedThemeHrefPattern = /\/assets\/frontier-theme-v\d+\.css/giu;
 const versionedThemeLinkPattern = /<link\b[^>]*\bhref=(["'])\/assets\/frontier-theme-v\d+\.css\1[^>]*>/giu;
 const versionedHeaderScriptSrcPattern = /\/assets\/site-header-v\d+\.js/giu;
 const versionedHeaderScriptTagPattern = /[ \t]*<script\b[^>]*\bsrc=(["'])\/assets\/site-header-v\d+\.js\1[^>]*><\/script>/giu;
 
 await Promise.all([
-  access(join(publicDirectory, "assets/frontier-theme-v16.css")),
+  access(join(publicDirectory, "assets/frontier-theme-v17.css")),
   access(join(publicDirectory, "assets/frontier-passage-v1.jpg")),
   access(join(publicDirectory, "assets/passage-mark-white-v1.svg")),
   access(join(publicDirectory, "assets/favicon-v1.svg")),
-  access(join(publicDirectory, "assets/site-header-v3.js")),
+  access(join(publicDirectory, "assets/site-header-v4.js")),
 ]);
 
 async function htmlFiles(directory) {
@@ -57,12 +58,20 @@ function addHeadAssets(html) {
     headerScriptSeen = true;
     return script.replace(versionedHeaderScriptSrcPattern, headerScriptSrc);
   });
+  let output = migratedHtml;
   const additions = [];
 
-  if (!migratedHtml.includes('name="theme-color"')) {
-    additions.push('  <meta name="theme-color" content="#050608">');
+  if (!output.includes('name="theme-color"')) {
+    output = output.replace(/<head([^>]*)>/iu, '<head$1>\n  <meta name="theme-color" content="#050608">');
   }
-  if (!migratedHtml.includes('href="/assets/favicon-v1.svg"')) {
+  if (!output.includes("data-theme-boot")) {
+    const themeBoot = `  ${renderThemeBootScript()}`;
+    output = output.replace(
+      /(<meta\b[^>]*\bname=(["'])theme-color\2[^>]*>)/iu,
+      `$1\n${themeBoot}`,
+    );
+  }
+  if (!output.includes('href="/assets/favicon-v1.svg"')) {
     additions.push('  <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">');
   }
   if (!themeLinkSeen) {
@@ -72,8 +81,8 @@ function addHeadAssets(html) {
     additions.push(`  <script src="${headerScriptSrc}" defer></script>`);
   }
 
-  if (!additions.length) return migratedHtml;
-  return migratedHtml.replace(/<\/head>/iu, `${additions.join("\n")}\n</head>`);
+  if (!additions.length) return output;
+  return output.replace(/<\/head>/iu, `${additions.join("\n")}\n</head>`);
 }
 
 function addArticleHero(html) {
@@ -92,9 +101,27 @@ function addArticleHero(html) {
   return `${html.slice(0, insertionPoint)}${hero}${html.slice(insertionPoint)}`;
 }
 
+function migrateSiteHeader(html, relativePath) {
+  return html.replace(
+    /<header class="(site-header|top)" data-site-header(?: data-transparent-at-top="true")?>[\s\S]*?<\/header>/iu,
+    (_header, headerClass) => renderSiteHeader({
+      home: relativePath === "index.html",
+      sticky: headerClass === "site-header",
+    }),
+  );
+}
+
+function removeRetiredArrows(html) {
+  return html
+    .replace(/\s*<span\b[^>]*\baria-hidden=(["'])true\1[^>]*>[↗↓]<\/span>/giu, "")
+    .replace(/\s+[↗↓](?=<\/(?:a|span|div)>)/gu, "");
+}
+
 function applyTheme(html, relativePath) {
   const isArticle = html.includes('class="article-page"');
   let output = addHeadAssets(html);
+  output = migrateSiteHeader(output, relativePath);
+  output = removeRetiredArrows(output);
 
   if (isArticle) {
     output = addBodyClass(output, "article-site");
