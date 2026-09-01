@@ -669,8 +669,8 @@ export function renderWebArticleHtml(article) {
   <meta name="description" content="${escapeHtml(article.description)}">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
-  <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/frontier-theme-v18.css">
+  <link rel="icon" href="/assets/frontier-mark-favicon-v1.png" type="image/png">
+  <link rel="stylesheet" href="/assets/frontier-theme-v19.css">
   <script src="/assets/site-header-v5.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">

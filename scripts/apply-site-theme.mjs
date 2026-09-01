@@ -5,18 +5,21 @@ import { renderSiteHeader, renderThemeBootScript } from "./lib/site-shell.mjs";
 const root = resolve(new URL("..", import.meta.url).pathname);
 const publicDirectory = join(root, "dist");
 const checkOnly = process.argv.includes("--check");
-const themeHref = "/assets/frontier-theme-v18.css";
+const themeHref = "/assets/frontier-theme-v19.css";
 const headerScriptSrc = "/assets/site-header-v5.js";
+const faviconHref = "/assets/frontier-mark-favicon-v1.png";
 const versionedThemeHrefPattern = /\/assets\/frontier-theme-v\d+\.css/giu;
 const versionedThemeLinkPattern = /<link\b[^>]*\bhref=(["'])\/assets\/frontier-theme-v\d+\.css\1[^>]*>/giu;
 const versionedHeaderScriptSrcPattern = /\/assets\/site-header-v\d+\.js/giu;
 const versionedHeaderScriptTagPattern = /[ \t]*<script\b[^>]*\bsrc=(["'])\/assets\/site-header-v\d+\.js\1[^>]*><\/script>/giu;
+const versionedFaviconLinkPattern = /<link\s+rel="icon"\s+href="\/assets\/(?:favicon-v\d+\.svg|frontier-mark-favicon-v\d+\.png)"\s+type="[^"]+">/giu;
 
 await Promise.all([
-  access(join(publicDirectory, "assets/frontier-theme-v18.css")),
+  access(join(publicDirectory, "assets/frontier-theme-v19.css")),
   access(join(publicDirectory, "assets/frontier-passage-v1.jpg")),
+  access(join(publicDirectory, "assets/frontier-mark-white-v1.png")),
   access(join(publicDirectory, "assets/passage-mark-white-v1.svg")),
-  access(join(publicDirectory, "assets/favicon-v1.svg")),
+  access(join(publicDirectory, "assets/frontier-mark-favicon-v1.png")),
   access(join(publicDirectory, "assets/site-header-v5.js")),
 ]);
 
@@ -58,7 +61,12 @@ function addHeadAssets(html) {
     headerScriptSeen = true;
     return script.replace(versionedHeaderScriptSrcPattern, headerScriptSrc);
   });
-  let output = migratedHtml;
+  let faviconSeen = false;
+  let output = migratedHtml.replace(versionedFaviconLinkPattern, () => {
+    if (faviconSeen) return "";
+    faviconSeen = true;
+    return `<link rel="icon" href="${faviconHref}" type="image/png">`;
+  });
   const additions = [];
 
   if (!output.includes('name="theme-color"')) {
@@ -71,8 +79,8 @@ function addHeadAssets(html) {
       `$1\n${themeBoot}`,
     );
   }
-  if (!output.includes('href="/assets/favicon-v1.svg"')) {
-    additions.push('  <link rel="icon" href="/assets/favicon-v1.svg" type="image/svg+xml">');
+  if (!faviconSeen) {
+    additions.push(`  <link rel="icon" href="${faviconHref}" type="image/png">`);
   }
   if (!themeLinkSeen) {
     additions.push(`  <link rel="stylesheet" href="${themeHref}">`);
@@ -103,7 +111,7 @@ function addArticleHero(html) {
 
 function migrateSiteHeader(html, relativePath) {
   return html.replace(
-    /<header class="(site-header|top)" data-site-header(?: data-transparent-at-top="true")?>[\s\S]*?<\/header>/iu,
+    /<header class="(site-header|top)"\s+data-site-header\b[^>]*>[\s\S]*?<\/header>/iu,
     (_header, headerClass) => renderSiteHeader({
       home: relativePath === "index.html",
       sticky: headerClass === "site-header",
@@ -117,11 +125,23 @@ function removeRetiredArrows(html) {
     .replace(/\s+[↗↓](?=<\/(?:a|span|div)>)/gu, "");
 }
 
+function migrateHomeHero(html, relativePath) {
+  if (relativePath !== "index.html" || html.includes('class="intro-summary"')) return html;
+  const latest = html.match(
+    /<a class="latest" href="([^"]+)"><img src="([^"]+)" alt="([^"]*)" width="(\d+)" height="(\d+)"><div class="latest-copy"><div class="label">([^<]+)<\/div><h2>([^<]+)<\/h2>/u,
+  );
+  if (!latest) return html;
+  const [, href, image, alt, width, height, label, title] = latest;
+  const hero = `<section class="intro" aria-labelledby="signals-title"><div class="intro-copy"><div class="eyebrow"><span class="status-dot" aria-hidden="true"></span>Frontier Signals · Signals from the frontier</div><h1 id="signals-title">看见变化，<br>说清下一步。</h1><p class="intro-summary">从 AI 与科技新闻中提炼值得被理解的变化，以可靠来源支撑判断。</p><a class="intro-link" href="#latest">阅读最新观察</a></div><aside class="intro-note" aria-label="最新观察"><img class="intro-note-media" src="${image}" alt="${alt}" width="${width}" height="${height}"><div class="intro-note-body"><span class="intro-note-meta">${label}</span><strong class="intro-note-title"><a href="${href}">${title}</a></strong></div></aside><div class="intro-rail" aria-label="Frontier Signals 编辑路径"><div class="intro-rail-inner"><div class="intro-rail-item"><span>01</span><strong>来源</strong><small>可靠来源</small></div><div class="intro-rail-item"><span>02</span><strong>变化</strong><small>值得理解</small></div><div class="intro-rail-item"><span>03</span><strong>下一步</strong><small>支撑判断</small></div></div></div></section>`;
+  return html.replace(/<section class="intro" aria-labelledby="signals-title">[\s\S]*?<\/section>/u, hero);
+}
+
 function applyTheme(html, relativePath) {
   const isArticle = html.includes('class="article-page"');
   let output = addHeadAssets(html);
   output = migrateSiteHeader(output, relativePath);
   output = removeRetiredArrows(output);
+  output = migrateHomeHero(output, relativePath);
 
   if (isArticle) {
     output = addBodyClass(output, "article-site");
