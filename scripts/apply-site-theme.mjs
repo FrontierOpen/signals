@@ -1,11 +1,12 @@
 import { access, readFile, readdir, writeFile } from "node:fs/promises";
 import { join, relative, resolve } from "node:path";
+import { renderHomeHero } from "./lib/home-hero.mjs";
 import { renderSiteHeader, renderThemeBootScript } from "./lib/site-shell.mjs";
 
 const root = resolve(new URL("..", import.meta.url).pathname);
 const publicDirectory = join(root, "dist");
 const checkOnly = process.argv.includes("--check");
-const themeHref = "/assets/frontier-theme-v20.css";
+const themeHref = "/assets/frontier-theme-v21.css";
 const headerScriptSrc = "/assets/site-header-v5.js";
 const faviconHref = "/assets/frontier-mark-favicon-v1.png";
 const versionedThemeHrefPattern = /\/assets\/frontier-theme-v\d+\.css/giu;
@@ -15,7 +16,7 @@ const versionedHeaderScriptTagPattern = /[ \t]*<script\b[^>]*\bsrc=(["'])\/asset
 const versionedFaviconLinkPattern = /<link\s+rel="icon"\s+href="\/assets\/(?:favicon-v\d+\.svg|frontier-mark-favicon-v\d+\.png)"\s+type="[^"]+">/giu;
 
 await Promise.all([
-  access(join(publicDirectory, "assets/frontier-theme-v20.css")),
+  access(join(publicDirectory, "assets/frontier-theme-v21.css")),
   access(join(publicDirectory, "assets/frontier-passage-v1.jpg")),
   access(join(publicDirectory, "assets/frontier-mark-white-v1.png")),
   access(join(publicDirectory, "assets/passage-mark-white-v1.svg")),
@@ -126,14 +127,11 @@ function removeRetiredArrows(html) {
 }
 
 function migrateHomeHero(html, relativePath) {
-  if (relativePath !== "index.html" || html.includes('class="intro-summary"')) return html;
-  const latest = html.match(
-    /<a class="latest" href="([^"]+)"><img src="([^"]+)" alt="([^"]*)" width="(\d+)" height="(\d+)"><div class="latest-copy"><div class="label">([^<]+)<\/div><h2>([^<]+)<\/h2>/u,
+  if (relativePath !== "index.html" || html.includes('data-scope-version="2"')) return html;
+  return html.replace(
+    /<section class="intro" aria-labelledby="signals-title">[\s\S]*?<\/section>/u,
+    renderHomeHero(),
   );
-  if (!latest) return html;
-  const [, href, image, alt, width, height, label, title] = latest;
-  const hero = `<section class="intro" aria-labelledby="signals-title"><div class="intro-copy"><div class="eyebrow"><span class="status-dot" aria-hidden="true"></span>Frontier Signals · Signals from the frontier</div><h1 id="signals-title">看见变化，<br>说清下一步。</h1><p class="intro-summary">从 AI 与科技新闻中提炼值得被理解的变化，以可靠来源支撑判断。</p><a class="intro-link" href="#latest">阅读最新观察</a></div><aside class="intro-note" aria-label="最新观察"><img class="intro-note-media" src="${image}" alt="${alt}" width="${width}" height="${height}"><div class="intro-note-body"><span class="intro-note-meta">${label}</span><strong class="intro-note-title"><a href="${href}">${title}</a></strong></div></aside><div class="intro-rail" aria-label="Frontier Signals 编辑路径"><div class="intro-rail-inner"><div class="intro-rail-item"><span>01</span><strong>来源</strong><small>可靠来源</small></div><div class="intro-rail-item"><span>02</span><strong>变化</strong><small>值得理解</small></div><div class="intro-rail-item"><span>03</span><strong>下一步</strong><small>支撑判断</small></div></div></div></section>`;
-  return html.replace(/<section class="intro" aria-labelledby="signals-title">[\s\S]*?<\/section>/u, hero);
 }
 
 function applyTheme(html, relativePath) {

@@ -8,6 +8,7 @@ import {
   releaseApprovalErrors,
   renderWebArticleHtml,
 } from "./lib/markdown-article.mjs";
+import { renderHomeHero } from "./lib/home-hero.mjs";
 import { renderSiteHeader, renderThemeBootScript } from "./lib/site-shell.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
@@ -449,7 +450,7 @@ function renderArticleHtml(article) {
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/frontier-mark-favicon-v1.png" type="image/png">
-  <link rel="stylesheet" href="/assets/frontier-theme-v20.css">
+  <link rel="stylesheet" href="/assets/frontier-theme-v21.css">
   <script src="/assets/site-header-v5.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
@@ -549,7 +550,7 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   <link rel="canonical" href="${canonicalUrl}">
   <link rel="alternate" type="application/rss+xml" href="${siteOrigin}/rss.xml">
   <link rel="icon" href="/assets/frontier-mark-favicon-v1.png" type="image/png">
-  <link rel="stylesheet" href="/assets/frontier-theme-v20.css">
+  <link rel="stylesheet" href="/assets/frontier-theme-v21.css">
   <script src="/assets/site-header-v5.js" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escapeHtml(title)}">
@@ -579,7 +580,7 @@ function renderHome(articles) {
   <a class="skip-link" href="#main-content">跳到内容</a>
   ${renderSiteHeader({ home: true })}
   <main class="page" id="main-content" tabindex="-1">
-    <section class="intro" aria-labelledby="signals-title"><div class="intro-copy"><div class="eyebrow"><span class="status-dot" aria-hidden="true"></span>Frontier Signals · Signals from the frontier</div><h1 id="signals-title">看见变化，<br>说清下一步。</h1><p class="intro-summary">从 AI 与科技新闻中提炼值得被理解的变化，以可靠来源支撑判断。</p><a class="intro-link" href="#latest">阅读最新观察</a></div><aside class="intro-note" aria-label="最新观察"><img class="intro-note-media" src="${latest.urlPath}${latest.hero.file}" alt="${escapeHtml(latest.hero.alt)}" width="${latest.hero.width}" height="${latest.hero.height}"><div class="intro-note-body"><span class="intro-note-meta">${latest.displayDate} · ${formatLabel(latest.format)}</span><strong class="intro-note-title"><a href="${latest.urlPath}">${escapeHtml(latest.title)}</a></strong></div></aside><div class="intro-rail" aria-label="Frontier Signals 编辑路径"><div class="intro-rail-inner"><div class="intro-rail-item"><span>01</span><strong>来源</strong><small>可靠来源</small></div><div class="intro-rail-item"><span>02</span><strong>变化</strong><small>值得理解</small></div><div class="intro-rail-item"><span>03</span><strong>下一步</strong><small>支撑判断</small></div></div></div></section>
+    ${renderHomeHero()}
     <section class="latest-section" id="latest" aria-labelledby="latest-title"><div class="section-heading"><h2 id="latest-title">最新观察</h2><span>01 / LATEST SIGNAL</span></div><a class="latest" href="${latest.urlPath}"><img src="${latest.urlPath}${latest.hero.file}" alt="${escapeHtml(latest.hero.alt)}" width="${latest.hero.width}" height="${latest.hero.height}"><div class="latest-copy"><div class="label">${latest.displayDate} · ${formatLabel(latest.format)}</div><h2>${escapeHtml(latest.title)}</h2><p>${escapeHtml(latest.description)}</p><footer><span>${latest.readingMinutes} 分钟阅读</span><span>阅读全文</span></footer></div></a></section>
     <section class="archive-section" id="archive" aria-labelledby="archive-title"><div class="archive-head"><h2 id="archive-title">文章档案</h2><span>${articles.length} SIGNALS</span></div>${articles.map(issueHtml).join("")}</section>
   </main>
@@ -712,6 +713,7 @@ for (const name of [
   "frontier-theme-v18.css",
   "frontier-theme-v19.css",
   "frontier-theme-v20.css",
+  "frontier-theme-v21.css",
   "frontier-mark-white-v1.png",
   "passage-mark-white-v1.svg",
   "site-header-v3.js",
