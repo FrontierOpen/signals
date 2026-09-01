@@ -5,7 +5,7 @@ import { renderSiteHeader, renderThemeBootScript } from "./lib/site-shell.mjs";
 const root = resolve(new URL("..", import.meta.url).pathname);
 const publicDirectory = join(root, "dist");
 const checkOnly = process.argv.includes("--check");
-const themeHref = "/assets/frontier-theme-v19.css";
+const themeHref = "/assets/frontier-theme-v20.css";
 const headerScriptSrc = "/assets/site-header-v5.js";
 const faviconHref = "/assets/frontier-mark-favicon-v1.png";
 const versionedThemeHrefPattern = /\/assets\/frontier-theme-v\d+\.css/giu;
@@ -15,7 +15,7 @@ const versionedHeaderScriptTagPattern = /[ \t]*<script\b[^>]*\bsrc=(["'])\/asset
 const versionedFaviconLinkPattern = /<link\s+rel="icon"\s+href="\/assets\/(?:favicon-v\d+\.svg|frontier-mark-favicon-v\d+\.png)"\s+type="[^"]+">/giu;
 
 await Promise.all([
-  access(join(publicDirectory, "assets/frontier-theme-v19.css")),
+  access(join(publicDirectory, "assets/frontier-theme-v20.css")),
   access(join(publicDirectory, "assets/frontier-passage-v1.jpg")),
   access(join(publicDirectory, "assets/frontier-mark-white-v1.png")),
   access(join(publicDirectory, "assets/passage-mark-white-v1.svg")),

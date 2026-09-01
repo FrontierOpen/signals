@@ -242,6 +242,7 @@ for (const path of [
   "/assets/frontier-theme-v17.css",
   "/assets/frontier-theme-v18.css",
   "/assets/frontier-theme-v19.css",
+  "/assets/frontier-theme-v20.css",
   "/assets/frontier-mark-white-v1.png",
   "/assets/frontier-mark-favicon-v1.png",
   "/assets/site-header-v3.js",

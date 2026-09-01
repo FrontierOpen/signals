@@ -449,7 +449,7 @@ function renderArticleHtml(article) {
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${article.canonicalUrl}">
   <link rel="icon" href="/assets/frontier-mark-favicon-v1.png" type="image/png">
-  <link rel="stylesheet" href="/assets/frontier-theme-v19.css">
+  <link rel="stylesheet" href="/assets/frontier-theme-v20.css">
   <script src="/assets/site-header-v5.js" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(article.title)}">
@@ -549,7 +549,7 @@ function sharedHead({ title, description, canonicalUrl, imageArticle }) {
   <link rel="canonical" href="${canonicalUrl}">
   <link rel="alternate" type="application/rss+xml" href="${siteOrigin}/rss.xml">
   <link rel="icon" href="/assets/frontier-mark-favicon-v1.png" type="image/png">
-  <link rel="stylesheet" href="/assets/frontier-theme-v19.css">
+  <link rel="stylesheet" href="/assets/frontier-theme-v20.css">
   <script src="/assets/site-header-v5.js" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escapeHtml(title)}">
@@ -711,6 +711,7 @@ for (const name of [
   "frontier-theme-v17.css",
   "frontier-theme-v18.css",
   "frontier-theme-v19.css",
+  "frontier-theme-v20.css",
   "frontier-mark-white-v1.png",
   "passage-mark-white-v1.svg",
   "site-header-v3.js",
