@@ -12,7 +12,7 @@ import {
 } from "./lib/markdown-article.mjs";
 import { renderSiteHeader } from "./lib/site-shell.mjs";
 import { nextRelease } from "./prepare-article.mjs";
-import { manualPublishPlan, reviewPlan } from "./release-article.mjs";
+import { manualPublishPlan, reviewPlan, siteRefreshPlan } from "./release-article.mjs";
 
 function png(width, height) {
   const buffer = Buffer.alloc(24);
@@ -272,6 +272,59 @@ test("manual WeChat publication can approve a site package without inventing a p
     target_account_fingerprint: release.target_account.app_id_fingerprint,
   };
   assert.deepEqual(releaseApprovalErrors(release, article, bundle), []);
+});
+
+test("site refresh chains a renderer-only website update without rewriting the original approval", async () => {
+  const { articlePath } = await fixture();
+  const article = await loadMarkdownArticle(articlePath, { strictEditorial: false });
+  const originalBundle = await articlePackage(article);
+  const refreshedBundle = { ...originalBundle, sitePackageHash: "sha256:refreshed" };
+  const release = nextRelease(article, originalBundle, null, "2026-08-18T10:00:00Z");
+  release.target_account = {
+    name: "Frontier World",
+    principal: "陈杰",
+    app_id_fingerprint: "sha256:account",
+  };
+  release.wechat = {
+    status: "published_manual",
+    public: { status: "published_unrecorded", url: null, published_at: null },
+  };
+  release.site = { status: "live" };
+  release.approvals.manual_publication = {
+    confirmed_at: "2026-08-18T10:01:00Z",
+    source_hash: article.sourceHash,
+    wechat_package_hash: originalBundle.wechatPackageHash,
+    site_package_hash: originalBundle.sitePackageHash,
+    target_account_fingerprint: release.target_account.app_id_fingerprint,
+  };
+
+  const plan = siteRefreshPlan(article, refreshedBundle, release);
+  assert.equal(plan.ok, true);
+  assert.equal(plan.current_site_package_hash, originalBundle.sitePackageHash);
+  assert.equal(plan.site_package_hash, refreshedBundle.sitePackageHash);
+  assert.match(
+    releaseApprovalErrors(release, article, refreshedBundle).join(" "),
+    /site package/u,
+  );
+
+  release.renders.site_package_hash = refreshedBundle.sitePackageHash;
+  release.approvals.site_refresh = [{
+    confirmed_at: "2026-08-18T10:02:00Z",
+    source_hash: article.sourceHash,
+    wechat_package_hash: originalBundle.wechatPackageHash,
+    previous_site_package_hash: originalBundle.sitePackageHash,
+    site_package_hash: refreshedBundle.sitePackageHash,
+    target_account_fingerprint: release.target_account.app_id_fingerprint,
+    reason: "refresh_live_site",
+  }];
+  assert.deepEqual(releaseApprovalErrors(release, article, refreshedBundle), []);
+
+  const secondBundle = { ...refreshedBundle, sitePackageHash: "sha256:refreshed-again" };
+  assert.equal(siteRefreshPlan(article, secondBundle, release).ok, true);
+  assert.equal(
+    siteRefreshPlan(article, { ...secondBundle, wechatPackageHash: "sha256:changed" }, release).ok,
+    false,
+  );
 });
 
 test("recording the later public WeChat URL changes only the website package", async () => {

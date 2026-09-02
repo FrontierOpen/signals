@@ -10,6 +10,7 @@
     "article:prepare": "node scripts/prepare-article.mjs",
     "article:review": "node scripts/release-article.mjs review",
     "article:publish-manual": "node scripts/release-article.mjs publish-manual-site",
+    "article:refresh": "node scripts/release-article.mjs refresh-site",
     "article:retry": "node scripts/release-article.mjs retry-site",
     "article:reconcile": "node scripts/release-article.mjs reconcile-site",
     "article:record-wechat": "node scripts/release-article.mjs record-wechat",

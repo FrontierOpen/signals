@@ -737,9 +737,26 @@ export function releaseApprovalErrors(release, article, bundle, { requireSiteBun
   if (!manualPublication && approval?.draft_id !== release.wechat?.draft_id) errors.push("approved draft ID does not match release state");
   if (approval?.source_hash !== article.sourceHash) errors.push("owner review source hash drifted");
   if (approval?.wechat_package_hash !== bundle.wechatPackageHash) errors.push("owner review WeChat package hash drifted");
-  if (approval?.site_package_hash !== bundle.sitePackageHash) errors.push("owner review site package hash drifted");
   if (!manualPublication && (!release.wechat?.remote_content_hash || approval?.remote_content_hash !== release.wechat.remote_content_hash)) errors.push("owner review remote content hash drifted");
   if (approval?.target_account_fingerprint !== release.target_account?.app_id_fingerprint) errors.push("owner review target account drifted");
+
+  const siteRefreshes = Array.isArray(release.approvals?.site_refresh)
+    ? release.approvals.site_refresh
+    : release.approvals?.site_refresh
+      ? [release.approvals.site_refresh]
+      : [];
+  let approvedSitePackageHash = approval?.site_package_hash;
+  const approvedSitePackageHashes = new Set([approvedSitePackageHash]);
+  for (const refresh of siteRefreshes) {
+    if (!refresh?.confirmed_at) errors.push("site refresh approval is missing");
+    if (refresh?.source_hash !== article.sourceHash) errors.push("site refresh source hash drifted");
+    if (refresh?.wechat_package_hash !== bundle.wechatPackageHash) errors.push("site refresh WeChat package hash drifted");
+    if (refresh?.target_account_fingerprint !== release.target_account?.app_id_fingerprint) errors.push("site refresh target account drifted");
+    if (refresh?.previous_site_package_hash !== approvedSitePackageHash) errors.push("site refresh chain does not match the prior approved site package");
+    approvedSitePackageHash = refresh?.site_package_hash;
+    approvedSitePackageHashes.add(approvedSitePackageHash);
+  }
+  if (approvedSitePackageHash !== bundle.sitePackageHash) errors.push("owner review site package hash drifted");
   if (requireSiteBundle && (
     !release.renders?.site_bundle_hash
     || release.site?.planned_bundle_hash !== release.renders.site_bundle_hash
@@ -748,7 +765,7 @@ export function releaseApprovalErrors(release, article, bundle, { requireSiteBun
   if (release.wechat?.public?.url) {
     const publicApproval = release.approvals?.wechat_public_record;
     if (publicApproval?.source_hash !== article.sourceHash
-      || publicApproval?.site_package_hash !== bundle.sitePackageHash
+      || !approvedSitePackageHashes.has(publicApproval?.site_package_hash)
       || publicApproval?.url !== release.wechat?.public?.url) {
       errors.push("public WeChat URL update is not approved for the current site package");
     }

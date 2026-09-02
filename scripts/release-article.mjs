@@ -10,8 +10,8 @@ const distDirectory = join(root, "dist");
 
 function parseArguments(argv) {
   const [action, source, ...rest] = argv;
-  if (!action || !source || !["review", "publish-manual-site", "retry-site", "reconcile-site", "record-wechat"].includes(action)) {
-    throw new Error("Usage: node scripts/release-article.mjs <review|publish-manual-site|retry-site|reconcile-site|record-wechat> article.md [options]");
+  if (!action || !source || !["review", "publish-manual-site", "refresh-site", "retry-site", "reconcile-site", "record-wechat"].includes(action)) {
+    throw new Error("Usage: node scripts/release-article.mjs <review|publish-manual-site|refresh-site|retry-site|reconcile-site|record-wechat> article.md [options]");
   }
   const options = {};
   for (let index = 0; index < rest.length; index += 1) {
@@ -231,6 +231,62 @@ export function manualPublishPlan(article, bundle, release) {
   };
 }
 
+function siteRefreshRecords(release) {
+  if (Array.isArray(release.approvals?.site_refresh)) return release.approvals.site_refresh;
+  return release.approvals?.site_refresh ? [release.approvals.site_refresh] : [];
+}
+
+export function siteRefreshPlan(article, bundle, release) {
+  const blockers = [];
+  if (release.schema_version !== 2 || release.article_id !== article.id) blockers.push("release.json does not describe this article");
+  if (release.canonical?.source_hash !== article.sourceHash) blockers.push("article.md changed after its original approval");
+  if (release.renders?.wechat_package_hash !== bundle.wechatPackageHash) blockers.push("WeChat package changed after its original approval");
+  if (!["review_confirmed", "published_manual"].includes(release.wechat?.status)) blockers.push("WeChat publication approval is missing");
+  if (release.site?.status !== "live") blockers.push("site refresh is only valid for a live website");
+  if (!release.target_account?.name || !release.target_account?.app_id_fingerprint) blockers.push("target account is missing");
+
+  const manualPublication = release.wechat?.status === "published_manual"
+    && !release.approvals?.remote_review;
+  const approval = manualPublication
+    ? release.approvals?.manual_publication
+    : release.approvals?.remote_review;
+  if (!approval?.confirmed_at) blockers.push(manualPublication ? "manual publication approval is missing" : "post-draft owner review is missing");
+  if (approval?.source_hash !== article.sourceHash) blockers.push("original approval source hash drifted");
+  if (approval?.wechat_package_hash !== bundle.wechatPackageHash) blockers.push("original approval WeChat package hash drifted");
+  if (approval?.target_account_fingerprint !== release.target_account?.app_id_fingerprint) blockers.push("original approval target account drifted");
+
+  let approvedSitePackageHash = approval?.site_package_hash;
+  for (const refresh of siteRefreshRecords(release)) {
+    if (!refresh?.confirmed_at) blockers.push("existing site refresh approval is missing");
+    if (refresh?.source_hash !== article.sourceHash) blockers.push("existing site refresh source hash drifted");
+    if (refresh?.wechat_package_hash !== bundle.wechatPackageHash) blockers.push("existing site refresh WeChat package hash drifted");
+    if (refresh?.target_account_fingerprint !== release.target_account?.app_id_fingerprint) blockers.push("existing site refresh target account drifted");
+    if (refresh?.previous_site_package_hash !== approvedSitePackageHash) blockers.push("existing site refresh chain does not match the prior approved package");
+    approvedSitePackageHash = refresh?.site_package_hash;
+  }
+  if (!approvedSitePackageHash || release.renders?.site_package_hash !== approvedSitePackageHash) {
+    blockers.push("active site package is not bound to its approval history");
+  }
+  if (release.renders?.site_package_hash === bundle.sitePackageHash) {
+    blockers.push("site package already matches the approved live version");
+  }
+
+  return {
+    ok: blockers.length === 0,
+    blockers,
+    operation: "refresh_live_site",
+    article_id: article.id,
+    title: article.title,
+    source_hash: article.sourceHash,
+    wechat_package_hash: bundle.wechatPackageHash,
+    current_site_package_hash: release.renders?.site_package_hash || null,
+    site_package_hash: bundle.sitePackageHash,
+    target_account: release.target_account?.name || null,
+    target_account_fingerprint: release.target_account?.app_id_fingerprint || null,
+    target_url: article.canonicalUrl,
+  };
+}
+
 async function deploySiteUnlocked(article, releasePath, release) {
   release.site = {
     ...(release.site || {}),
@@ -410,6 +466,52 @@ async function publishManualSite(articlePath, options) {
   await deploySite(article, releasePath, release);
 }
 
+async function refreshSite(articlePath, options) {
+  const releasePath = join(dirname(articlePath), "release.json");
+  const release = await readJson(releasePath);
+  const article = await loadMarkdownArticle(articlePath, {
+    wechatUrl: release.wechat?.public?.url || null,
+  });
+  const bundle = await articlePackage(article);
+  const plan = siteRefreshPlan(article, bundle, release);
+  if (!options.confirm) {
+    process.stdout.write(`${JSON.stringify({ ...plan, dry_run: true }, null, 2)}\n`);
+    if (!plan.ok) process.exitCode = 1;
+    return;
+  }
+  if (!plan.ok) throw new Error(`Live site refresh is blocked: ${plan.blockers.join("; ")}`);
+  if (options["approved-hash"] !== plan.source_hash
+    || options["approved-wechat-package-hash"] !== plan.wechat_package_hash
+    || options["approved-current-site-package-hash"] !== plan.current_site_package_hash
+    || options["approved-site-package-hash"] !== plan.site_package_hash
+    || options["target-account"] !== plan.target_account
+    || options["target-account-fingerprint"] !== plan.target_account_fingerprint) {
+    throw new Error("Live site refresh confirmation does not match the current source, packages, or target account");
+  }
+  await assertInfrastructureClean();
+
+  const now = new Date().toISOString();
+  release.approvals ||= {};
+  release.approvals.site_refresh = [
+    ...siteRefreshRecords(release),
+    {
+      confirmed_at: now,
+      source_hash: plan.source_hash,
+      wechat_package_hash: plan.wechat_package_hash,
+      previous_site_package_hash: plan.current_site_package_hash,
+      site_package_hash: plan.site_package_hash,
+      target_account_fingerprint: plan.target_account_fingerprint,
+      reason: "refresh_live_site",
+    },
+  ];
+  release.renders.site_package_hash = plan.site_package_hash;
+  release.renders.site_bundle_hash = null;
+  release.site.planned_bundle_hash = null;
+  release.last_error = null;
+  await atomicJson(releasePath, release);
+  await deploySite(article, releasePath, release);
+}
+
 async function recordWechat(articlePath, options) {
   if (!options.confirm) throw new Error("record-wechat requires --confirm");
   const url = new URL(options.url || "");
@@ -494,6 +596,7 @@ async function main() {
   if (articlePath !== join(dirname(articlePath), "article.md")) throw new Error("Canonical source must be named article.md");
   if (action === "review") await review(articlePath, options);
   else if (action === "publish-manual-site") await publishManualSite(articlePath, options);
+  else if (action === "refresh-site") await refreshSite(articlePath, options);
   else if (action === "retry-site") await retrySite(articlePath);
   else if (action === "reconcile-site") await reconcileSite(articlePath);
   else await recordWechat(articlePath, options);

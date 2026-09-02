@@ -59,4 +59,21 @@ The first command is a dry-run. The confirmed command binds the review to the cu
 
 Automatic deployment requires the renderer, Worker, Wrangler configuration, theme CSS and dependency lock to be committed and clean. Article content and release-state files may remain the intended working changes; unrelated infrastructure changes must be reviewed separately.
 
+## Refreshing a live site package
+
+When a shared website renderer or visual asset changes after an article is already live, use the refresh action instead of rewriting its original WeChat approval. It only permits an unchanged source hash and WeChat package, records an append-only site-refresh approval, deploys production, and reads the live article, home page, RSS, sitemap, and shared assets back.
+
+```bash
+npm run article:refresh -- /absolute/path/to/article.md
+npm run article:refresh -- /absolute/path/to/article.md --confirm \
+  --approved-hash <source_hash> \
+  --approved-wechat-package-hash <wechat_package_hash> \
+  --approved-current-site-package-hash <current_live_site_package_hash> \
+  --approved-site-package-hash <new_site_package_hash> \
+  --target-account "Frontier World" \
+  --target-account-fingerprint <target_account_fingerprint>
+```
+
+The first command is a dry-run and prints every value that must be confirmed. The confirmation command deploys to production.
+
 The legacy site at `brief.clairesparlor.com` remains separate during migration so historical links can be preserved.
