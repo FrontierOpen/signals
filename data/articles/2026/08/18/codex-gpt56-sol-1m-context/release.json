@@ -7,8 +7,8 @@
   },
   "renders": {
     "wechat_package_hash": "sha256:db48272ef77d76162552526c56946b58e68e142942c7e1682fe18545ab14c2d9",
-    "site_package_hash": "sha256:83055756141209a15d34d399f475bb2468d61491de1f5a4b2b63083013278dd4",
-    "site_bundle_hash": "sha256:111b2fdbe8c9c30c9152a696771c2ee2275dd8a74e33ba4f4ed6ef7eac2aef73"
+    "site_package_hash": "sha256:6e658c97f9257301f3e67c7116e5eef2b71d9383e88bb340e53d19326638599d",
+    "site_bundle_hash": "sha256:9cce4a300d0b2eab5727f1730d9825bebd10a95ae3037fd387d4108e67d1d9db"
   },
   "target_account": {
     "name": "Frontier World",
@@ -23,7 +23,18 @@
       "site_package_hash": "sha256:83055756141209a15d34d399f475bb2468d61491de1f5a4b2b63083013278dd4",
       "target_account_fingerprint": "sha256:f7205bfde84bd74db07cd4c5e000dafc975ace90b8e0ba96f898a824c88cecad",
       "public_url_recorded": false
-    }
+    },
+    "site_refresh": [
+      {
+        "confirmed_at": "2026-09-02T02:56:22.561Z",
+        "source_hash": "sha256:8faf81889f61d091c05e7670e32334a16ffd3b6e8984124f8e93b18c39d55bba",
+        "wechat_package_hash": "sha256:db48272ef77d76162552526c56946b58e68e142942c7e1682fe18545ab14c2d9",
+        "previous_site_package_hash": "sha256:83055756141209a15d34d399f475bb2468d61491de1f5a4b2b63083013278dd4",
+        "site_package_hash": "sha256:6e658c97f9257301f3e67c7116e5eef2b71d9383e88bb340e53d19326638599d",
+        "target_account_fingerprint": "sha256:f7205bfde84bd74db07cd4c5e000dafc975ace90b8e0ba96f898a824c88cecad",
+        "reason": "refresh_live_site"
+      }
+    ]
   },
   "wechat": {
     "status": "published_manual",
@@ -39,26 +50,35 @@
   "site": {
     "status": "live",
     "url": "https://signals.frontierworld.ai/2026/08/18/codex-gpt56-sol-1m-context/",
-    "started_at": "2026-08-19T04:52:48.684Z",
+    "started_at": "2026-09-02T02:56:22.588Z",
     "published_at": "2026-08-19T04:54:04.529Z",
-    "verified_at": "2026-08-19T04:54:04.529Z",
-    "attempt_id": "c7a66d95523dd96ce0fe671aaa9a4d64",
-    "planned_bundle_hash": "sha256:111b2fdbe8c9c30c9152a696771c2ee2275dd8a74e33ba4f4ed6ef7eac2aef73",
-    "deployed_bundle_hash": "sha256:111b2fdbe8c9c30c9152a696771c2ee2275dd8a74e33ba4f4ed6ef7eac2aef73",
+    "verified_at": "2026-09-02T02:57:16.095Z",
+    "attempt_id": "f095ddcadbae96fef568a497caea6195",
+    "planned_bundle_hash": "sha256:9cce4a300d0b2eab5727f1730d9825bebd10a95ae3037fd387d4108e67d1d9db",
+    "deployed_bundle_hash": "sha256:9cce4a300d0b2eab5727f1730d9825bebd10a95ae3037fd387d4108e67d1d9db",
     "verification": {
       "url": "https://signals.frontierworld.ai/2026/08/18/codex-gpt56-sol-1m-context/",
       "assets": {
-        "/2026/08/18/codex-gpt56-sol-1m-context/": "sha256:2453a2bfa7f7e4bf5ecdff5f9ddf9d45ae9b57b7f19b32178147695c23071ff0",
-        "/": "sha256:07f4103b36a40b95b74dfeffeaddf848372c3e51371e7a5000581fe22fbc38a0",
+        "/2026/08/18/codex-gpt56-sol-1m-context/": "sha256:fb53f9f73b81015b08839aab3a5f37bb37bcbf3efa615d1c55634d977eaff7ed",
+        "/": "sha256:5485195bfad4eb54d006678786cc4c6889cf6eb49d9548a4acbfcbae68d8b071",
         "/rss.xml": "sha256:5c78fb63f08c7a1545bedeb6a6ec4af25ed248767951800f6ed1cfa931deeaf0",
         "/sitemap.xml": "sha256:25b32e054a00abb08630f70644ad70dfa386545015bc089ab548c237d5df104d",
         "/assets/frontier-theme-v16.css": "sha256:4591e2a1130ad68f8dee2cdc911acb06847eae7fc694e301beb75f5d1b40a245",
+        "/assets/frontier-theme-v17.css": "sha256:5bc80e3f64f0aa25237228ccb4f5acc9622480b930b1925db867ebf05d0d728c",
+        "/assets/frontier-theme-v18.css": "sha256:2e9e233783755b7806a3d439b66aa33ce187573ccb71521edd0c025feb969c02",
+        "/assets/frontier-theme-v19.css": "sha256:c6322e0f9e9506e06acb51ec5952f63befc55a855925606b5b77c1dbab9697a7",
+        "/assets/frontier-theme-v20.css": "sha256:cb8505fa36ab88e7346a4ed38d1bf04cc50708ed1cfe01ab4b43d74091dc4a72",
+        "/assets/frontier-theme-v21.css": "sha256:e59d7e9b316abf4b60b73e325dec7537cd248427a5e1b6a4b5052707f638b83a",
+        "/assets/frontier-mark-white-v1.png": "sha256:e286a43363d1f73b5bd662ac785c8835735599a846fc36e69ec7368dc8719e98",
+        "/assets/frontier-mark-favicon-v1.png": "sha256:c42e2f260641f6eadd045cf9e63a1169ffcfa7cb5c231c5d2ca5464888c9a26f",
         "/assets/site-header-v3.js": "sha256:48aa4b0b8b3db57b7019c44dd3ef37b06f03ec3a9085d455e0546f608eba4288",
+        "/assets/site-header-v4.js": "sha256:5ee0ea17d0853464ae6f5aedd9d82c60fdc8c6f5dba92012037eaadbf77ce10a",
+        "/assets/site-header-v5.js": "sha256:b9deb72e37d8120477b645eaa0d2396cf2048cb8a4581c2556ad50b4bdac58d2",
         "/2026/08/18/codex-gpt56-sol-1m-context/images/source/tibo-sol-1m-chatgpt-post.png": "sha256:c4ef3212023c669c4c279c1c0e4c8735476475e40eab0f9ce2aca7a885ff4464",
         "/2026/08/18/codex-gpt56-sol-1m-context/images/source/openai-gpt56-sol-model-specs.png": "sha256:e570d9f3f5905829421722327d8cd5a9f913696cb123600474b33fd908b4661e",
         "/2026/08/18/codex-gpt56-sol-1m-context/images/source/openai-codex-context-config.png": "sha256:7fe50ff1d4b32bab599a3e4edfc943f3dc28c700b504b9672e05048ec856dd95"
       },
-      "verified_at": "2026-08-19T04:54:04.529Z"
+      "verified_at": "2026-09-02T02:57:16.095Z"
     }
   },
   "last_error": null,
